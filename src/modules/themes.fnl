@@ -43,6 +43,7 @@
    :crater2150/vim-theme-chroma
    :bcicen/vim-vice
    :dracula/vim
+   :EdenEast/nightfox.nvim
    :vim-scripts/proton
    :junegunn/seoul256.vim
    :wojciechkepka/bogster])

@@ -39,7 +39,7 @@
    :Olical/conjure ;, { 'tag': 'v4.22.1' }
 
    ; c#
-   :omnisharp/omnisharp-vim
+   ; :omnisharp/omnisharp-vim
 
    ; javascript
    ; :pangloss/vim-javascript
@@ -61,6 +61,7 @@
    ; programs / extension
    ; :tpope/vim-vinegar
    ; :scrooloose/nerdtree
+   :kyazdani42/nvim-tree.lua
    :preservim/tagbar
 
    ; Snippets

@@ -4,11 +4,27 @@
 
 ;fennel
 
+
+;; === WIP ===
+(fn list-files [dir]
+   (let [ls "dir /A-D /B "]
+      (with-open [fin (io.popen (.. ls dir))]
+         (icollect [line (fin:lines)]
+            line))))
+
+(fn list-modules [module-dir]
+   (icollect [_ file (ipairs (list-files module-dir))]
+      (.. "modules/" file)))
+;; =========
+
 (local fennel (require :fennel))
 
 (local configure
-   {:in-dir "C:/Users/mwebb/fennel/"
-    :in-files ["configure" "modules/default" "modules/themes"]
+   {:in-dir "C:/Users/mwebb/fennel/src/"
+    :in-files ["configure"
+               "modules/default"
+               "modules/themes"
+               "modules/csharp"]
     ; :in-files ["modules/statusline"]
     :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
 
