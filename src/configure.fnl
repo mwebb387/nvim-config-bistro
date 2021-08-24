@@ -4,6 +4,8 @@
 
 (configure-modules
    (default)
+   (files)
    (themes :tokyonight)
+   (telescope)
    ; Langs
    (csharp :omnisharp))

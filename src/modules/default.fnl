@@ -21,12 +21,12 @@
    :tpope/vim-fugitive
    :tommcdo/vim-fubitive
    :junegunn/gv.vim
-   :airblade/vim-gitgutter
+   ; :airblade/vim-gitgutter
 
    ; LSP, Telescope and Treesitter
-   :nvim-lua/popup.nvim
-   :nvim-lua/plenary.nvim
-   :nvim-telescope/telescope.nvim
+   ; :nvim-lua/popup.nvim
+   ; :nvim-lua/plenary.nvim
+   ; :nvim-telescope/telescope.nvim
    :neovim/nvim-lspconfig
    ; :ray-x/lsp_signature.nvim
    :nvim-treesitter/nvim-treesitter ;, {'do': ':TSUpdate'}
@@ -35,7 +35,7 @@
    ; :rafamadriz/friendly-snippets
 
    ;Aniseed and Conjure
-   :Olical/aniseed ;, { 'tag': 'v3.20.0' }
+   ; :Olical/aniseed ;, { 'tag': 'v3.20.0' }
    :Olical/conjure ;, { 'tag': 'v4.22.1' }
 
    ; c#
@@ -47,7 +47,7 @@
    ; :posva/vim-vue
 
    ; svelte
-   :leafOfTree/vim-svelte-plugin
+   ; :leafOfTree/vim-svelte-plugin ; TODO: Is this in polyglot?
 
    ; auto-complete
    :neoclide/coc.nvim ;', {'branch': 'release'}

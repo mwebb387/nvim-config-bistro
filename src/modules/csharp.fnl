@@ -16,8 +16,8 @@
                                     :sigPrev :<C-p>
                                     :pageDown [:<C-f> :<PageDown>]
                                     :pageUp [:<C-b> :<PageUp>] })
-  (augroup
-    :omnisharp_module_commands
+  (augroup :omnisharp_module_commands
+    (autocmd :filetype "cs" "setlocal shiftwidth=4 softtabstop=4 expandtab")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gd :OmniSharpGotoDefinition<cr>")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gi :OmniSharpFindImplementations<cr>")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gs :OmniSharpFindSymbol<cr>")
@@ -50,7 +50,6 @@
     (match args
       [:omnisharp] (table.insert plugs :omnisharp/omnisharp-vim))
     plugs))
-
 
 (fn configure [...]
   (let [args [...]]

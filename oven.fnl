@@ -23,8 +23,10 @@
    {:in-dir "C:/Users/mwebb/fennel/src/"
     :in-files ["configure"
                "modules/default"
+               "modules/files"
                "modules/themes"
-               "modules/csharp"]
+               "modules/csharp"
+               "modules/telescope"]
     ; :in-files ["modules/statusline"]
     :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
 
