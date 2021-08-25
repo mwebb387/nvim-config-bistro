@@ -43,7 +43,13 @@
     (autocmd :filetype "cs" "nnoremap <leader>losp :OmniSharpStopServer<cr>")))
 
 (fn configure-lsp []
-  (print "Configure LSP!"))
+  (let [on-attach (require :modules/lsp/attach)
+        pid (vim.fn.getpid)
+        home (vim.fn.expand "~")
+        omnisharp-bin (.. home :\scoop\apps\omnisharp\current\OmniSharp.exe)
+        omnisharp-lsp (require :lspconfig)]
+    (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
+                                    :on_attach on-attach})))
 
 (fn plugins [...]
   (let [plugs [] args [...]]

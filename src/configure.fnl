@@ -7,5 +7,6 @@
    (files)
    (themes :tokyonight)
    (telescope)
+   (lsp)
    ; Langs
-   (csharp :omnisharp))
+   (csharp :lsp))

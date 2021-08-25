@@ -61,7 +61,7 @@
    ; programs / extension
    ; :tpope/vim-vinegar
    ; :scrooloose/nerdtree
-   :kyazdani42/nvim-tree.lua
+   ; :kyazdani42/nvim-tree.lua
    :preservim/tagbar
 
    ; Snippets
@@ -73,7 +73,7 @@
    ;:junegunn/limelight.vim
    ])
 
-(fn configure []
+(fn set-options []
   (set! :backup false)
   (set! :undofile false)
   (set! :swapfile false)
@@ -114,11 +114,39 @@
   (set! :signcolumn "yes")
 
   (set! :completeopt "longest,menuone,preview")
-  (set! :previewheight 5)
+  (set! :previewheight 5))
 
-  ; Keymaps
+(fn set-keymaps []
+  ; General
   (map! [n] :H :^)
   (map! [n] :L :$)
-  (map! [i] :jk :<esc>))
+  (map! [i] :jk :<esc>)
+  
+  ; Window management
+  (map! [n i] :<a-h> :<c-w>h)
+  (map! [n i] :<a-j> :<c-w>j)
+  (map! [n i] :<a-k> :<c-w>k)
+  (map! [n i] :<a-l> :<c-w>l)
+  (map! [n i] :<a-H> :<c-w>H)
+  (map! [n i] :<a-J> :<c-w>J)
+  (map! [n i] :<a-K> :<c-w>K)
+  (map! [n i] :<a-L> :<c-w>L)
+  (map! [n i] :<a-q> :<c-w>q)
+  (map! [t] :<a-h> :<c-\><c-n><c-w>h)
+  (map! [t] :<a-j> :<c-\><c-n><c-w>j)
+  (map! [t] :<a-k> :<c-\><c-n><c-w>k)
+  (map! [t] :<a-l> :<c-\><c-n><c-w>l)
+  (map! [t] :<a-q> :<c-\><c-n><c-w>q)
+  (map! [t] :<a-n> :<c-\><c-n>)
+  
+  ;General Insert mode
+  (map! [i] :<C-j> :<c-o>j)
+  (map! [i] :<C-k> :<c-o>k)
+  (map! [i] :<C-l> :<c-o>l)
+  (map! [i] :<C-h> :<c-o>h))
+
+(fn configure []
+  (set-options)
+  (set-keymaps))
 
 {: configure : plugins}
