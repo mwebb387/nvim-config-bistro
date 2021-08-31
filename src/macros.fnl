@@ -83,18 +83,16 @@
               (bistro.configure-recipes))))
 
  :defhighlight
- (fn [group ...]
+ (fn [group args]
      (let [hi (.. "highlight " group)
-           tbl (table-from-args ...)
-           flds (format-table tbl (fn [k v] (.. k "=" v)))
+           flds (format-table args (fn [k v] (.. k "=" v)))
            cmd (.. hi " " flds)]
          `(vim.cmd ,cmd)))
 
  :defsign
- (fn [name ...]
+ (fn [name args]
      (let [sign (.. "sign define " name)
-           tbl (table-from-args ...)
-           flds (format-table tbl (fn [k v] (.. k "=" v)))
+           flds (format-table args (fn [k v] (.. k "=" v)))
            cmd (.. sign " " flds)]
          `(vim.cmd ,cmd)))
 
