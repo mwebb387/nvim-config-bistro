@@ -27,7 +27,7 @@
    ; :nvim-lua/popup.nvim
    ; :nvim-lua/plenary.nvim
    ; :nvim-telescope/telescope.nvim
-   :neovim/nvim-lspconfig
+   ; :neovim/nvim-lspconfig
    ; :ray-x/lsp_signature.nvim
    :nvim-treesitter/nvim-treesitter ;, {'do': ':TSUpdate'}
    ; :hrsh7th/nvim-compe

@@ -1,3 +1,19 @@
+(fn format-table [tbl kv-format-fn]
+   (let [formatted (icollect [k v (pairs tbl)]
+                             (kv-format-fn k v))]
+      (table.concat formatted " ")))
+
+(fn inc [n]
+    (+ n 1))
+
+; TODO: error checking
+(fn table-from-args [...]
+    (let [tbl {}
+          lst [...]]
+        (for [i 1 (length lst) 2]
+            (tset tbl (. lst i) (. lst (inc i))))
+        tbl))
+
 {:augroup
  (fn [name ...]
      (let [cmds (if ... `[(do ,...)] `[])]
@@ -54,6 +70,34 @@
               (each [_# config# (ipairs module-table#.configs)]
                   (config#)))))
 
+ :configure-bistro
+ (fn [...]
+     ; Collect each module name and its args pulled from each method call
+     (let [mods (collect [i mod (ipairs [...])]
+                    (values (tostring (. mod 1))
+                            (icollect [i v (ipairs mod)]
+                                (when (> i 1) v))))]
+         `(let [bistro (require :bistro)]
+              (bistro.load-recipes ,mods)
+              (bistro.load-plugins)
+              (bistro.configure-recipes))))
+
+ :defhighlight
+ (fn [group ...]
+     (let [hi (.. "highlight " group)
+           tbl (table-from-args ...)
+           flds (format-table tbl (fn [k v] (.. k "=" v)))
+           cmd (.. hi " " flds)]
+         `(vim.cmd ,cmd)))
+
+ :defsign
+ (fn [name ...]
+     (let [sign (.. "sign define " name)
+           tbl (table-from-args ...)
+           flds (format-table tbl (fn [k v] (.. k "=" v)))
+           cmd (.. sign " " flds)]
+         `(vim.cmd ,cmd)))
+
  :let-g
  (fn let-g [key value]
      `(tset vim.g ,(tostring key) ,value))
@@ -72,26 +116,16 @@
          (each [_# plugin# (ipairs (module#.plugins ,...))]
              (table.insert (. ,module-table :plugins) plugin#))
          (table.insert (. ,module-table :configs) (fn [] (module#.configure ,...)))))
-
- :opt
- (fn [name value]
-    `(tset vim.opt ,name ,value))
  
  :set!
  (fn [name value]
     `(tset vim.opt ,name ,value))
 
+ ;TODO: Add more here...
+ :syntax-sync
+ (fn []
+    `(vim.cmd "syntax sync fromstart"))
+
  :append!
  (fn [name value]
-    `(: (. vim.opt ,name) :append ,value))
- 
- :plug!
- (fn [id]
-    `(vim.cmd (.. "Plug " ,id))) ;; ,opts))) ; How to convert 'opts'?
-
- :plugs!
- (fn [...]
-    `(do
-        (vim.cmd "call plug#begin(stdpath('config').'/plugged/')")
-        ,...
-        (vim.cmd "call plug#end()")))}
+    `(: (. vim.opt ,name) :append ,value))}

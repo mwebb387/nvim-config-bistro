@@ -26,10 +26,10 @@
       (buf-keymap :n :<leader>lq "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>" opts)
 
       ;Set some keybinds conditional on server capabilities
-      (when (client.resolved_capabilities.document_formatting)
+      (when client.resolved_capabilities.document_formatting
         (buf-keymap :n :<leader>f "<cmd>lua vim.lsp.buf.formatting()<CR>" opts))
 
-      (when (client.resolved_capabilities.document_range_formatting)
+      (when client.resolved_capabilities.document_range_formatting
         (buf-keymap :v :<leader>f "<cmd>lua vim.lsp.buf.range_formatting()<CR>" opts)))
 
     ;; TODO Finish...

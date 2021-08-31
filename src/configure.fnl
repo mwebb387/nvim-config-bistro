@@ -5,7 +5,7 @@
 (configure-modules
    (default)
    (files)
-   (themes :tokyonight)
+   (themes :nightfox)
    (telescope)
    (lsp)
    ; Langs

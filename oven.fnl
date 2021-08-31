@@ -35,21 +35,33 @@
                "modules/default"
                "modules/files"
                "modules/themes"
+               ; "modules/statusline"
                "modules/csharp"
                "modules/telescope"]
-    ; :in-files ["modules/statusline"]
     :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
 
 (set fennel.path (.. configure.in-dir "?.fnl;" fennel.path))
 
-(fn bake-file [file]
+(fn compile-file [file]
    (let [{: in-dir : out-dir} configure]
-      (with-open [fin (io.open (.. in-dir file ".fnl") :r) fout (io.open (.. out-dir file ".lua") :w)]
+      (with-open [fin (io.open (.. in-dir file ".fnl") :r)
+                  fout (io.open (.. out-dir file ".lua") :w)]
          (fout:write (tostring (fennel.compile-string (fin:read :*all)))))))
+
+(fn report-compile-error [in-file err]
+   (print (.. "Compile error in " in-file "\n" err)))
+
+(fn try-compile [file]
+   (let [(res err) (pcall compile-file file)]
+      (when (not res) (report-compile-error file err))))
 
 (fn bake []
    (each [_ file (ipairs configure.in-files)]
-      (bake-file file)))
+      (compile-file file)))
 
-(bake)
+(fn try-bake []
+   (each [_ file (ipairs configure.in-files)]
+      (try-compile file)))
+
+(try-bake)
 

@@ -6,6 +6,17 @@
                 : let-g}
                :macros)
 
+(fn configure-cs []
+   ;; 
+   ;; :syn sync fromstart
+   ;; :set foldmethod=syntax
+
+  ;(vim.cmd ":syn region myFold start='{' end='}' transparent fold")
+  ;(vim.cmd ":syn region myFold start='{' end='}' transparent fold")
+  ;(augroup :csharp-commands
+   ; (autocmd :filetype "cs" "setlocal shiftwidth=4 softtabstop=4 expandtab")
+  )
+
 (fn configure-omnisharp []
   (let-g :OmniSharp_server_stdio 1)
   (let-g :OmniSharp_timeout 50)
@@ -16,7 +27,7 @@
                                     :sigPrev :<C-p>
                                     :pageDown [:<C-f> :<PageDown>]
                                     :pageUp [:<C-b> :<PageUp>] })
-  (augroup :omnisharp_module_commands
+  (augroup :omnisharp-module-commands
     (autocmd :filetype "cs" "setlocal shiftwidth=4 softtabstop=4 expandtab")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gd :OmniSharpGotoDefinition<cr>")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gi :OmniSharpFindImplementations<cr>")
