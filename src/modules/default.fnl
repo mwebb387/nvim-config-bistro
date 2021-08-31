@@ -1,4 +1,4 @@
-(import-macros {: append! : set! : map!} :macros)
+(import-macros {: append! : set! : defmap} :macros)
 
 (fn plugins []
   [:w0rp/ale
@@ -118,32 +118,32 @@
 
 (fn set-keymaps []
   ; General
-  (map! [n] :H :^)
-  (map! [n] :L :$)
-  (map! [i] :jk :<esc>)
+  (defmap [n] :H :^)
+  (defmap [n] :L :$)
+  (defmap [i] :jk :<esc>)
   
   ; Window management
-  (map! [n i] :<a-h> :<c-w>h)
-  (map! [n i] :<a-j> :<c-w>j)
-  (map! [n i] :<a-k> :<c-w>k)
-  (map! [n i] :<a-l> :<c-w>l)
-  (map! [n i] :<a-H> :<c-w>H)
-  (map! [n i] :<a-J> :<c-w>J)
-  (map! [n i] :<a-K> :<c-w>K)
-  (map! [n i] :<a-L> :<c-w>L)
-  (map! [n i] :<a-q> :<c-w>q)
-  (map! [t] :<a-h> :<c-\><c-n><c-w>h)
-  (map! [t] :<a-j> :<c-\><c-n><c-w>j)
-  (map! [t] :<a-k> :<c-\><c-n><c-w>k)
-  (map! [t] :<a-l> :<c-\><c-n><c-w>l)
-  (map! [t] :<a-q> :<c-\><c-n><c-w>q)
-  (map! [t] :<a-n> :<c-\><c-n>)
+  (defmap [n i] :<a-h> :<c-w>h)
+  (defmap [n i] :<a-j> :<c-w>j)
+  (defmap [n i] :<a-k> :<c-w>k)
+  (defmap [n i] :<a-l> :<c-w>l)
+  (defmap [n i] :<a-H> :<c-w>H)
+  (defmap [n i] :<a-J> :<c-w>J)
+  (defmap [n i] :<a-K> :<c-w>K)
+  (defmap [n i] :<a-L> :<c-w>L)
+  (defmap [n i] :<a-q> :<c-w>q)
+  (defmap [t] :<a-h> :<c-\><c-n><c-w>h)
+  (defmap [t] :<a-j> :<c-\><c-n><c-w>j)
+  (defmap [t] :<a-k> :<c-\><c-n><c-w>k)
+  (defmap [t] :<a-l> :<c-\><c-n><c-w>l)
+  (defmap [t] :<a-q> :<c-\><c-n><c-w>q)
+  (defmap [t] :<a-n> :<c-\><c-n>)
   
   ;General Insert mode
-  (map! [i] :<C-j> :<c-o>j)
-  (map! [i] :<C-k> :<c-o>k)
-  (map! [i] :<C-l> :<c-o>l)
-  (map! [i] :<C-h> :<c-o>h))
+  (defmap [i] :<C-j> :<c-o>j)
+  (defmap [i] :<C-k> :<c-o>k)
+  (defmap [i] :<C-l> :<c-o>l)
+  (defmap [i] :<C-h> :<c-o>h))
 
 (fn configure []
   (set-options)

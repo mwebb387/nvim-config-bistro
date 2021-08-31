@@ -89,6 +89,22 @@
            cmd (.. hi " " flds)]
          `(vim.cmd ,cmd)))
 
+ ; :defbufmap
+ ; (fn [buffer modes lhs rhs opts]
+ ;     (let [opts- (or opts {:noremap true})
+ ;           out []]
+ ;         (each [_ mode (ipairs modes)]
+ ;             (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs ,opts-)))
+ ;         `,(unpack out)))
+
+ :defmap
+ (fn [modes lhs rhs opts]
+     (let [opts- (or opts {:noremap true})
+           out []]
+         (each [_ mode (ipairs modes)]
+             (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs ,opts-)))
+         `,(unpack out)))
+
  :defsign
  (fn [name args]
      (let [sign (.. "sign define " name)
@@ -99,14 +115,6 @@
  :let-g
  (fn let-g [key value]
      `(tset vim.g ,(tostring key) ,value))
-
- :map!
- (fn [modes lhs rhs opts]
-     (let [opts- (or opts {:noremap true})
-           out []]
-         (each [_ mode (ipairs modes)]
-             (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs ,opts-)))
-         `,(unpack out)))
 
  :module
  (fn [module-table module-name ...]

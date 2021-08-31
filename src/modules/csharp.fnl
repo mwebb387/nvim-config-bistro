@@ -2,7 +2,6 @@
                 : autocmd
                 : append!
                 : set!
-                : map!
                 : let-g}
                :macros)
 
