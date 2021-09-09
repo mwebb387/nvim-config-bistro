@@ -1,3 +1,6 @@
+(fn init-recipe [name]
+   (print (.. "Init Recipe " name)))
+
 (fn configure-bistro []
    (print "Configure Bistro!"))
 

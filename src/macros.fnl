@@ -89,14 +89,6 @@
            cmd (.. hi " " flds)]
          `(vim.cmd ,cmd)))
 
- ; :defbufmap
- ; (fn [buffer modes lhs rhs opts]
- ;     (let [opts- (or opts {:noremap true})
- ;           out []]
- ;         (each [_ mode (ipairs modes)]
- ;             (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs ,opts-)))
- ;         `,(unpack out)))
-
  :defmap
  (fn [modes lhs rhs opts]
      (let [opts- (or opts {:noremap true})
