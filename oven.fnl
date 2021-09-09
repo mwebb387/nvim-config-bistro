@@ -57,11 +57,7 @@
 
 (fn bake []
    (each [_ file (ipairs configure.in-files)]
-      (compile-file file)))
-
-(fn try-bake []
-   (each [_ file (ipairs configure.in-files)]
       (try-compile file)))
 
-(try-bake)
+(bake)
 

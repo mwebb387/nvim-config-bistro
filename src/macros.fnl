@@ -1,13 +1,24 @@
 (fn format-table [tbl kv-format-fn]
-   (let [formatted (icollect [k v (pairs tbl)]
-                             (kv-format-fn k v))]
-      (table.concat formatted " ")))
+    "Formats the Key/Value pairs in a table as a string using the supplied format method"
+    (let [formatted (icollect [k v (pairs tbl)]
+                              (kv-format-fn k v))]
+        (table.concat formatted " ")))
 
 (fn inc [n]
+    "Increment a number 'n' by 1"
     (+ n 1))
+
+(fn flags-from-args [...]
+    "Converts a list of arguments to a table where each Key is an argument and each value is 'true'"
+    (let [tbl {}
+          lst [...]]
+        (each [_ v (ipairs lst)]
+            (tset tbl (. lst v) true))
+        tbl))
 
 ; TODO: error checking
 (fn table-from-args [...]
+    "Converts a list of arguments, as pairs, to a Key/Value table"
     (let [tbl {}
           lst [...]]
         (for [i 1 (length lst) 2]
@@ -48,9 +59,9 @@
  (fn [...]
      ; First collect each module name and its args pulled from each method call
      (let [mods (collect [i mod (ipairs [...])]
-                    (values (tostring (. mod 1))
-                            (icollect [i v (ipairs mod)]
-                                (when (> i 1) v))))]
+                         (values (tostring (. mod 1))
+                                 (icollect [i v (ipairs mod)]
+                                           (when (> i 1) v))))]
 
          ; Import each module, collect all plugins and cache all configure calls
          `(let [module-table# {:plugins [] :configs []}]
@@ -74,9 +85,9 @@
  (fn [...]
      ; Collect each module name and its args pulled from each method call
      (let [mods (collect [i mod (ipairs [...])]
-                    (values (tostring (. mod 1))
-                            (icollect [i v (ipairs mod)]
-                                (when (> i 1) v))))]
+                         (values (tostring (. mod 1))
+                                 (icollect [i v (ipairs mod)]
+                                           (when (> i 1) v))))]
          `(let [bistro (require :bistro)]
               (bistro.load-recipes ,mods)
               (bistro.load-plugins)
@@ -111,19 +122,19 @@
  :module
  (fn [module-table module-name ...]
      `(let [module# (require (.. "modules." ,module-name))]
-         (each [_# plugin# (ipairs (module#.plugins ,...))]
-             (table.insert (. ,module-table :plugins) plugin#))
-         (table.insert (. ,module-table :configs) (fn [] (module#.configure ,...)))))
- 
- :set!
- (fn [name value]
+          (each [_# plugin# (ipairs (module#.plugins ,...))]
+              (table.insert (. ,module-table :plugins) plugin#))
+          (table.insert (. ,module-table :configs) (fn [] (module#.configure ,...)))))
+
+:set!
+(fn [name value]
     `(tset vim.opt ,name ,value))
 
- ;TODO: Add more here...
- :syntax-sync
- (fn []
+;TODO: Add more here...
+:syntax-sync
+(fn []
     `(vim.cmd "syntax sync fromstart"))
 
- :append!
- (fn [name value]
+:append!
+(fn [name value]
     `(: (. vim.opt ,name) :append ,value))}
