@@ -30,5 +30,6 @@
  :plugins []
  : configure-bistro
  : configure-recipes
+ : init-recipe
  : load-recipes
  : load-plugins}

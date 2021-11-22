@@ -8,8 +8,9 @@
    (with-recipes
      (default)
      (files)
-     (themes :nightfox)
+     (themes :nordfox)
      (telescope)
+     (treesitter)
      (lsp)
      ; Langs
      ;(angular)
