@@ -29,6 +29,7 @@
 (local configure
    {:in-dir "C:/Users/mwebb/fennel/src/"
     :in-files ["configure"
+               "bistro"
                "modules/lsp/attach"
                "modules/lsp/handlers"
                "modules/lsp/init"
@@ -36,6 +37,7 @@
                "modules/files"
                "modules/themes"
                ; "modules/statusline"
+               "modules/angular"
                "modules/csharp"
                "modules/telescope"]
     :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})

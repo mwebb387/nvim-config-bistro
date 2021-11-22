@@ -83,15 +83,20 @@
 
  :configure-bistro
  (fn [...]
+     `(let [bistro# (require :bistro)]
+          (doto bistro#
+              ,...
+              (: :load-plugins)
+              (: :configure-recipes))))
+
+ :with-recipes
+ (fn [bistro ...]
      ; Collect each module name and its args pulled from each method call
      (let [mods (collect [i mod (ipairs [...])]
                          (values (tostring (. mod 1))
                                  (icollect [i v (ipairs mod)]
                                            (when (> i 1) v))))]
-         `(let [bistro (require :bistro)]
-              (bistro.load-recipes ,mods)
-              (bistro.load-plugins)
-              (bistro.configure-recipes))))
+         `(: ,bistro :load-recipes ,mods)))
 
  :defhighlight
  (fn [group args]

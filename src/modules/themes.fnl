@@ -29,7 +29,6 @@
    :theniceboy/nvim-deus
    :whatyouhide/vim-gotham
    :ntk148v/vim-horizon
-   :ludokng/vim-odyssey
    :xdg/vim-darkluma
    :maksimr/Lucius2
    :nightsense/cosmic_latte

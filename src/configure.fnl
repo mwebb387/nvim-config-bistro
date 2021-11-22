@@ -1,12 +1,16 @@
 ;; echo globpath(expand('%:p:h'), '**/*.fnl')
 
-(import-macros {: configure-modules } :macros)
+(import-macros {: configure-bistro
+                : with-recipes }
+               :macros)
 
-(configure-modules
-   (default)
-   (files)
-   (themes :nightfox)
-   (telescope)
-   (lsp)
-   ; Langs
-   (csharp :lsp))
+(configure-bistro
+   (with-recipes
+     (default)
+     (files)
+     (themes :nightfox)
+     (telescope)
+     (lsp)
+     ; Langs
+     ;(angular)
+     (csharp :omnisharp)))
