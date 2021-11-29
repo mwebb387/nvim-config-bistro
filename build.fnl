@@ -21,6 +21,7 @@
 
 ;; =========
 
+;; TODO: Input args to script...
 ;; TODO: Handle recursive module resolution in folders...
 ;; TODO: Handle output paths that don't exist yet...
 
@@ -59,9 +60,9 @@
    (let [(res err) (pcall compile-file file)]
       (when (not res) (report-compile-error file err))))
 
-(fn bake []
+(fn build []
    (each [_ file (ipairs configure.in-files)]
       (try-compile file)))
 
-(bake)
+(build)
 

@@ -39,48 +39,6 @@
      (let [cmd (.. "autocmd " (tostring event) " " (tostring pattern) " " (tostring cmd))]
          `(vim.cmd ,cmd)))
 
- :configure
- (fn [...]
-     `(let [module-table# {:plugins [] :configs []}]
-          (doto module-table#
-                ,...)
-
-          ;; First configure all the plugins
-          (vim.cmd "call plug#begin(stdpath('config').'/plugged/')")
-          (each [_# plugin# (ipairs module-table#.plugins)]
-              (vim.cmd (.. "Plug '" plugin# "'")))
-          (vim.cmd "call plug#end()")
-
-          ;; Next call each configure method for the modules
-          (each [_# config# (ipairs module-table#.configs)]
-              (config#))))
-
- :configure-modules
- (fn [...]
-     ; First collect each module name and its args pulled from each method call
-     (let [mods (collect [i mod (ipairs [...])]
-                         (values (tostring (. mod 1))
-                                 (icollect [i v (ipairs mod)]
-                                           (when (> i 1) v))))]
-
-         ; Import each module, collect all plugins and cache all configure calls
-         `(let [module-table# {:plugins [] :configs []}]
-              (each [module-name# module-args# (pairs ,mods)]
-                  (let [module# (require (.. "modules." module-name#))]
-                      (each [_# plugin# (ipairs (module#.plugins (unpack module-args#)))]
-                          (table.insert (. module-table# :plugins) plugin#))
-                      (table.insert (. module-table# :configs) (fn [] (module#.configure (unpack module-args#))))))
-
-              ;; First configure all the plugins
-              (vim.cmd "call plug#begin(stdpath('config').'/plugged/')")
-              (each [_# plugin# (ipairs module-table#.plugins)]
-                  (vim.cmd (.. "Plug \'" plugin# "\'")))
-              (vim.cmd "call plug#end()")
-
-              ;; Next call each configure method for the modules
-              (each [_# config# (ipairs module-table#.configs)]
-                  (config#)))))
-
  :configure-bistro
  (fn [...]
      `(let [bistro# (require :bistro)]
@@ -95,6 +53,19 @@
                                  (icollect [i v (ipairs mod)]
                                            (when (> i 1) v))))]
          `(: ,bistro :loadRecipes ,mods)))
+
+ :defcommand
+ (fn [name command]
+     (let [cmd (.. "command! " (tostring name) " " command)]
+         `(vim.cmd cmd)))
+
+ :defluacommand
+ (fn [name lua-fn]
+     (let [n (tostring name)
+           cmd (.. "command! " n " lua user.commands." n "()")]
+         `(do 
+              (tset _G.userCommands ,n ,lua-fn)
+              (vim.cmd ,cmd))))
 
  :defhighlight
  (fn [group args]
@@ -122,13 +93,6 @@
  (fn let-g [key value]
      `(tset vim.g ,(tostring key) ,value))
 
- :module
- (fn [module-table module-name ...]
-     `(let [module# (require (.. "modules." ,module-name))]
-          (each [_# plugin# (ipairs (module#.plugins ,...))]
-              (table.insert (. ,module-table :plugins) plugin#))
-          (table.insert (. ,module-table :configs) (fn [] (module#.configure ,...)))))
-
 :set!
 (fn [name value]
     `(tset vim.opt ,name ,value))
@@ -141,3 +105,4 @@
 :append!
 (fn [name value]
     `(: (. vim.opt ,name) :append ,value))}
+
