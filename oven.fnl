@@ -40,7 +40,8 @@
                "modules/angular"
                "modules/csharp"
                "modules/telescope"
-               "modules/treesitter"]
+               "modules/treesitter"
+               "modules/typescript"]
     :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
 
 (set fennel.path (.. configure.in-dir "?.fnl;" fennel.path))

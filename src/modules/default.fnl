@@ -74,6 +74,10 @@
    ])
 
 (fn set-options []
+  ; Leader
+  (let-g :mapleader " ")
+  (let-g :localleader " ")
+
   (set! :backup false)
   (set! :undofile false)
   (set! :swapfile false)
@@ -81,10 +85,6 @@
   (set! :number true)
   (set! :showcmd false)
   (set! :showmode false)
-
-  ; Leader
-  (let-g :mapleader " ")
-  (let-g :localleader " ")
 
   ; Tab related settings
   (set! :expandtab true)
@@ -121,15 +121,15 @@
   (set! :previewheight 5))
 
 (fn set-keymaps []
+  ; Leader
+  (defmap [n] :<Space> :<Nop>)
+
   ; General
   (defmap [n] :H :^)
   (defmap [n] :L :$)
   (defmap [i] :jk :<esc>)
   (defmap [n] :<c-tab> ::b#<cr>)
   (defmap [n] :g<tab> ::b#<cr>)
-
-  ; Leader
-  (defmap [n] :<Space> :<Nop>)
   
   ; Window management
   (defmap [n i] :<a-h> :<c-w>h)
