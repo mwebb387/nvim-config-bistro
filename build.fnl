@@ -1,76 +1,54 @@
-; ,help
+(fn list-files [dir recurse]
+   "List files using file system file listing (potentially unsecure)"
+   (let [ls (if recurse "dir /A-D /B /S " "dir /A-D /B ")]
+      (with-open [fin (io.popen (.. ls dir))]
+         (icollect [line (fin:lines)]
+            line))))
 
-; ,reset
+(fn get-input-files [in-dir]
+   "Get all bistro files/recipes excluding the macros.fnl file"
+   (icollect [i v (ipairs (list-files in-dir true))]
+                         (when (not (string.find v :macros))
+                            v)))
 
-;fennel
+(fn format-output-filename [file in-dir out-dir]
+   "Format filepath for writing compiled output"
+   (-> file
+      (string.gsub in-dir out-dir)
+      (string.gsub ".fnl" ".lua")))
 
 
-;; === WIP ===
-; (fn list-files [dir recurse]
-;    (let [ls (if recurse "dir /A-D /B /S " "dir /A-D /B ")]
-;       (with-open [fin (io.popen (.. ls dir))]
-;          (icollect [line (fin:lines)]
-;             (string.gsub line dir "")))))
-
-; (fn get-input-files []
-;    (let [files (icollect [i v (ipairs (list-files :C:\Users\mwebb\fennel\src\modules true))] (.. "modules" v))]
-;       (table.insert files "configure")
-;       files))
-
-; (get-input-files)
-
-;; =========
-
-;; TODO: Input args to script...
-;; TODO: Handle recursive module resolution in folders...
-;; TODO: Handle output paths that don't exist yet...
-
-(local fennel (require :fennel))
-
-(local (in out) ...)
-
-   ; {:in-dir "C:/Users/mwebb/fennel/src/"
-   ;  :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
-(local configure
-   {:in-dir (tostring in)
-    :in-files ["configure"
-               "bistro"
-               "modules/lsp/attach"
-               "modules/lsp/handlers"
-               "modules/lsp/init"
-               "modules/default"
-               "modules/files"
-               "modules/themes"
-               ; "modules/statusline"
-               "modules/angular"
-               "modules/csharp"
-               "modules/telescope"
-               "modules/treesitter"
-               "modules/typescript"]
-    :out-dir (tostring out)})
-
-(set fennel.path (.. configure.in-dir "?.fnl;" fennel.path))
-
-(fn compile-file [file]
-   (let [{: in-dir : out-dir} configure]
-      (with-open [fin (io.open (.. in-dir file ".fnl") :r)
-                  fout (io.open (.. out-dir file ".lua") :w)]
-         (fout:write (tostring (fennel.compile-string (fin:read :*all)))))))
+(fn compile-file [file in-dir out-dir fennel]
+   "Use fennel to compile a .fnl source file to Lua"
+   (with-open [fin (io.open file :r)
+               fout (io.open (format-output-filename file in-dir out-dir) :w)]
+      (fout:write (tostring (fennel.compile-string (fin:read :*all))))))
 
 (fn report-compile-error [in-file err]
+   "Report compilation error to stdout"
    (print (.. "Compile error in " in-file "\n" err)))
 
-(fn try-compile [file]
-   (let [(res err) (pcall compile-file file)]
+(fn try-compile [file in-dir out-dir fennel]
+   "Attempt to compile a .fnl file to Lua, reporting any errors to stdout"
+   (let [(res err) (pcall compile-file file in-dir out-dir fennel)]
       (when (not res) (report-compile-error file err))))
 
-(fn build []
-   (each [_ file (ipairs configure.in-files)]
-      (try-compile file)))
+(fn build [input-dir output-dir]
+   "Build the config bistro library with all recipes"
+   (let [in-files (get-input-files input-dir)
+         fennel (require :fennel)]
+      (set fennel.path (.. input-dir "?.fnl;" fennel.path))
+      (each [_ file (ipairs in-files)]
+         (try-compile file input-dir output-dir fennel))))
 
+
+; Get input and output paths from args
+(local (in out) ...)
+
+; Check args and build
 (if (and in out)
-   (build)
+   (build in out)
    (do
       (print "Please supply both 'in' and 'out' directory parameters to build.fnl")
-      (print "Ex. fennel ./build.fnl ~/indir ~/outdir")))
+      (print "Ex. fennel ./build.fnl <indir> <outdir>")))
 
