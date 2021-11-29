@@ -85,9 +85,7 @@
  (fn [...]
      `(let [bistro# (require :bistro)]
           (doto bistro#
-              ,...
-              (: :load-plugins)
-              (: :configure-recipes))))
+              ,...)))
 
  :with-recipes
  (fn [bistro ...]
@@ -96,7 +94,7 @@
                          (values (tostring (. mod 1))
                                  (icollect [i v (ipairs mod)]
                                            (when (> i 1) v))))]
-         `(: ,bistro :load-recipes ,mods)))
+         `(: ,bistro :loadRecipes ,mods)))
 
  :defhighlight
  (fn [group args]
