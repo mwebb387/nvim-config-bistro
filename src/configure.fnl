@@ -14,4 +14,5 @@
      ; Langs
      ;(angular)
      (csharp :omnisharp)
-     (typescript :coc)))
+     (typescript :coc))
+   (: :register))

@@ -3,12 +3,13 @@ $FennelLocalExe = "~/AppData/Local/Fennel/fennel.exe"
 $FennelWebPath = "https://fennel-lang.org/downloads/fennel-0.10.0-windows32.exe"
 $FennelPgpPath = "https://fennel-lang.org/downloads/fennel-0.10.0-windows32.exe.asc"
 $NvimConfigPath = "~/AppData/Local/nvim/lua"
+$NvimPlugPath = "~/AppData/Local/nvim/autoload/plug.vim"
 
 # Setup VimPlug
-# TODO: Check the dest path...
-iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
-    ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
-
+if (-not (Test-Path $NvimPlugPath)) {
+  Invoke-WebRequest -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+      New-Item $NvimPlugPath -Force
+}
 
 # Setup Fennel
 try {
@@ -31,4 +32,9 @@ catch {
 
 # Prep neovim config folders
 Write-Host "Creating config folders"
-Get-ChildItem ./src/ -recurse -directory | ForEach-Object { New-Item "~/AppData/nvim/lua/$_" -ItemType Directory -Force -WhatIf }
+Get-ChildItem ./src/ -recurse -directory | ForEach-Object {
+  $Dir = "~/AppData/nvim/lua/$_"
+  if (-not (Test-Path $Dir)) {
+    New-Item $Dir -ItemType Directory -Force -WhatIf
+  }
+}

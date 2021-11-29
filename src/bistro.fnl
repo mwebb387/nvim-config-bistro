@@ -1,9 +1,6 @@
 (fn initRecipe [self name]
    (print (.. "Init Recipe " name)))
 
-(fn configureBistro [self]
-   (print "Configure Bistro!"))
-
 (fn loadRecipes [self recipes]
    (each [module-name module-args (pairs recipes)]
       (table.insert self.modules module-name)
@@ -25,26 +22,15 @@
       (config))
    self)
 
-; (local bistro {:configs []
-;                :modules []
-;                :plugins []
-;                : configureBistro
-;                : configureRecipes
-;                : initRecipe
-;                : loadRecipes
-;                : loadPlugins})
+(fn register [self]
+   (set _G.bistro self))
 
-; (set _G.bistro bistro)
-
-; bistro
-
-(let [bistro {:configs []
-              :modules []
-              :plugins []
-              : configureBistro
-              : configureRecipes
-              : initRecipe
-              : loadRecipes
-              : loadPlugins}]
-   (set _G.bistro bistro)
-   bistro)
+{:configs []
+ :modules []
+ :plugins []
+ : configureBistro
+ : configureRecipes
+ : initRecipe
+ : loadRecipes
+ : loadPlugins
+ : register}
