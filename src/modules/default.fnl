@@ -1,4 +1,9 @@
-(import-macros {: append! : set! : defmap : let-g} :macros)
+(import-macros {: append!
+                : defcommand
+                : defluacommand
+                : defmap
+                : set!
+                : let-g} :macros)
 
 (fn plugins []
   [:w0rp/ale
@@ -154,8 +159,27 @@
   (defmap [i] :<C-l> :<c-o>l)
   (defmap [i] :<C-h> :<c-o>h))
 
+(fn create-commands []
+  (defluacommand :BrowseLua
+    (fn []
+      (let [root (vim.fn.stdpath :config)
+            lua-root (.. root "/lua")
+            cmd (.. "Explore " lua-root)]
+        (vim.cmd cmd))))
+  (defluacommand :EditConfig
+    (fn []
+      (let [root (vim.fn.stdpath :config)
+            file (.. root "/init.vim")
+            cmd (.."edit " file)]
+        (vim.cmd cmd))))
+  (defluacommand :Powershell
+    (fn []
+      (vim.cmd :enew)
+      (vim.fn.termopen :powershell))))
+
 (fn configure []
   (set-options)
-  (set-keymaps))
+  (set-keymaps)
+  (create-commands))
 
 {: configure : plugins}

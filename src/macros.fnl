@@ -57,14 +57,14 @@
  :defcommand
  (fn [name command]
      (let [cmd (.. "command! " (tostring name) " " command)]
-         `(vim.cmd cmd)))
+         `(vim.cmd ,cmd)))
 
  :defluacommand
  (fn [name lua-fn]
      (let [n (tostring name)
-           cmd (.. "command! " n " lua user.commands." n "()")]
+           cmd (.. "command! " n " lua bistro.commands." n "()")]
          `(do 
-              (tset _G.userCommands ,n ,lua-fn)
+              (tset _G.bistro.commands ,n ,lua-fn)
               (vim.cmd ,cmd))))
 
  :defhighlight

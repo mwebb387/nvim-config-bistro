@@ -28,6 +28,7 @@
 {:configs []
  :modules []
  :plugins []
+ :commands []
  : configureBistro
  : configureRecipes
  : initRecipe
