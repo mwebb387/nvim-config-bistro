@@ -27,8 +27,12 @@
 
 (local fennel (require :fennel))
 
+(local (in out) ...)
+
+   ; {:in-dir "C:/Users/mwebb/fennel/src/"
+   ;  :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
 (local configure
-   {:in-dir "C:/Users/mwebb/fennel/src/"
+   {:in-dir (tostring in)
     :in-files ["configure"
                "bistro"
                "modules/lsp/attach"
@@ -43,7 +47,7 @@
                "modules/telescope"
                "modules/treesitter"
                "modules/typescript"]
-    :out-dir "C:/Users/mwebb/AppData/Local/nvim/lua/"})
+    :out-dir (tostring out)})
 
 (set fennel.path (.. configure.in-dir "?.fnl;" fennel.path))
 
@@ -64,5 +68,9 @@
    (each [_ file (ipairs configure.in-files)]
       (try-compile file)))
 
-(build)
+(if (and in out)
+   (build)
+   (do
+      (print "Please supply both 'in' and 'out' directory parameters to build.fnl")
+      (print "Ex. fennel ./build.fnl ~/indir ~/outdir")))
 
