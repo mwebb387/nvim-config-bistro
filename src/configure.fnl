@@ -7,6 +7,7 @@
      (default)
      (files)
      (themes :nordfox)
+     ; (statusline)
      (telescope)
      (treesitter)
      (lsp)

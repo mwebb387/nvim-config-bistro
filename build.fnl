@@ -8,7 +8,9 @@
 (fn get-input-files [in-dir]
    "Get all bistro files/recipes excluding the macros.fnl file"
    (icollect [i v (ipairs (list-files in-dir true))]
-                         (when (not (string.find v :macros))
+                         (when (and
+                                  (not (string.find v :macros))
+                                  (string.find v ".fnl"))
                             v)))
 
 (fn format-output-filename [file in-dir out-dir]
