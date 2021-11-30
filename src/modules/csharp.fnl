@@ -42,6 +42,7 @@
 
     (autocmd :filetype "cs" "nnoremap <buffer> <leader>lc :OmniSharpGlobalCodeCheck<cr>")
     (autocmd :filetype "cs" "nnoremap <leader>la :OmniSharpGetCodeActions<cr>")
+    (autocmd :filetype "cs" "nnoremap <leader>. :OmniSharpGetCodeActions<cr>")
 
     (autocmd :filetype "cs" "nnoremap <leader>le :OmniSharpRename<cr>")
     (autocmd :filetype "cs" "nnoremap <f2> :OmniSharpRename<cr>")

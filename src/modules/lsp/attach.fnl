@@ -21,6 +21,7 @@
       (buf-keymap :n :<leader>le "<cmd>lua vim.lsp.buf.rename()<CR>" opts)
       (buf-keymap :n :<F2> "<cmd>lua vim.lsp.buf.rename()<CR>" opts)
       (buf-keymap :n :<leader>la "<cmd>lua vim.lsp.buf.code_action()<CR>" opts)
+      (buf-keymap :n :<leader>. "<cmd>lua vim.lsp.buf.code_action()<CR>" opts)
       (buf-keymap :n :gr "<cmd>lua vim.lsp.buf.references()<CR>" opts)
       (buf-keymap :n :<leader>ld "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>" opts)
       (buf-keymap :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" opts)

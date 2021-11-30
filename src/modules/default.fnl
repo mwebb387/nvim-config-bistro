@@ -79,10 +79,6 @@
    ])
 
 (fn set-options []
-  ; Leader
-  (let-g :mapleader " ")
-  (let-g :localleader " ")
-
   (set! :backup false)
   (set! :undofile false)
   (set! :swapfile false)
@@ -126,9 +122,6 @@
   (set! :previewheight 5))
 
 (fn set-keymaps []
-  ; Leader
-  (defmap [n] :<Space> :<Nop>)
-
   ; General
   (defmap [n] :H :^)
   (defmap [n] :L :$)
