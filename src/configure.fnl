@@ -3,17 +3,16 @@
                :macros)
 
 (configure-bistro
-   (with-recipes
-     (default)
-     (files)
-     (themes :nordfox)
-     ; (statusline)
-     (telescope)
-     (treesitter)
-     (lsp)
+  (with-recipes
+    (default)
+    (files)
+    (themes :nordfox)
+    ; (statusline)
+    (telescope)
+    (treesitter)
+    (lsp)
 
-     ; Langs
-     ;(angular)
-     (csharp :omnisharp)
-     (typescript :coc))
-   (: :register))
+    ; Langs
+    ;(angular)
+    (csharp :omnisharp)
+    (typescript :coc)))

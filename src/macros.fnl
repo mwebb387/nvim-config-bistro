@@ -45,7 +45,7 @@
 
  :configure-bistro
  (fn [...]
-     `(let [bistro# (require :bistro)]
+     `(fn [bistro#]
           (doto bistro#
               ,...)))
 
@@ -66,9 +66,9 @@
  :defluacommand
  (fn [name lua-fn]
      (let [n (tostring name)
-           cmd (.. "command! " n " lua bistro.commands." n "()")]
+           cmd (.. "command! " n " lua require('bistro').commands." n "()")]
          `(do 
-              (tset _G.bistro.commands ,n ,lua-fn)
+              (tset (require :bistro) :commands ,n ,lua-fn)
               (vim.cmd ,cmd))))
 
  :defhighlight

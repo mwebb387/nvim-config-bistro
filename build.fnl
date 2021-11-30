@@ -49,7 +49,9 @@
 
 ; Check args and build
 (if (and in out)
-   (build in out)
+   (do
+      (build in out)
+      (print "Bistro build complete"))
    (do
       (print "Please supply both 'in' and 'out' directory parameters to build.fnl")
       (print "Ex. fennel ./build.fnl <indir> <outdir>")))
