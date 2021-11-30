@@ -1,7 +1,11 @@
+(fn value-or-default [v default]
+    "Get the value or a default if value is false"
+    (if v v default)) ; TODO: Check for null/undefined, not just false...
+
 (fn format-table [tbl kv-format-fn]
     "Formats the Key/Value pairs in a table as a string using the supplied format method"
     (let [formatted (icollect [k v (pairs tbl)]
-                              (kv-format-fn k v))]
+                              (kv-format-fn k (value-or-default v "")))]
         (table.concat formatted " ")))
 
 (fn inc [n]
@@ -70,7 +74,7 @@
  :defhighlight
  (fn [group args]
      (let [hi (.. "highlight " group)
-           flds (format-table args (fn [k v] (.. k "=" v)))
+           flds (format-table args (fn [k v] (.. k "=" (tostring v))))
            cmd (.. hi " " flds)]
          `(vim.cmd ,cmd)))
 
@@ -85,7 +89,7 @@
  :defsign
  (fn [name args]
      (let [sign (.. "sign define " name)
-           flds (format-table args (fn [k v] (.. k "=" v)))
+           flds (format-table args (fn [k v] (.. k "=" (tostring v))))
            cmd (.. sign " " flds)]
          `(vim.cmd ,cmd)))
 
@@ -93,16 +97,20 @@
  (fn let-g [key value]
      `(tset vim.g ,(tostring key) ,value))
 
-:set!
-(fn [name value]
-    `(tset vim.opt ,name ,value))
+ :set!
+ (fn [name value]
+     `(tset vim.opt ,name ,value))
 
-;TODO: Add more here...
-:syntax-sync
-(fn []
-    `(vim.cmd "syntax sync fromstart"))
-
-:append!
-(fn [name value]
-    `(: (. vim.opt ,name) :append ,value))}
-
+ :set-test!
+ (fn [name value]
+     `(set vim.opt.,name ,value))
+ 
+ ;TODO: Add more here...
+ :syntax-sync
+ (fn []
+     `(vim.cmd "syntax sync fromstart"))
+ 
+ :append!
+ (fn [name value]
+     `(: (. vim.opt ,name) :append ,value))}
+ 
