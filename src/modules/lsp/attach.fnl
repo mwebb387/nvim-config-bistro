@@ -30,10 +30,10 @@
 
       ;Set some keybinds conditional on server capabilities
       (when client.resolved_capabilities.document_formatting
-        (buf-keymap :n :<leader>f "<cmd>lua vim.lsp.buf.formatting()<CR>" opts))
+        (buf-keymap :n :<leader>lf "<cmd>lua vim.lsp.buf.formatting()<CR>" opts))
 
       (when client.resolved_capabilities.document_range_formatting
-        (buf-keymap :v :<leader>f "<cmd>lua vim.lsp.buf.range_formatting()<CR>" opts)))
+        (buf-keymap :v :<leader>lf "<cmd>lua vim.lsp.buf.range_formatting()<CR>" opts)))
 
     ; Set autocommands conditional on server_capabilities
     (when client.resolved_capabilities.document_highlight

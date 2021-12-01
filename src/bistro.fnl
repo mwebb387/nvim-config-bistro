@@ -6,7 +6,8 @@
       (let [buildScript (.. self.sourceDir "/build.fnl")
             buildDir (.. (vim.fn.stdpath :config) :lua)
             args [:fennel buildScript self.sourceDir buildDir]]
-         (vim.fn.system args)))
+         (vim.fn.system args)
+         (print "Bistro build complete")))
    self)
 
 (fn configureRecipes [self]
@@ -38,7 +39,7 @@
    (vim.cmd "call plug#end()")
    self)
 
-(fn reload [self reloadPlugins reconfigureRecipes]
+(fn refresh [self reloadPlugins reconfigureRecipes]
    ; Clear bistro cache
    (tset package.loaded :configure nil)
    (tset package.loaded :bistro nil)
@@ -61,7 +62,7 @@
     : editRecipe
     : loadRecipes
     : loadPlugins
-    : reload})
+    : refresh})
 
 ; Auto-load recipes
 ((require :configure) bistro)

@@ -168,7 +168,13 @@
   (defluacommand :Powershell
     (fn []
       (vim.cmd :enew)
-      (vim.fn.termopen :powershell))))
+      (vim.fn.termopen :powershell)))
+  (defluacommand :PrettierCheck
+    (fn []
+      (vim.cmd "!npx prettier --check %")))
+  (defluacommand :PrettierWrite
+    (fn []
+      (vim.cmd "!npx prettier --check --write %"))))
 
 (fn configure []
   (set-options)
