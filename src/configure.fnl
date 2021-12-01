@@ -5,14 +5,16 @@
 (configure-bistro
   (with-recipes
     (default)
+    (bistro)
     (files)
     (themes :nordfox)
     ; (statusline)
     (telescope)
     (treesitter)
     (lsp)
+    (complete :vcm)
 
     ; Langs
     ;(angular)
     (csharp :omnisharp)
-    (typescript :coc)))
+    (typescript :lsp)))

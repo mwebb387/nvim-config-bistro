@@ -46,6 +46,7 @@
 
 ; Get input and output paths from args
 (local (in out) ...)
+(tset _G :inputdir in)
 
 ; Check args and build
 (if (and in out)

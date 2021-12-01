@@ -1,3 +1,5 @@
+(import-macros {: get-inputdir } :macros)
+
 (fn build [self]
    (if (= self.sourceDir "")
       (print "Please set the Bistro source directory")
@@ -7,10 +9,17 @@
          (vim.fn.system args)))
    self)
 
-(fn createRecipe [self name]
+(fn configureRecipes [self]
+   (each [_ config (ipairs self.configs)]
+      (config))
+   self)
+
+(fn editRecipe [self name]
    (if (= self.sourceDir "")
       (print "Please set the Bistro source directory")
-      (print (.. "Init Recipe " name)))
+      (let [recipeFile (.. self.sourceDir "/modules/" name ".fnl")
+            cmd (.. "edit " recipeFile)]
+         (vim.cmd cmd)))
    self)
 
 (fn loadRecipes [self recipes]
@@ -29,11 +38,6 @@
    (vim.cmd "call plug#end()")
    self)
 
-(fn configureRecipes [self]
-   (each [_ config (ipairs self.configs)]
-      (config))
-   self)
-
 (fn reload [self reloadPlugins reconfigureRecipes]
    ; Clear bistro cache
    (tset package.loaded :configure nil)
@@ -50,12 +54,11 @@
    {:configs []
     :modules []
     :plugins []
-    :commands []
-    :sourceDir ""
+    :functions []
+    :sourceDir (get-inputdir)
     : build
-    : createRecipe
-    : configureBistro
     : configureRecipes
+    : editRecipe
     : loadRecipes
     : loadPlugins
     : reload})

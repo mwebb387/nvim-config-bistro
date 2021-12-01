@@ -1,6 +1,6 @@
 (fn value-or-default [v default]
     "Get the value or a default if value is false"
-    (if v v default)) ; TODO: Check for null/undefined, not just false...
+    (or v default)) ; TODO: Check for null/undefined, not just false...
 
 (fn format-table [tbl kv-format-fn]
     "Formats the Key/Value pairs in a table as a string using the supplied format method"
@@ -66,9 +66,9 @@
  :defluacommand
  (fn [name lua-fn]
      (let [n (tostring name)
-           cmd (.. "command! " n " lua require('bistro').commands." n "()")]
+           cmd (.. "command! " n " lua require('bistro').functions." n "()")]
          `(do 
-              (tset (require :bistro) :commands ,n ,lua-fn)
+              (tset (require :bistro) :functions ,n ,lua-fn)
               (vim.cmd ,cmd))))
 
  :defhighlight
@@ -81,9 +81,14 @@
  :defmap
  (fn [modes lhs rhs opts]
      (let [opts- (or opts {:noremap true})
-           out []]
+           out []
+           rhs- (match (type rhs)
+                    :string rhs
+                    :table (let [fn-id (gensym)]
+                               `(tset (require :bistro) :functions ,fn-id ,rhs)
+                               (.. "lua require('bistro').functions." fn-id "()")))]
          (each [_ mode (ipairs modes)]
-             (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs ,opts-)))
+             (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs- ,opts-)))
          `,(unpack out)))
 
  :defsign
@@ -112,5 +117,8 @@
  
  :append!
  (fn [name value]
-     `(: (. vim.opt ,name) :append ,value))}
+     `(: (. vim.opt ,name) :append ,value))
+ 
+ :get-inputdir
+ (fn [] `,_G.inputdir)}
  

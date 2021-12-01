@@ -7,7 +7,7 @@
 
 (fn plugins []
   [:w0rp/ale
-   :sheerun/vim-polyglot
+   ; :sheerun/vim-polyglot
 
    ; Functionality
    ; :junegunn/fzf
@@ -55,7 +55,7 @@
    ; :leafOfTree/vim-svelte-plugin ; TODO: Is this in polyglot?
 
    ; auto-complete
-   :neoclide/coc.nvim ;', {'branch': 'release'}
+   ; :neoclide/coc.nvim ;', {'branch': 'release'}
 
    ; look and feel
    ; :glepnir/galaxyline.nvim ;, {'branch': 'main'}
@@ -94,7 +94,7 @@
   (set! :autoindent true)
 
   ; Omnifunc
-  (set! :omnifunc "syntaxcomplete#complete")
+  ; (set! :omnifunc "syntaxcomplete#complete")
 
   ; Path additions
   (append! :path "C:/Users/mwebb/AppData/Local/nvim/lua")
