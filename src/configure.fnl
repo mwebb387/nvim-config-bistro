@@ -6,8 +6,9 @@
   (with-recipes
     (default)
     (bistro)
-    (files)
     (themes :material)
+    (files)
+    (git)
     ; (statusline)
     (telescope)
     (treesitter)

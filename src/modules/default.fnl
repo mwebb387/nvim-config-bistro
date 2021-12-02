@@ -23,9 +23,9 @@
    :junegunn/vim-slash
 
    ; git
-   :tpope/vim-fugitive
-   :tommcdo/vim-fubitive
-   :junegunn/gv.vim
+   ;:tpope/vim-fugitive
+   ;:tommcdo/vim-fubitive
+   ;:junegunn/gv.vim
    ; :airblade/vim-gitgutter
 
    ; LSP, Telescope and Treesitter
