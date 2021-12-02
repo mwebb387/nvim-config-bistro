@@ -1,4 +1,4 @@
-(import-macros {: defluacommand } :macros)
+(import-macros {: defcommand : defluacommand } :macros)
 
 (fn plugins [] [])
 
@@ -24,30 +24,24 @@
           (let [configFile (.. bistro.sourceDir "/configure.fnl")
                 cmd (.. "edit " configFile)]
             (vim.cmd cmd))))))
-  (defluacommand :BistroRefresh
-    (fn []
-      (let [bistro (require :bistro)]
-        (if (= bistro.sourceDir "")
-          (print "Please set the Bistro source directory")
-          (vim.cmd "lua require('bistro'):refresh()")))))
 
-  (defluacommand :BistroReloadPlugins
+; TODO: Command args...?
+; (defluacommand :BistroEditRecipes
+;   (fn []
+;     (let [bistro (require :bistro)]
+;       (bistro.editRecipe))))
+
+  (defluacommand :BistroListRecipes
     (fn []
       (let [bistro (require :bistro)]
-        (if (= bistro.sourceDir "")
-          (print "Please set the Bistro source directory")
-          (do
-            (vim.cmd "lua require('bistro'):refresh()")
-            (vim.cmd "lua require('bistro'):loadPlugins()")
-            (print "Bistro reloaded with plugins"))))))
-  (defluacommand :BistroReloadAndReconfigure
-    (fn []
-      (let [bistro (require :bistro)]
-        (if (= bistro.sourceDir "")
-          (print "Please set the Bistro source directory")
-          (do
-            (vim.cmd "lua require('bistro'):refresh()")
-            (vim.cmd "lua require('bistro'):loadPlugins():configureRecipes()")
-            (print "Bistro reloaded and reconfigured")))))))
+        (print (vim.inspect bistro.modules)))))
+
+  (defcommand :BistroRefresh "lua require('bistro'):refresh()")
+
+  (defcommand :BistroReloadPlugins "lua require('bistro'):loadPlugins()")
+
+  (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()")
+
+  (defcommand :BistroReloadAndReconfigure ":BistroReloadPlugins\\<CR>|:BistroReconfigure\\<CR>"))
 
 {: configure : plugins }

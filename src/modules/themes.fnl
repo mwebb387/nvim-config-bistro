@@ -48,6 +48,8 @@
    :wojciechkepka/bogster])
 
 (fn configure [theme]
+  ; Set style for material theme
+  (set vim.g.material_style "deep ocean")
   (set! :termguicolors true)
   (if (not theme)
     (set-random-theme)

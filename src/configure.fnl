@@ -7,7 +7,7 @@
     (default)
     (bistro)
     (files)
-    (themes :nordfox)
+    (themes :material)
     ; (statusline)
     (telescope)
     (treesitter)

@@ -1,3 +1,9 @@
+(fn sanitize-paths [paths]
+  (icollect [i path (ipairs paths)]
+    (-> path
+      (string.gsub "/" "\\")
+      (string.gsub "\\\\" "\\"))))
+
 (fn list-files [dir recurse]
    "List files using file system file listing (potentially unsecure)"
    (let [ls (if recurse "dir /A-D /B /S " "dir /A-D /B ")]
@@ -45,15 +51,16 @@
 
 
 ; Get input and output paths from args
-(local (in out) ...)
+(local [in out] (sanitize-paths [...]))
+
 (tset _G :inputdir in)
 
 ; Check args and build
 (if (and in out)
-   (do
-      (build in out)
-      (print "Bistro build complete"))
-   (do
-      (print "Please supply both 'in' and 'out' directory parameters to build.fnl")
-      (print "Ex. fennel ./build.fnl <indir> <outdir>")))
+  (do
+     (build in out)
+     (print "Bistro build complete"))
+  (do
+     (print "Please supply both 'in' and 'out' directory parameters to build.fnl")
+     (print "Ex. fennel ./build.fnl <indir> <outdir>")))
 
