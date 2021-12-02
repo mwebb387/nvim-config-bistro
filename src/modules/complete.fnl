@@ -5,13 +5,13 @@
     [:coc] [:neoclide/coc.nvim] ;', {'branch': 'release'}
     [:vcm] [:ackyshake/VimCompletesMe]))
 
+; TODO: Mappings for coc
 (fn configure-coc [])
 
 (fn configure-vcm []
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   (defmap [i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
-; TODO: Mappings for coc
 (fn configure [...]
   (match [...]
     [:vmc] (configure-vcm)

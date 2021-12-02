@@ -1,4 +1,4 @@
-(import-macros {: defcommand : defluacommand } :macros)
+(import-macros {: defcommand : defluacommand : defun } :macros)
 
 (fn plugins [] [])
 
@@ -24,6 +24,10 @@
           (let [configFile (.. bistro.sourceDir "/configure.fnl")
                 cmd (.. "edit " configFile)]
             (vim.cmd cmd))))))
+
+; (defun :TestMethod
+;   (fn [arg1 arg2]
+;     (print "This is a test!")))
 
 ; TODO: Command args...?
 ; (defluacommand :BistroEditRecipes

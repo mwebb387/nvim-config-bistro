@@ -9,6 +9,9 @@
   [:w0rp/ale
    ; :sheerun/vim-polyglot
 
+   ; Langs (TODO: Move individual lang recipes)
+   :bakpakin/fennel.vim
+
    ; Functionality
    ; :junegunn/fzf
    ; :junegunn/fzf.vim
