@@ -4,7 +4,7 @@ This is the repo for my current NeoVim configuration.
 
 ## Details
 
-- Written in ![Fennel](https://fennel-lang.org/)
+- Written in [Fennel](https://fennel-lang.org/)
 - Extensive use of macros for a more lispy configuration
 - Divided into _Recipes_ for groups of functionality
 - Separate and buildable outside of NeoVim
