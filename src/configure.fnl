@@ -9,7 +9,7 @@
     (themes :material)
     (files)
     (git)
-    ; (statusline)
+    (statusline)
     (telescope)
     (treesitter)
     (lsp)

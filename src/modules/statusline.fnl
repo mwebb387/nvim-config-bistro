@@ -1,3 +1,5 @@
+(import-macros {: augroup : autocmd : defluacommand} :macros)
+
 (fn get-mode-color [mode colors]
   (match mode
     :n colors.red
@@ -21,9 +23,6 @@
     :! colors.red
     :t colors.red))
 
-; (local slbg (-> (vim.fn.hlID "CursorLine")
-;                 (vim.fn.synIDattr "bg")))
-
 ; (local leftCaps ["" "" "" "" ""])
 ; (local rightCaps ["" "" "" "" ""])
 
@@ -40,7 +39,7 @@
     (let [mode (vim.fn.mode)]
       ; Auto change color according the vim mode
       ; TODO: Lazy highlight eval...
-      (vim.api.nvim_command (.. "hi GalaxyViMode guifg=" (get-mode-color mode colors)))
+      (vim.cmd (.. "hi GalaxyViMode guifg=" (get-mode-color mode colors)))
       (.. "[" mode "]  "))))
 
 (fn status-left [colors condition]
@@ -181,18 +180,12 @@
   ; (defhighlight :StatusLine {:cterm :NONE
   ;                            :gui :NONE
   ;                            :guibg color})
-  (vim.api.nvim_command (.. "hi StatusLine cterm=NONE gui=NONE guibg=" color)) ; TODO: Vim Hi Macro with lazy eval?
+  (vim.cmd (.. "hi StatusLine cterm=NONE gui=NONE guibg=" color)) ; TODO: Vim Hi Macro with lazy eval?
   (each [_ prop (ipairs [:left :mid :right :short_line_left :short_line_right])]
     (reset-hi-for-section (. gl prop) color)))
 
-; TODO: Translate...
-; local M = {}
-; function M.resetHighlights()
-;   local bg = vim.fn.synIDattr(vim.fn.hlID('CursorLine'), 'bg') 
-;   reset-hi-for-status-line(gls, bg)
-; end
-
-; return M
+(fn reset-highlights [gls]
+  (reset-hi-for-status-line gls (get-bg)))
 
 (fn configure []
   (let [gls (. (require :galaxyline) :section)
@@ -203,7 +196,14 @@
     (set gls.mid (status-mid colors condition))
     (set gls.right (status-right colors condition))
     (set gls.short_line_left (status-short-line-left colors condition))
-    (set gls.short_line_right (status-short-line-right colors condition))))
+    (set gls.short_line_right (status-short-line-right colors condition))
+
+    (defluacommand :StatuslineResetHighlights
+      (fn [] (reset-highlights gls))))
+
+  ; Reset highlights on theme change
+  (augroup :Theme
+    (autocmd :ColorScheme "*" ":StatuslineResetHighlights")))
 
 (fn plugins []
   [:glepnir/galaxyline.nvim])

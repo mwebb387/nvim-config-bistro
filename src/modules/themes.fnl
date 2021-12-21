@@ -29,22 +29,14 @@
    :theniceboy/nvim-deus
    :whatyouhide/vim-gotham
    :ntk148v/vim-horizon
-   :xdg/vim-darkluma
-   :maksimr/Lucius2
    :nightsense/cosmic_latte
    :Nequo/vim-allomancer
    :folke/tokyonight.nvim
    :marko-cerovac/material.nvim
-   :arcticicestudio/nord-vim
    :nanotech/jellybeans.vim
-   :NLKNguyen/papercolor-theme
    :AlessandroYorba/Arcadia
    :crater2150/vim-theme-chroma
-   :bcicen/vim-vice
-   :dracula/vim
    :EdenEast/nightfox.nvim
-   :vim-scripts/proton
-   :junegunn/seoul256.vim
    :wojciechkepka/bogster])
 
 (fn configure [theme]

@@ -44,8 +44,8 @@
 
   (defcommand :BistroReloadPlugins "lua require('bistro'):loadPlugins()")
 
-  (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()")
+  (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()"))
 
-  (defcommand :BistroReloadAndReconfigure ":BistroReloadPlugins\\<CR>|:BistroReconfigure\\<CR>"))
+  ; (defcommand :BistroReloadAndReconfigure ":BistroReloadPlugins\\<CR>|:BistroReconfigure\\<CR>"))
 
 {: configure : plugins }
