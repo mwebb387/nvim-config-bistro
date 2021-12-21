@@ -25,9 +25,14 @@
                 cmd (.. "edit " configFile)]
             (vim.cmd cmd))))))
 
-; (defun :TestMethod
-;   (fn [arg1 arg2]
-;     (print "This is a test!")))
+  (defun TestMethod [arg1 arg2]
+      (print (.. "This is a test!" arg1 arg2)))
+
+  (defun ListRecipes [A L P]
+    (let [bistro (require :bistro)]
+        bistro.modules))
+
+  (vim.cmd "command! -complete=customlist,v:lua.ListRecipes -nargs=1 BistroEditRecipe echo <args>")
 
 ; TODO: Command args...?
 ; (defluacommand :BistroEditRecipes

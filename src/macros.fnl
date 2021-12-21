@@ -2,11 +2,23 @@
   "Get the value or a default if value is false"
   (or v default)) ; TODO: Check for null/undefined, not just false...
 
-(fn format-table [tbl kv-format-fn]
+(fn format-table [tbl kv-format-fn separator]
   "Formats the Key/Value pairs in a table as a string using the supplied format method"
   (let [formatted (icollect [k v (pairs tbl)]
                             (kv-format-fn k (value-or-default v "")))]
-    (table.concat formatted " ")))
+    (table.concat formatted (or separator " "))))
+
+(fn map-list [list map-fn]
+  (icollect [_ v (ipairs list)]
+            (map-fn v)))
+
+(fn map-vim-args-to-lua [args]
+  (let [sargs (map-list args (fn [a] (tostring a)))
+        args-list-vim (map-list sargs (fn [a] (.. "'" a "':a:" a)))
+        args-list-lua (map-list sargs (fn [a] (.. "_A." a)))]
+    {:argtbl (.. "{" (table.concat args-list-vim ",") "}")
+     :argslua (.. "(" (table.concat args-list-lua ", ") ")")
+     :argsvim (.. "(" (table.concat sargs ", ") ")")}))
 
 (fn inc [n]
   "Increment a number 'n' by 1"
@@ -98,15 +110,22 @@
          cmd (.. sign " " flds)]
      `(vim.cmd ,cmd)))
 
- :defun
- (fn [name func]
+ :defun ; Define lua function in global scope
+ (fn [name args ...]
    (let [n (tostring name)
-         keyword (. func 1)
-         args (. func 2)]
-     (print "In defun call...")
-     (print (.. "Keyword: " (tostring keyword)))
-     (print (.. "Name: " n))
-     (print (.. "Args: " (length args)))))
+         lua-fn `(fn ,args ,...)]
+     `(global ,name ,lua-fn)))
+ ; (fn [name args ...]
+ ;   (let [n (tostring name)
+ ;         lua-fn `(fn ,args ,...)
+ ;         {: argtbl : argslua : argsvim} (map-vim-args-to-lua args)
+ ;         vim-fn-start (.. "function! " n argsvim)
+ ;         vim-fn-body (.. "  return luaeval(\'require[[bistro]].functions." n argslua "\', " argtbl ")")
+ ;         vim-fn-end "endfunction"
+ ;         vim-fn (.. vim-fn-start "\n" vim-fn-body "\n" vim-fn-end)]
+ ;     `(do
+ ;        (tset (require :bistro) :functions ,n ,lua-fn)
+ ;        (vim.cmd ,vim-fn))))
 
  :let-g
  (fn let-g [key value]
