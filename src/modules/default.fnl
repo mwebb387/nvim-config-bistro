@@ -1,6 +1,5 @@
 (import-macros {: append!
                 : defcommand
-                : defluacommand
                 : defmap
                 : set!
                 : let-g} :macros)
@@ -140,26 +139,28 @@
   (defmap [i] :<C-h> :<c-o>h))
 
 (fn create-commands []
-  (defluacommand :BrowseLua
+  (defcommand :BrowseLua
     (fn []
       (let [root (vim.fn.stdpath :config)
             lua-root (.. root "/lua")
             cmd (.. "Explore " lua-root)]
         (vim.cmd cmd))))
-  (defluacommand :EditConfig
+
+  (defcommand :EditConfig
     (fn []
       (let [root (vim.fn.stdpath :config)
             file (.. root "/init.vim")
             cmd (.."edit " file)]
         (vim.cmd cmd))))
-  (defluacommand :Powershell
+
+  (defcommand :Powershell
     (fn []
       (vim.cmd :enew)
       (vim.fn.termopen :powershell)))
-  (defluacommand :PrettierCheck
+  (defcommand :PrettierCheck
     (fn []
       (vim.cmd "!npx prettier --check %")))
-  (defluacommand :PrettierWrite
+  (defcommand :PrettierWrite
     (fn []
       (vim.cmd "!npx prettier --check --write %"))))
 

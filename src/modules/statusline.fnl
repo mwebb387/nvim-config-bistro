@@ -1,4 +1,4 @@
-(import-macros {: augroup : autocmd : defluacommand} :macros)
+(import-macros {: augroup : autocmd : defcommand} :macros)
 
 (fn get-mode-color [mode colors]
   (match mode
@@ -198,7 +198,7 @@
     (set gls.short_line_left (status-short-line-left colors condition))
     (set gls.short_line_right (status-short-line-right colors condition))
 
-    (defluacommand :StatuslineResetHighlights
+    (defcommand :StatuslineResetHighlights
       (fn [] (reset-highlights gls))))
 
   ; Reset highlights on theme change

@@ -1,13 +1,13 @@
-(import-macros {: defcommand : defluacommand : defun } :macros)
+(import-macros {: defcommand : defun } :macros)
 
 (fn plugins [] [])
 
 (fn configure []
-  (defluacommand :BistroBuild
+  (defcommand :BistroBuild
     (fn []
       (: (require :bistro) :build)))
 
-  (defluacommand :BistroEdit
+  (defcommand :BistroEdit
     (fn []
       (let [bistro (require :bistro)]
         (if (= bistro.sourceDir "")
@@ -16,7 +16,7 @@
                 cmd (.. "edit " bistroFile)]
             (vim.cmd cmd))))))
             
-  (defluacommand :BistroEditConfiguration
+  (defcommand :BistroEditConfiguration
     (fn []
       (let [bistro (require :bistro)]
         (if (= bistro.sourceDir "")
@@ -25,25 +25,16 @@
                 cmd (.. "edit " configFile)]
             (vim.cmd cmd))))))
 
-  (defun TestMethod [arg1 arg2]
-      (print (.. "This is a test!" arg1 arg2)))
-
   (defun ListRecipes [A L P]
     (let [bistro (require :bistro)]
         bistro.modules))
 
-  (vim.cmd "command! -complete=customlist,v:lua.ListRecipes -nargs=1 BistroEditRecipe echo <args>")
-
-; TODO: Command args...?
-; (defluacommand :BistroEditRecipes
-;   (fn []
-;     (let [bistro (require :bistro)]
-;       (bistro.editRecipe))))
-
-  (defluacommand :BistroListRecipes
-    (fn []
+  (defcommand BistroEditRecipe
+    (fn [recipe] 
       (let [bistro (require :bistro)]
-        (print (vim.inspect bistro.modules)))))
+        (bistro:editRecipe (tostring recipe))))
+    {:complete "customlist,v:lua.ListRecipes"
+     :nargs 1})
 
   (defcommand :BistroRefresh "lua require('bistro'):refresh()")
 

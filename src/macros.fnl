@@ -71,17 +71,20 @@
      `(: ,bistro :loadRecipes ,mods)))
 
  :defcommand
- (fn [name command]
-   (let [cmd (.. "command! " (tostring name) " " command)]
-     `(vim.cmd ,cmd)))
-
- :defluacommand
- (fn [name lua-fn]
-   (let [n (tostring name)
-         cmd (.. "command! " n " lua require('bistro').functions." n "()")]
-     `(do 
-        (tset (require :bistro) :functions ,n ,lua-fn)
-        (vim.cmd ,cmd))))
+ (fn [name command options]
+   (let [options- (or options {})
+         cmd-opts (format-table options- (fn [k v] (.. "-" k "=" (tostring v))))]
+     (match (type command)
+       :string (do
+                 (let [cmd (.. "command! " cmd-opts " " (tostring name) " " command)]
+                   `(vim.cmd ,cmd)))
+       :table (do
+                (let [n (tostring name)
+                      ; TODO: Command args. What about '<args>'?
+                      cmd (.. "command! " cmd-opts " " n " lua require('bistro').functions." n "(<q-args>)")]
+                  `(do 
+                     (tset (require :bistro) :functions ,n ,command)
+                     (vim.cmd ,cmd)))))))
 
  :defhighlight
  (fn [group args]
@@ -115,17 +118,6 @@
    (let [n (tostring name)
          lua-fn `(fn ,args ,...)]
      `(global ,name ,lua-fn)))
- ; (fn [name args ...]
- ;   (let [n (tostring name)
- ;         lua-fn `(fn ,args ,...)
- ;         {: argtbl : argslua : argsvim} (map-vim-args-to-lua args)
- ;         vim-fn-start (.. "function! " n argsvim)
- ;         vim-fn-body (.. "  return luaeval(\'require[[bistro]].functions." n argslua "\', " argtbl ")")
- ;         vim-fn-end "endfunction"
- ;         vim-fn (.. vim-fn-start "\n" vim-fn-body "\n" vim-fn-end)]
- ;     `(do
- ;        (tset (require :bistro) :functions ,n ,lua-fn)
- ;        (vim.cmd ,vim-fn))))
 
  :let-g
  (fn let-g [key value]
