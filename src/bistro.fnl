@@ -1,5 +1,12 @@
 (import-macros {: get-inputdir } :macros)
 
+;; Helper methods
+(fn pconfigure [config]
+  "Protected call for a recipe's configure method"
+  (let [(res err) (pcall config)]
+    (when (not res) (print err))))
+
+;; Bistro methods
 (fn build [self]
    (if (= self.sourceDir "")
       (print "Please set the Bistro source directory")
@@ -11,7 +18,7 @@
 
 (fn configureRecipes [self]
    (each [_ config (ipairs self.configs)]
-      (config))
+      (pconfigure config))
    self)
 
 (fn editRecipe [self name]

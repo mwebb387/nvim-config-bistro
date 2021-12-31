@@ -3,7 +3,8 @@
 (fn plugins [...]
   (match [...]
     [:coc] [:neoclide/coc.nvim] ;', {'branch': 'release'}
-    [:vcm] [:ackyshake/VimCompletesMe]))
+    [:vcm] [:ackyshake/VimCompletesMe
+            :ncm2/float-preview.nvim]))
 
 ; TODO: Mappings for coc
 (fn configure-coc [])

@@ -1,9 +1,13 @@
 (import-macros {: defmap } :macros)
 
-(fn plugins []
-  [:nvim-lua/popup.nvim
-   :nvim-lua/plenary.nvim
-   :nvim-telescope/telescope.nvim])
+(fn plugins [...]
+  (let [args [...]
+        plugs [:nvim-lua/popup.nvim
+               :nvim-lua/plenary.nvim
+               :nvim-telescope/telescope.nvim]]
+    (match args
+      [:dap] (table.insert plugs :nvim-telescope/telescope-dap.nvim))
+    plugs))
 
 (fn configure-telescope-mappings []
   ; TODO: Silent...

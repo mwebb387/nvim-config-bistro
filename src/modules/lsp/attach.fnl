@@ -29,8 +29,12 @@
       (buf-keymap :n :<leader>lq "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>" opts)
 
       ;Set some keybinds conditional on server capabilities
+      (when client.resolved_capabilities.goto_definition
+        (buf-option :tagfunc "v:lua.vim.lsp.tagfunc"))
+
       (when client.resolved_capabilities.document_formatting
-        (buf-keymap :n :<leader>lf "<cmd>lua vim.lsp.buf.formatting()<CR>" opts))
+        (buf-keymap :n :<leader>lf "<cmd>lua vim.lsp.buf.formatting()<CR>" opts)
+        (buf-option :formatexpr "v:lua.vim.lsp.formatexpr()"))
 
       (when client.resolved_capabilities.document_range_formatting
         (buf-keymap :v :<leader>lf "<cmd>lua vim.lsp.buf.range_formatting()<CR>" opts)))

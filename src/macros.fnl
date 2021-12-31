@@ -141,5 +141,5 @@
    `(: (. vim.opt ,name) :append ,value))
 
  :get-inputdir
-(fn [] `,_G.inputdir)}
+ (fn [] `,_G.inputdir)}
 

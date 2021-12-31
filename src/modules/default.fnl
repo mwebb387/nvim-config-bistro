@@ -104,7 +104,7 @@
   ; always show signcolumns
   (set! :signcolumn "yes")
 
-  (set! :completeopt "longest,menuone,preview")
+  (set! :completeopt "longest,menuone")
   (set! :previewheight 5))
 
 (fn set-keymaps []

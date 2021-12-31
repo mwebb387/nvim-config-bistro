@@ -6,13 +6,14 @@
   (with-recipes
     (default)
     (bistro)
+    ; (statusline)
     (themes :material)
     (files)
     (git)
-    (statusline)
-    (telescope)
+    (telescope :dap)
     (treesitter)
     (lsp)
+    (debugging :ui)
     (complete :vcm)
 
     ; Langs

@@ -6,15 +6,12 @@
                :macros)
 
 (fn configure-cs []
-   ;; 
-   ;; :syn sync fromstart
-   ;; :set foldmethod=syntax
-
-  ;(vim.cmd ":syn region myFold start='{' end='}' transparent fold")
-  ;(vim.cmd ":syn region myFold start='{' end='}' transparent fold")
-  ;(augroup :csharp-commands
-   ; (autocmd :filetype "cs" "setlocal shiftwidth=4 softtabstop=4 expandtab")
-  )
+  (augroup :csharp-folding
+    (autocmd :filetype "cs" "set foldmethod=syntax")
+    (autocmd :filetype "cs" "set foldnestmax=3")
+    (autocmd :filetype "cs" "set foldlevel=2")
+    (autocmd :filetype "cs" "syntax region myFold start='{' end='}' transparent fold")
+    (autocmd :filetype "cs" "syntax sync fromstart")))
 
 (fn configure-omnisharp []
   (let-g :OmniSharp_server_stdio 1)
@@ -62,6 +59,11 @@
     (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
                                     :on_attach on-attach})))
 
+(fn configure-csharp-ls []
+  (let [on-attach (require :modules/lsp/attach)
+        lspconfig (require :lspconfig)]
+    (lspconfig.csharp_ls.setup {:on_attach on-attach})))
+
 (fn plugins [...]
   (let [plugs [] args [...]]
     (match args
@@ -69,9 +71,11 @@
     plugs))
 
 (fn configure [...]
+  (configure-cs)
   (let [args [...]]
     (match args
       [:omnisharp] (configure-omnisharp)
-      [:lsp] (configure-lsp))))
+      [:omnisharp-ls] (configure-lsp)
+      [:csharp-ls] (configure-csharp-ls))))
 
 {: configure : plugins}
