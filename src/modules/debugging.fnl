@@ -2,7 +2,8 @@
 
 (fn configure-ui []
   (let [dapui (require :dapui)]
-    (dapui.setup)))
+    (dapui.setup)
+    (defmap [n] :<F3> ":lua require'dapui'.toggle()<CR>")))
 
 (fn configure-csharp []
   (let [home (vim.fn.expand "~")
