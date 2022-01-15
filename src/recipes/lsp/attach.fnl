@@ -23,10 +23,10 @@
       (buf-keymap :n :<leader>la "<cmd>lua vim.lsp.buf.code_action()<CR>" opts)
       (buf-keymap :n :<leader>. "<cmd>lua vim.lsp.buf.code_action()<CR>" opts)
       (buf-keymap :n :gr "<cmd>lua vim.lsp.buf.references()<CR>" opts)
-      (buf-keymap :n :<leader>ld "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>" opts)
-      (buf-keymap :n "[d" "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>" opts)
-      (buf-keymap :n "]d" "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>" opts)
-      (buf-keymap :n :<leader>lq "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>" opts)
+      (buf-keymap :n :<leader>ld "<cmd>lua vim.diagnostic.open_float()<CR>" opts)
+      (buf-keymap :n "[d" "<cmd>lua vim.diagnostic.goto_prev()<CR>" opts)
+      (buf-keymap :n "]d" "<cmd>lua vim.diagnostic.goto_next()<CR>" opts)
+      (buf-keymap :n :<leader>lq "<cmd>lua vim.diagnostic.setloclist()<CR>" opts)
 
       ;Set some keybinds conditional on server capabilities
       (when client.resolved_capabilities.goto_definition

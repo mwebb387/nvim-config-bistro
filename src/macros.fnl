@@ -63,7 +63,7 @@
 
  :with-recipes
  (fn [bistro ...]
-   ; Collect each module name and its args pulled from each method call
+   ; Collect each recipe name and its args pulled from each method call
    (let [mods (collect [i mod (ipairs [...])]
                        (values (tostring (. mod 1))
                                (icollect [i v (ipairs mod)]

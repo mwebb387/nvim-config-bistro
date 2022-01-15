@@ -7,7 +7,7 @@
     (default)
     (bistro)
     ; (statusline)
-    (themes :material)
+    (themes :nightfox)
     (files)
     (git)
     (telescope :dap)

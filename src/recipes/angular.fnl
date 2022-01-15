@@ -1,5 +1,5 @@
 (fn configure-lsp []
-  (let [on-attach (require :modules/lsp/attach)
+  (let [on-attach (require :recipes/lsp/attach)
         angular-lsp (require :lspconfig)]
     (angular-lsp.angularls.setup {})))
 

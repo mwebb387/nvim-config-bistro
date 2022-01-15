@@ -23,7 +23,7 @@
                                     :sigPrev :<C-p>
                                     :pageDown [:<C-f> :<PageDown>]
                                     :pageUp [:<C-b> :<PageUp>] })
-  (augroup :omnisharp-module-commands
+  (augroup :omnisharp-recipe-commands
     (autocmd :filetype "cs" "setlocal shiftwidth=4 softtabstop=4 expandtab")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gd :OmniSharpGotoDefinition<cr>")
     (autocmd :filetype "cs,cshtml" "nnoremap <buffer> gi :OmniSharpFindImplementations<cr>")
@@ -51,16 +51,18 @@
     (autocmd :filetype "cs" "nnoremap <leader>losp :OmniSharpStopServer<cr>")))
 
 (fn configure-lsp []
-  (let [on-attach (require :modules/lsp/attach)
+  (let [on-attach (require :recipes/lsp/attach)
         pid (vim.fn.getpid)
         home (vim.fn.expand "~")
+        cs-handlers (require :recipes/lsp/csharpHandler)
         omnisharp-bin (.. home :\scoop\apps\omnisharp\current\OmniSharp.exe)
         omnisharp-lsp (require :lspconfig)]
     (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
                                     :on_attach on-attach})))
+                                    ;:handlers cs-handlers.handlers})))
 
 (fn configure-csharp-ls []
-  (let [on-attach (require :modules/lsp/attach)
+  (let [on-attach (require :recipes/lsp/attach)
         lspconfig (require :lspconfig)]
     (lspconfig.csharp_ls.setup {:on_attach on-attach})))
 
@@ -71,7 +73,7 @@
     plugs))
 
 (fn configure [...]
-  (configure-cs)
+  ; (configure-cs)
   (let [args [...]]
     (match args
       [:omnisharp] (configure-omnisharp)

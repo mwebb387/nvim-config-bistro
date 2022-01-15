@@ -27,7 +27,7 @@
 
   (defun ListRecipes [A L P]
     (let [bistro (require :bistro)]
-        bistro.modules))
+        bistro.recipes))
 
   (defcommand BistroEditRecipe
     (fn [recipe] 
@@ -40,8 +40,8 @@
 
   (defcommand :BistroReloadPlugins "lua require('bistro'):loadPlugins()")
 
-  (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()"))
+  (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()")
 
-  ; (defcommand :BistroReloadAndReconfigure ":BistroReloadPlugins\\<CR>|:BistroReconfigure\\<CR>"))
+  (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()"))
 
 {: configure : plugins }

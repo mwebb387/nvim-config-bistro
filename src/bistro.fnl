@@ -24,18 +24,18 @@
 (fn editRecipe [self name]
    (if (= self.sourceDir "")
       (print "Please set the Bistro source directory")
-      (let [recipeFile (.. self.sourceDir "/modules/" name ".fnl")
+      (let [recipeFile (.. self.sourceDir "/recipes/" name ".fnl")
             cmd (.. "edit " recipeFile)]
          (vim.cmd cmd)))
    self)
 
 (fn loadRecipes [self recipes]
-   (each [module-name module-args (pairs recipes)]
-      (table.insert self.modules module-name)
-      (let [module (require (.. "modules/" module-name))]
-         (each [_ plugin (ipairs (module.plugins (unpack module-args)))]
+   (each [recipe-name recipe-args (pairs recipes)]
+      (table.insert self.recipes recipe-name)
+      (let [recipe (require (.. "recipes/" recipe-name))]
+         (each [_ plugin (ipairs (recipe.plugins (unpack recipe-args)))]
             (table.insert self.plugins plugin))
-         (table.insert self.configs (fn [] (module.configure (unpack module-args))))))
+         (table.insert self.configs (fn [] (recipe.configure (unpack recipe-args))))))
    self)
 
 (fn loadPlugins [self]
@@ -49,8 +49,8 @@
    ; Clear bistro cache
    (tset package.loaded :configure nil)
    (tset package.loaded :bistro nil)
-   (each [_ module (ipairs self.modules)]
-      (tset package.loaded (.. "modules/" module) nil))
+   (each [_ recipe (ipairs self.recipes)]
+      (tset package.loaded (.. "recipes/" recipe) nil))
    (print "Cache cleared. Please reload the Bistro")
    self)
    ; TODO: Reload all the things...
@@ -59,7 +59,7 @@
 
 (local bistro
    {:configs []
-    :modules []
+    :recipes []
     :plugins []
     :functions []
     :sourceDir (get-inputdir)

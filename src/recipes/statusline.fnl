@@ -160,7 +160,7 @@
 
 
 ;;
-;; Methods and module def for resetting the highlight based on current theme highlihts
+;; Methods and recipe def for resetting the highlight based on current theme highlihts
 ;;
 
 (fn reset-hi-for-section [sec color]

@@ -1,5 +1,7 @@
 (import-macros {: defmap} :macros)
 
+(local {: in} (require :util))
+
 (fn configure-ui []
   (let [dapui (require :dapui)]
     (dapui.setup)
@@ -36,7 +38,7 @@
 (fn configure [...]
   (set-keymaps)
   (configure-csharp) ; TODO: Make optional and move to csharp...
-  (match [...]
-    [:ui] (configure-ui)))
+  (let [args [...]]
+    (when (in args :ui) (configure-ui))))
 
 {: configure : plugins}

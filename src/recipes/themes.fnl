@@ -19,7 +19,7 @@
   (let [rand-theme-idx (math.random (- (length all-themes) 1))]
     (colorscheme (. all-themes rand-theme-idx))))
 
-; Module definition
+; Recipe definition
 ;(fn random-theme [] 
 ;  setRandomTheme()
 ;end

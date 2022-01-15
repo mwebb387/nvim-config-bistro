@@ -13,7 +13,7 @@
 
 (fn configure-lsp []
   (let [lspconfig (require :lspconfig)
-        on-attach (require :modules/lsp/attach)]
+        on-attach (require :recipes/lsp/attach)]
     (lspconfig.tsserver.setup {:on_attach on-attach})))
 
 (fn configure [...]
