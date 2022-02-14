@@ -14,9 +14,9 @@
     (treesitter)
     (lsp)
     (debugging :ui)
-    (complete :vcm)
+    (complete :coc)
 
     ; Langs
     ;(angular)
     (csharp :omnisharp)
-    (typescript :lsp)))
+    (typescript :coc)))
