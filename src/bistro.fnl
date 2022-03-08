@@ -46,6 +46,13 @@
          (table.insert self.configs (fn [] (recipe.configure (unpack recipe-args))))))
    self)
 
+(fn prepareRecipes [self recipes]
+  (each [recipe-name recipe-args (pairs recipes)]
+    (table.insert self.recipes recipe-name)
+    (let [recipe (require (.. "recipes/" recipe-name))]
+      (recipe.prepare self (unpack recipe-args))))
+  self)
+
 (fn loadPlugins [self]
    (vim.cmd "call plug#begin(stdpath('config').'/plugged/')")
    (each [_ plugin (ipairs self.plugins)]
@@ -71,11 +78,14 @@
     :plugins []
     :functions []
     :sourceDir (get-inputdir)
+    : addConfig
+    : addPlugins
     : build
     : configureRecipes
     : editRecipe
     : loadRecipes
     : loadPlugins
+    : prepareRecipes
     : refresh})
 
 ; Auto-load recipes

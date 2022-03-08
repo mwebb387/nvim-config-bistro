@@ -69,6 +69,7 @@
                                (icollect [i v (ipairs mod)]
                                          (when (> i 1) v))))]
      `(: ,bistro :loadRecipes ,mods)))
+     ; `(: ,bistro :prepareRecipes ,mods)))
 
  :defrecipe
  (fn [...]
@@ -89,25 +90,25 @@
 
      ;; Collect default definitions
      (each [_ default (ipairs defaults)]
-       (table.insert default-configs `(bistro#.addPlugins ,(. default 2)))
-       (table.insert default-configs `(bistro#.addConfig ,(. default 4))))
+       (table.insert default-configs `(: bistro# :addPlugins ,(. default 2)))
+       (table.insert default-configs `(: bistro# :addConfig (fn [] (,(. default 3) ,(unpack args))))))
 
      ;; Collect mode definitions
      (each [_ mode (ipairs modes)]
        (table.insert mode-configs `(util#.includes args# ,(tostring (. mode 2))))
        (table.insert mode-configs `(do
-                                     (bistro#.addPlugins ,(. mode 3))
-                                     (bistro#.addConfig ,(. mode 4)))))
+                                     (: bistro# :addPlugins ,(. mode 3))
+                                     (: bistro# :addConfig ,(. mode 4)))))
 
      ;; Collect option definitions
      (each [_ option (ipairs options)]
        (table.insert option-configs `(when (util#.includes args# ,(tostring (. option 2)))
-                                       (bistro#.addPlugins ,(. option 3))
-                                       (bistro#.addConfig ,(. option 4)))))
+                                       (: bistro# :addPlugins ,(. option 3))
+                                       (: bistro# :addConfig ,(. option 4)))))
 
      `(fn [bistro# ...]
        (let [args# [...]
-             util# (require util)]
+             util# (require :util)]
 
          ;; Add default plugins and config
          ,(unpack default-configs)

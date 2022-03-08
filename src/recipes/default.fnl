@@ -1,4 +1,5 @@
-(import-macros {: append!
+(import-macros {: defrecipe
+                : append!
                 : defcommand
                 : defmap
                 : set!
@@ -173,4 +174,66 @@
   (set-keymaps)
   (create-commands))
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default
+              [:w0rp/ale
+               ; :sheerun/vim-polyglot
+
+               ; Langs (TODO: Move individual lang recipes)
+               :bakpakin/fennel.vim
+
+               ; Functionality
+               ; :junegunn/fzf
+               ; :junegunn/fzf.vim
+               :vim-scripts/utl.vim
+               :jiangmiao/auto-pairs
+               :tpope/vim-surround
+               :tpope/vim-speeddating
+               :tpope/vim-commentary
+               :tpope/vim-unimpaired
+               ; :kassio/neoterm
+               :mattn/emmet-vim
+               :junegunn/vim-slash
+
+               ; LSP, Telescope and Treesitter
+               ; :ray-x/lsp_signature.nvim
+               ; :hrsh7th/nvim-compe
+               ; :hrsh7th/vim-vsnip
+               ; :rafamadriz/friendly-snippets
+
+               ;Aniseed and Conjure
+               ; :Olical/aniseed ;, { 'tag': 'v3.20.0' }
+               ; :Olical/conjure ;, { 'tag': 'v4.22.1' }
+
+               ; javascript
+               ; :pangloss/vim-javascript
+               ; :mxw/vim-jsx
+               ; :posva/vim-vue
+
+               ; svelte
+               ; :leafOfTree/vim-svelte-plugin ; TODO: Is this in polyglot?
+
+               ; auto-complete
+               ; :neoclide/coc.nvim ;', {'branch': 'release'}
+
+               ; look and feel
+               ; :glepnir/galaxyline.nvim ;, {'branch': 'main'}
+               ;:ryanoasis/vim-devicons
+               :stevearc/dressing.nvim
+               :kyazdani42/nvim-web-devicons
+
+               ; programs / extension
+               ; :tpope/vim-vinegar
+               ; :scrooloose/nerdtree
+
+               ; Snippets
+               ;:SirVer/ultisnips
+               ;:honza/vim-snippets
+
+               ; presentation
+               ;:junegunn/goyo.vim
+               ;:junegunn/limelight.vim
+               ]
+              configure))}
