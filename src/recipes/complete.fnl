@@ -1,11 +1,5 @@
 (import-macros {: defrecipe : defcommand : defmap : defun } :macros)
 
-(fn plugins [...]
-  (match [...]
-    [:coc] [:neoclide/coc.nvim] ;', {'branch': 'release'}
-    [:vcm] [:ackyshake/VimCompletesMe
-            :ncm2/float-preview.nvim]))
-
 (fn configure-coc []
   ; Method definitions
   (defun check_back_space []
@@ -91,17 +85,10 @@
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   (defmap [i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
-(fn configure [...]
-  (match [...]
-    [:vcm] (configure-vcm)
-    [:coc] (configure-coc)))
-
-{: configure
- : plugins
- :prepare (defrecipe
-            (mode vcm
-                  [:ackyshake/VimCompletesMe
-                       :ncm2/float-preview.nvim]
-                  (configure-vcm))
-            (mode coc [:neoclide/coc.nvim] (configure-coc)))}
+(defrecipe
+  (mode vcm
+        [:ackyshake/VimCompletesMe
+         :ncm2/float-preview.nvim]
+        configure-vcm)
+  (mode coc [:neoclide/coc.nvim] configure-coc))
 

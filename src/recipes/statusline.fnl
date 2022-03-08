@@ -205,10 +205,6 @@
   (augroup :Theme
     (autocmd :ColorScheme "*" ":StatuslineResetHighlights")))
 
-(fn plugins []
-  [:glepnir/galaxyline.nvim])
 
-{: configure
- : plugins
- :prepare (defrecipe
-            (default [:glepnir/galaxyline.nvim] configure))}
+(defrecipe
+  (default [:glepnir/galaxyline.nvim] configure))

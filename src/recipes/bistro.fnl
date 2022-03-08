@@ -1,7 +1,5 @@
 (import-macros {: defrecipe : defcommand : defun } :macros)
 
-(fn plugins [] [])
-
 (fn configure []
   (defcommand :BistroBuild
     (fn []
@@ -44,7 +42,5 @@
 
   (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()"))
 
-{: configure
- : plugins
- :prepare (defrecipe
-            (default [] configure))}
+(defrecipe
+  (default [] configure))

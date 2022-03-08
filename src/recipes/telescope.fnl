@@ -1,14 +1,5 @@
 (import-macros {: defrecipe : defmap } :macros)
 
-(fn plugins [...]
-  (let [args [...]
-        plugs [:nvim-lua/popup.nvim
-               :nvim-lua/plenary.nvim
-               :nvim-telescope/telescope.nvim]]
-    (match args
-      [:dap] (table.insert plugs :nvim-telescope/telescope-dap.nvim))
-    plugs))
-
 (fn configure-telescope-mappings []
   ; TODO: Silent...
   (defmap [n] :<leader>sf "<cmd>Telescope find_files<CR>")
@@ -54,13 +45,11 @@
 
 (fn no-op [])
 
-{: configure
- : plugins
- :prepare (defrecipe
-            (default
-              [:nvim-lua/popup.nvim
-               :nvim-lua/plenary.nvim
-               :nvim-telescope/telescope.nvim]
-              configure)
-            (option dap [:nvim-telescope/telescope-dap.nvim] no-op))}
+(defrecipe
+  (default
+    [:nvim-lua/popup.nvim
+     :nvim-lua/plenary.nvim
+     :nvim-telescope/telescope.nvim]
+    configure)
+  (option dap [:nvim-telescope/telescope-dap.nvim] no-op))
 

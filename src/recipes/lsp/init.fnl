@@ -1,7 +1,5 @@
 (import-macros {: defrecipe : defhighlight : defsign } :macros)
 
-(fn plugins [] [:neovim/nvim-lspconfig])
-
 (fn configure []
   ; LSP Error Highlight/sign
   (defhighlight :LspDiagnosticsDefaultError {:guifg :Red})
@@ -39,7 +37,6 @@
   (defsign :LspDiagnosticsSignHint {:text :ﴕ
                                     :texthl :LspDiagnosticsSignHint}))
 
-{: configure
- : plugins
- :prepare (defrecipe
-            (default [:neovim/nvim-lspconfig] configure))}
+(defrecipe
+  (default [:neovim/nvim-lspconfig] configure))
+

@@ -67,35 +67,8 @@
         lspconfig (require :lspconfig)]
     (lspconfig.csharp_ls.setup {:on_attach on-attach})))
 
-
-; (defrecipe
-;   ;; Modes; mutually exclusive
-;   (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
-;   (mode omnisharp-ls [] configure-lsp)
-;   (mode omnisharp [] configure-csharp-ls)
-
-;   ;; Options; pick and choose
-;   (option dap [:dap-plugin-something] configure-dap))
-
-
-(fn plugins [...]
-  (let [plugs [] args [...]]
-    (match args
-      [:omnisharp] (table.insert plugs :omnisharp/omnisharp-vim))
-    plugs))
-
-(fn configure [...]
-  ; (configure-cs)
-  (let [args [...]]
-    (match args
-      [:omnisharp] (configure-omnisharp)
-      [:omnisharp-ls] (configure-lsp)
-      [:csharp-ls] (configure-csharp-ls))))
-
-{: configure
- : plugins
- :prepare (defrecipe
-         ;; Modes; mutually exclusive
-         (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
-         (mode omnisharp-ls [] configure-lsp)
-         (mode csharp-ls [] configure-csharp-ls))}
+(defrecipe
+  ; (default [] configure-cs)
+  (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
+  (mode omnisharp-ls [] configure-lsp)
+  (mode csharp-ls [] configure-csharp-ls))

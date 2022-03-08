@@ -37,20 +37,11 @@
          (vim.cmd cmd)))
    self)
 
-(fn loadRecipes [self recipes]
-   (each [recipe-name recipe-args (pairs recipes)]
-      (table.insert self.recipes recipe-name)
-      (let [recipe (require (.. "recipes/" recipe-name))]
-         (each [_ plugin (ipairs (recipe.plugins (unpack recipe-args)))]
-            (table.insert self.plugins plugin))
-         (table.insert self.configs (fn [] (recipe.configure (unpack recipe-args))))))
-   self)
-
 (fn prepareRecipes [self recipes]
   (each [recipe-name recipe-args (pairs recipes)]
     (table.insert self.recipes recipe-name)
-    (let [recipe (require (.. "recipes/" recipe-name))]
-      (recipe.prepare self (unpack recipe-args))))
+    (let [load-recipe (require (.. "recipes/" recipe-name))]
+      (load-recipe self (unpack recipe-args))))
   self)
 
 (fn loadPlugins [self]
@@ -83,7 +74,6 @@
     : build
     : configureRecipes
     : editRecipe
-    : loadRecipes
     : loadPlugins
     : prepareRecipes
     : refresh})

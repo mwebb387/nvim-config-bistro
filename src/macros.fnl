@@ -68,7 +68,6 @@
                        (values (tostring (. mod 1))
                                (icollect [i v (ipairs mod)]
                                          (when (> i 1) v))))]
-     ; `(: ,bistro :loadRecipes ,mods)))
      `(: ,bistro :prepareRecipes ,mods)))
 
  :defrecipe

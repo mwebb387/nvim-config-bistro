@@ -5,13 +5,5 @@
         angular-lsp (require :lspconfig)]
     (angular-lsp.angularls.setup {})))
 
-(fn plugins []
-  [])
-
-(fn configure []
-  (configure-lsp))
-
-{: configure
- : plugins
- :prepare (defrecipe
-            (default [] configure-lsp))}
+(defrecipe
+  (default [] configure-lsp))

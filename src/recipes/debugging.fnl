@@ -1,7 +1,5 @@
 (import-macros {: defrecipe : defmap} :macros)
 
-(local {: in} (require :util))
-
 (fn configure-ui []
   (let [dapui (require :dapui)]
     (dapui.setup)
@@ -28,23 +26,9 @@
   (defmap [n i] :<F11> ":lua require'dap'.step_into()<CR>")
   (defmap [n i] :<F12> ":lua require'dap'.step_out()<CR>"))
 
-(fn plugins [...]
-  (let [args [...]
-        plugs [:mfussenegger/nvim-dap]]
-    (match args
-      [:ui] (table.insert plugs :rcarriga/nvim-dap-ui))
-    plugs))
 
-(fn configure [...]
-  (set-keymaps)
-  (configure-csharp) ; TODO: Make optional and move to csharp...
-  (let [args [...]]
-    (when (in args :ui) (configure-ui))))
-
-{: configure
- : plugins
- :prepare (defrecipe
-            (default [:mfussenegger/nvim-dap] (fn []
-                                                (set-keymaps)
-                                                (configure-csharp)))
-            (option ui [:rcarriga/nvim-dap-ui] configure-ui))}
+(defrecipe
+  (default [:mfussenegger/nvim-dap] (fn []
+                                      (set-keymaps)
+                                      (configure-csharp)))
+  (option ui [:rcarriga/nvim-dap-ui] configure-ui))

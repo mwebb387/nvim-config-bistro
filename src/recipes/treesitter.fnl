@@ -1,8 +1,5 @@
 (import-macros {: defrecipe} :macros)
 
-(fn plugins []
-  [:nvim-treesitter/nvim-treesitter])
-
     ; TODO: Make text objects optional...
    ; :nvim-treesitter/nvim-treesitter-textobjects])
 
@@ -46,7 +43,7 @@
                ;                      :goto_previous_end {"[M" "@function.outer"
                ;                                          "[]" "@class.outer"}}}})))
 
-{: configure
- : plugins
- :prepare (defrecipe
-            (default [:nvim-treesitter/nvim-treesitter] configure))}
+
+(defrecipe
+  (default [:nvim-treesitter/nvim-treesitter] configure))
+

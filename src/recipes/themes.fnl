@@ -12,7 +12,7 @@
 
 ; Local methods
 (fn colorscheme [theme]
-  (print (tostring theme))
+  ;(print (tostring theme))
   (vim.cmd (.. "colorscheme " theme)))
 
 (fn set-random-theme [] 
@@ -24,34 +24,7 @@
 ;  setRandomTheme()
 ;end
 
-(fn plugins []
-  [:tomasiser/vim-code-dark
-   :theniceboy/nvim-deus
-   :whatyouhide/vim-gotham
-   :ntk148v/vim-horizon
-   :nightsense/cosmic_latte
-   :Nequo/vim-allomancer
-   :folke/tokyonight.nvim
-   :marko-cerovac/material.nvim
-   :nanotech/jellybeans.vim
-   :AlessandroYorba/Arcadia
-   :crater2150/vim-theme-chroma
-   :EdenEast/nightfox.nvim
-   :wojciechkepka/bogster])
-
-(fn configure [theme]
-  ; Set style for material theme
-  (set vim.g.material_style "deep ocean")
-  (set! :termguicolors true)
-  (if (not theme)
-    (set-random-theme)
-    (colorscheme theme)))
-
-{: plugins
- : configure
- :prepare (defrecipe
-            (default
-              [:tomasiser/vim-code-dark
+(local themes [:tomasiser/vim-code-dark
                :theniceboy/nvim-deus
                :whatyouhide/vim-gotham
                :ntk148v/vim-horizon
@@ -63,5 +36,16 @@
                :AlessandroYorba/Arcadia
                :crater2150/vim-theme-chroma
                :EdenEast/nightfox.nvim
-               :wojciechkepka/bogster]
-              configure))}
+               :wojciechkepka/bogster])
+
+(fn configure [theme]
+  ; Set style for material theme
+  (set vim.g.material_style "deep ocean")
+  (set! :termguicolors true)
+  (if (not theme)
+    (set-random-theme)
+    (colorscheme theme)))
+
+
+(defrecipe
+  (default themes configure))
