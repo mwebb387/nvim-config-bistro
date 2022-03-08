@@ -68,8 +68,8 @@
                        (values (tostring (. mod 1))
                                (icollect [i v (ipairs mod)]
                                          (when (> i 1) v))))]
-     `(: ,bistro :loadRecipes ,mods)))
-     ; `(: ,bistro :prepareRecipes ,mods)))
+     ; `(: ,bistro :loadRecipes ,mods)))
+     `(: ,bistro :prepareRecipes ,mods)))
 
  :defrecipe
  (fn [...]
@@ -90,8 +90,9 @@
 
      ;; Collect default definitions
      (each [_ default (ipairs defaults)]
-       (table.insert default-configs `(: bistro# :addPlugins ,(. default 2)))
-       (table.insert default-configs `(: bistro# :addConfig (fn [] (,(. default 3) ,(unpack args))))))
+       (table.insert default-configs `(do
+                                        (: bistro# :addPlugins ,(. default 2))
+                                        (: bistro# :addConfig (fn [] (,(. default 3) (unpack args#)))))))
 
      ;; Collect mode definitions
      (each [_ mode (ipairs modes)]
