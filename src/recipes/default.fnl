@@ -20,7 +20,7 @@
    :tpope/vim-speeddating
    :tpope/vim-commentary
    :tpope/vim-unimpaired
-   :kassio/neoterm
+   ; :kassio/neoterm
    :mattn/emmet-vim
    :junegunn/vim-slash
 
@@ -132,11 +132,15 @@
   (defmap [t] :<a-q> :<c-\><c-n><c-w>q)
   (defmap [t] :<a-n> :<c-\><c-n>)
   
-  ;General Insert mode
+  ; General Insert mode
   (defmap [i] :<C-j> :<c-o>j)
   (defmap [i] :<C-k> :<c-o>k)
   (defmap [i] :<C-l> :<c-o>l)
   (defmap [i] :<C-h> :<c-o>h))
+  
+  ; Other fancy things
+  ;(defmap [n] :<C-`> "20new +call\\ termopen('powershell')")
+  ;(defmap [t] :<C-`> :<c-\><c-n><c-w><c-q>))
 
 (fn create-commands []
   (defcommand :BrowseLua

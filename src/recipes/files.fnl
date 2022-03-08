@@ -1,4 +1,5 @@
-(import-macros {: defmap
+(import-macros {: defrecipe
+                : defmap
                 : let-g}
                :macros)
 
@@ -12,4 +13,7 @@
   (defmap [n] :<F1> ":NvimTreeToggle<CR>")
   (defmap [n] :- ":NvimTreeFindFile<CR>"))
 
-{: configure : plugins }
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default [:kyazdani42/nvim-tree.lua] configure))}

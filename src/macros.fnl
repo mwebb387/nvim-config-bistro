@@ -70,6 +70,54 @@
                                          (when (> i 1) v))))]
      `(: ,bistro :loadRecipes ,mods)))
 
+ :defrecipe
+ (fn [...]
+   (let [args [...]
+         {: concat} (require :util)
+         modes []
+         options []
+         defaults []
+         default-configs []
+         mode-configs []
+         option-configs []]
+
+     ;; Collect each method sent to the macro
+     (each [_ obj (ipairs args)]
+       (if (= (tostring (. obj 1)) :mode) (table.insert modes obj)
+         (= (tostring (. obj 1)) :option) (table.insert options obj)
+         (table.insert defaults obj)))
+
+     ;; Collect default definitions
+     (each [_ default (ipairs defaults)]
+       (table.insert default-configs `(bistro#.addPlugins ,(. default 2)))
+       (table.insert default-configs `(bistro#.addConfig ,(. default 4))))
+
+     ;; Collect mode definitions
+     (each [_ mode (ipairs modes)]
+       (table.insert mode-configs `(util#.includes args# ,(tostring (. mode 2))))
+       (table.insert mode-configs `(do
+                                     (bistro#.addPlugins ,(. mode 3))
+                                     (bistro#.addConfig ,(. mode 4)))))
+
+     ;; Collect option definitions
+     (each [_ option (ipairs options)]
+       (table.insert option-configs `(when (util#.includes args# ,(tostring (. option 2)))
+                                       (bistro#.addPlugins ,(. option 3))
+                                       (bistro#.addConfig ,(. option 4)))))
+
+     `(fn [bistro# ...]
+       (let [args# [...]
+             util# (require util)]
+
+         ;; Add default plugins and config
+         ,(unpack default-configs)
+
+         ;; Add Modes
+         (if ,(unpack mode-configs))
+
+         ;; Add Options
+         ,(unpack option-configs)))))
+
  :defcommand
  (fn [name command options]
    (let [options- (or options {})

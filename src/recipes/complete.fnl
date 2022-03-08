@@ -1,4 +1,4 @@
-(import-macros {: defcommand : defmap : defun } :macros)
+(import-macros {: defrecipe : defcommand : defmap : defun } :macros)
 
 (fn plugins [...]
   (match [...]
@@ -93,8 +93,15 @@
 
 (fn configure [...]
   (match [...]
-    [:vmc] (configure-vcm)
+    [:vcm] (configure-vcm)
     [:coc] (configure-coc)))
 
-{: configure : plugins }
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (mode vcm
+                  [:ackyshake/VimCompletesMe
+                       :ncm2/float-preview.nvim]
+                  (configure-vcm))
+            (mode coc [:neoclide/coc.nvim] (configure-coc)))}
 

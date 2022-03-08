@@ -1,4 +1,5 @@
-(import-macros {: augroup
+(import-macros {: defrecipe
+                : augroup
                 : autocmd
                 : defmap}
                :macros)
@@ -22,4 +23,8 @@
       [:coc] (configure-coc)
       [:lsp] (configure-lsp))))
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (mode coc [] configure-coc)
+            (mode lsp [] configure-lsp))}

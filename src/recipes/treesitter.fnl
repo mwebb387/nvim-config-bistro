@@ -1,6 +1,10 @@
+(import-macros {: defrecipe} :macros)
+
 (fn plugins []
-  [:nvim-treesitter/nvim-treesitter
-   :nvim-treesitter/nvim-treesitter-textobjects])
+  [:nvim-treesitter/nvim-treesitter])
+
+    ; TODO: Make text objects optional...
+   ; :nvim-treesitter/nvim-treesitter-textobjects])
 
 ; ensure_installed = one of "all", "maintained" (parsers with maintainers), or a list of languages
 
@@ -22,23 +26,27 @@
                                                  :node_incremental :grn
                                                  :scope_incremental :grc
                                                  :node_decremental :grm}}
-               :indent {:enable true}
-               :textobjects {:select {:enable true
-                                      :lookahead true ; Automatically jump forward to textobj, similar to targets.vim
-                                      ; You can use the capture groups defined in textobjects.scm
-                                      :keymaps {:af "@function.outer"
-                                                :if "@function.inner"
-                                                :ac "@class.outer"
-                                                :ic "@class.inner"}}
-                             :move {:enable true
-                                    :set_jumps true
-                                    :goto_next_start {"]m" "@function.outer"
-                                                      "]]" "@class.outer"}
-                                    :goto_next_end {"]M" "@function.outer"
-                                                    "][" "@class.outer"}
-                                    :goto_previous_start {"[m" "@function.outer"
-                                                          "[[" "@class.outer"}
-                                    :goto_previous_end {"[M" "@function.outer"
-                                                        "[]" "@class.outer"}}}})))
+               :indent {:enable true}})))
 
-{: configure : plugins }
+               ; :textobjects {:select {:enable true
+               ;                        :lookahead true ; Automatically jump forward to textobj, similar to targets.vim
+               ;                        ; You can use the capture groups defined in textobjects.scm
+               ;                        :keymaps {:af "@function.outer"
+               ;                                  :if "@function.inner"
+               ;                                  :ac "@class.outer"
+               ;                                  :ic "@class.inner"}}
+               ;               :move {:enable true
+               ;                      :set_jumps true
+               ;                      :goto_next_start {"]m" "@function.outer"
+               ;                                        "]]" "@class.outer"}
+               ;                      :goto_next_end {"]M" "@function.outer"
+               ;                                      "][" "@class.outer"}
+               ;                      :goto_previous_start {"[m" "@function.outer"
+               ;                                            "[[" "@class.outer"}
+               ;                      :goto_previous_end {"[M" "@function.outer"
+               ;                                          "[]" "@class.outer"}}}})))
+
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default [:nvim-treesitter/nvim-treesitter] configure))}

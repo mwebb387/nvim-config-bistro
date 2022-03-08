@@ -1,3 +1,5 @@
+(import-macros {: defrecipe} :macros)
+
 (fn configure-lsp []
   (let [on-attach (require :recipes/lsp/attach)
         angular-lsp (require :lspconfig)]
@@ -9,4 +11,7 @@
 (fn configure []
   (configure-lsp))
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default [] configure-lsp))}

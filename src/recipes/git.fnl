@@ -1,4 +1,4 @@
-(import-macros {: defmap } :macros)
+(import-macros {: defrecipe : defmap } :macros)
 
 (fn plugins []
  [:tpope/vim-fugitive
@@ -11,4 +11,13 @@
   (defmap [n] :<leader>gg ":Git<CR>" {:noremap true :silent true})
   (defmap [n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default
+              [:tpope/vim-fugitive
+               :tommcdo/vim-fubitive
+               ; :airblade/vim-gitgutter
+               :junegunn/gv.vim]
+              configure))}
+

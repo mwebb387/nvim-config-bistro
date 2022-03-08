@@ -1,4 +1,4 @@
-(import-macros {: defhighlight : defsign } :macros)
+(import-macros {: defrecipe : defhighlight : defsign } :macros)
 
 (fn plugins [] [:neovim/nvim-lspconfig])
 
@@ -39,4 +39,7 @@
   (defsign :LspDiagnosticsSignHint {:text :ﴕ
                                     :texthl :LspDiagnosticsSignHint}))
 
-{: configure : plugins }
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default [:neovim/nvim-lspconfig] configure))}

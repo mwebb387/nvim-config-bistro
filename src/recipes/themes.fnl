@@ -1,4 +1,4 @@
-(import-macros {: set!} :macros)
+(import-macros {: defrecipe : set!} :macros)
 
 ; Seed random generator
 (math.randomseed (os.time))
@@ -47,4 +47,21 @@
     (set-random-theme)
     (colorscheme theme)))
 
-{: plugins : configure}
+{: plugins
+ : configure
+ :prepare (defrecipe
+            (default
+              [:tomasiser/vim-code-dark
+               :theniceboy/nvim-deus
+               :whatyouhide/vim-gotham
+               :ntk148v/vim-horizon
+               :nightsense/cosmic_latte
+               :Nequo/vim-allomancer
+               :folke/tokyonight.nvim
+               :marko-cerovac/material.nvim
+               :nanotech/jellybeans.vim
+               :AlessandroYorba/Arcadia
+               :crater2150/vim-theme-chroma
+               :EdenEast/nightfox.nvim
+               :wojciechkepka/bogster]
+              configure))}

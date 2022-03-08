@@ -1,4 +1,4 @@
-(import-macros {: defmap} :macros)
+(import-macros {: defrecipe : defmap} :macros)
 
 (local {: in} (require :util))
 
@@ -41,4 +41,10 @@
   (let [args [...]]
     (when (in args :ui) (configure-ui))))
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default [:mfussenegger/nvim-dap] (fn []
+                                                (set-keymaps)
+                                                (configure-csharp)))
+            (option ui [:rcarriga/nvim-dap-ui] configure-ui))}

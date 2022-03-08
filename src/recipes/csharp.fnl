@@ -1,4 +1,5 @@
-(import-macros {: augroup
+(import-macros {: defrecipe
+                : augroup
                 : autocmd
                 : append!
                 : set!
@@ -66,6 +67,17 @@
         lspconfig (require :lspconfig)]
     (lspconfig.csharp_ls.setup {:on_attach on-attach})))
 
+
+; (defrecipe
+;   ;; Modes; mutually exclusive
+;   (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
+;   (mode omnisharp-ls [] configure-lsp)
+;   (mode omnisharp [] configure-csharp-ls)
+
+;   ;; Options; pick and choose
+;   (option dap [:dap-plugin-something] configure-dap))
+
+
 (fn plugins [...]
   (let [plugs [] args [...]]
     (match args
@@ -80,4 +92,10 @@
       [:omnisharp-ls] (configure-lsp)
       [:csharp-ls] (configure-csharp-ls))))
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+         ;; Modes; mutually exclusive
+         (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
+         (mode omnisharp-ls [] configure-lsp)
+         (mode csharp-ls [] configure-csharp-ls))}

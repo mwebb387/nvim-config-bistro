@@ -1,4 +1,4 @@
-(import-macros {: augroup : autocmd : defcommand} :macros)
+(import-macros {: defrecipe : augroup : autocmd : defcommand} :macros)
 
 (fn get-mode-color [mode colors]
   (match mode
@@ -208,4 +208,7 @@
 (fn plugins []
   [:glepnir/galaxyline.nvim])
 
-{: configure : plugins}
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default [:glepnir/galaxyline.nvim] configure))}

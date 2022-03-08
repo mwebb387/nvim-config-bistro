@@ -1,4 +1,4 @@
-(import-macros {: defmap } :macros)
+(import-macros {: defrecipe : defmap } :macros)
 
 (fn plugins [...]
   (let [args [...]
@@ -52,4 +52,15 @@
   (configure-telescope)
   (configure-telescope-mappings))
 
-{: configure : plugins}
+(fn no-op [])
+
+{: configure
+ : plugins
+ :prepare (defrecipe
+            (default
+              [:nvim-lua/popup.nvim
+               :nvim-lua/plenary.nvim
+               :nvim-telescope/telescope.nvim]
+              configure)
+            (option dap [:nvim-telescope/telescope-dap.nvim] no-op))}
+
