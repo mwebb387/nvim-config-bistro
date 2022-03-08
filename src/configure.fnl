@@ -19,4 +19,5 @@
     ; Langs
     ;(angular)
     (csharp :omnisharp)
+    (fennel)
     (typescript :coc)))

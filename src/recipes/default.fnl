@@ -8,9 +8,6 @@
 (local plugins [:w0rp/ale
                 ; :sheerun/vim-polyglot
 
-                ; Langs (TODO: Move individual lang recipes)
-                :bakpakin/fennel.vim
-
                 ; Functionality
                 ; :junegunn/fzf
                 ; :junegunn/fzf.vim
@@ -161,9 +158,11 @@
     (fn []
       (vim.cmd :enew)
       (vim.fn.termopen :powershell)))
+
   (defcommand :PrettierCheck
     (fn []
       (vim.cmd "!npx prettier --check %")))
+
   (defcommand :PrettierWrite
     (fn []
       (vim.cmd "!npx prettier --check --write %"))))
