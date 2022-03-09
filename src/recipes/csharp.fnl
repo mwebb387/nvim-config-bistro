@@ -67,7 +67,7 @@
         lspconfig (require :lspconfig)]
     (lspconfig.csharp_ls.setup {:on_attach on-attach})))
 
-(defrecipe
+(defrecipe csharp
   ; (default [] configure-cs)
   (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
   (mode omnisharp-ls [] configure-lsp)

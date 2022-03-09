@@ -1,5 +1,5 @@
 (import-macros {: defrecipe} :macros)
 
-(defrecipe
+(defrecipe fennel
   (default [:bakpakin/fennel.vim] (fn [])))
 

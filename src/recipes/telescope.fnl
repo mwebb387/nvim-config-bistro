@@ -45,7 +45,7 @@
 
 (fn no-op [])
 
-(defrecipe
+(defrecipe telescope
   (default
     [:nvim-lua/popup.nvim
      :nvim-lua/plenary.nvim

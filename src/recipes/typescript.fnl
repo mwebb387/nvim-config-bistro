@@ -15,7 +15,7 @@
     (lspconfig.tsserver.setup {:on_attach on-attach})))
 
 
-(defrecipe
+(defrecipe typescript
   (mode coc [] configure-coc)
   (mode lsp [] configure-lsp))
 

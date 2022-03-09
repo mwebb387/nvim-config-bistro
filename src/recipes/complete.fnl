@@ -85,7 +85,7 @@
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   (defmap [i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
-(defrecipe
+(defrecipe complete
   (mode vcm
         [:ackyshake/VimCompletesMe
          :ncm2/float-preview.nvim]

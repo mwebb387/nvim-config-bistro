@@ -11,5 +11,5 @@
   (defmap [n] :- ":NvimTreeFindFile<CR>"))
 
 
-(defrecipe
+(defrecipe files
   (default [:kyazdani42/nvim-tree.lua] configure))

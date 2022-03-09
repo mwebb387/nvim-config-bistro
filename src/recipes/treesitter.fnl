@@ -44,6 +44,6 @@
                ;                                          "[]" "@class.outer"}}}})))
 
 
-(defrecipe
+(defrecipe treesitter
   (default [:nvim-treesitter/nvim-treesitter] configure))
 

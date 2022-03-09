@@ -173,5 +173,5 @@
   (create-commands))
 
 
-(defrecipe
+(defrecipe default
   (default plugins configure))

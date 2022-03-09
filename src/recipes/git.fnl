@@ -5,7 +5,7 @@
   (defmap [n] :<leader>gg ":Git<CR>" {:noremap true :silent true})
   (defmap [n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
 
-(defrecipe
+(defrecipe git
   (default
     [:tpope/vim-fugitive
      :tommcdo/vim-fubitive

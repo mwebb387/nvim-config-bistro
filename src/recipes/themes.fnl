@@ -24,7 +24,7 @@
 ;  setRandomTheme()
 ;end
 
-(local themes [:tomasiser/vim-code-dark
+(local theme-plugins [:tomasiser/vim-code-dark
                :theniceboy/nvim-deus
                :whatyouhide/vim-gotham
                :ntk148v/vim-horizon
@@ -47,5 +47,5 @@
     (colorscheme theme)))
 
 
-(defrecipe
-  (default themes configure))
+(defrecipe themes
+  (default theme-plugins configure))

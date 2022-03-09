@@ -37,6 +37,6 @@
   (defsign :LspDiagnosticsSignHint {:text :ﴕ
                                     :texthl :LspDiagnosticsSignHint}))
 
-(defrecipe
+(defrecipe lsp
   (default [:neovim/nvim-lspconfig] configure))
 

@@ -5,5 +5,5 @@
         angular-lsp (require :lspconfig)]
     (angular-lsp.angularls.setup {})))
 
-(defrecipe
+(defrecipe angular
   (default [] configure-lsp))

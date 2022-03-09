@@ -42,5 +42,5 @@
 
   (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()"))
 
-(defrecipe
+(defrecipe bistro
   (default [] configure))

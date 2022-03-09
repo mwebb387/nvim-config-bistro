@@ -206,5 +206,5 @@
     (autocmd :ColorScheme "*" ":StatuslineResetHighlights")))
 
 
-(defrecipe
+(defrecipe statusline
   (default [:glepnir/galaxyline.nvim] configure))

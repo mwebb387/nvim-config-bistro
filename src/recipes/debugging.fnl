@@ -27,7 +27,7 @@
   (defmap [n i] :<F12> ":lua require'dap'.step_out()<CR>"))
 
 
-(defrecipe
+(defrecipe debugging
   (default [:mfussenegger/nvim-dap] (fn []
                                       (set-keymaps)
                                       (configure-csharp)))

@@ -71,7 +71,7 @@
      `(: ,bistro :prepareRecipes ,mods)))
 
  :defrecipe
- (fn [...]
+ (fn [recipe-name ...]
    (let [args [...]
          {: concat} (require :util)
          modes []
@@ -106,7 +106,7 @@
                                        (: bistro# :addPlugins ,(. option 3))
                                        (: bistro# :addConfig ,(. option 4)))))
 
-     `(fn [bistro# ...]
+     `(fn ,recipe-name [bistro# ...]
        (let [args# [...]
              util# (require :util)]
 
