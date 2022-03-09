@@ -83,28 +83,32 @@
 
      ;; Collect each method sent to the macro
      (each [_ obj (ipairs args)]
-       (if (= (tostring (. obj 1)) :mode) (table.insert modes obj)
-         (= (tostring (. obj 1)) :option) (table.insert options obj)
-         (table.insert defaults obj)))
+       (match obj
+         (where [keyword & rest] (= (tostring keyword) :mode)) (table.insert modes rest)
+         (where [keyword & rest] (= (tostring keyword) :option)) (table.insert options rest)
+         [keyword & rest] (table.insert defaults rest)))
 
      ;; Collect default definitions
      (each [_ default (ipairs defaults)]
-       (table.insert default-configs `(do
-                                        (: bistro# :addPlugins ,(. default 2))
-                                        (: bistro# :addConfig (fn [] (,(. default 3) (unpack args#)))))))
+       (let [[plugins config] default]
+         (table.insert default-configs `(do
+                                          (: bistro# :addPlugins ,plugins)
+                                          (: bistro# :addConfig (fn [] (,config (unpack args#))))))))
 
      ;; Collect mode definitions
      (each [_ mode (ipairs modes)]
-       (table.insert mode-configs `(util#.includes args# ,(tostring (. mode 2))))
-       (table.insert mode-configs `(do
-                                     (: bistro# :addPlugins ,(. mode 3))
-                                     (: bistro# :addConfig ,(. mode 4)))))
+       (let [[mode-name plugins config] mode]
+         (table.insert mode-configs `(util#.includes args# ,(tostring mode-name)))
+         (table.insert mode-configs `(do
+                                       (: bistro# :addPlugins ,plugins)
+                                       (: bistro# :addConfig ,config)))))
 
      ;; Collect option definitions
      (each [_ option (ipairs options)]
-       (table.insert option-configs `(when (util#.includes args# ,(tostring (. option 2)))
-                                       (: bistro# :addPlugins ,(. option 3))
-                                       (: bistro# :addConfig ,(. option 4)))))
+       (let [[option-name plugins config] option]
+         (table.insert option-configs `(when (util#.includes args# ,(tostring option-name))
+                                         (: bistro# :addPlugins ,plugins)
+                                         (: bistro# :addConfig ,config)))))
 
      `(fn ,recipe-name [bistro# ...]
        (let [args# [...]
