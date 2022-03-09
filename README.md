@@ -57,12 +57,12 @@ Each recipe is defined in its own file within the `src/recipes/` folder. They al
 - `src/recipes/lsp.fnl`
 - `src/recipes/lsp/init.fnl`
 
-Recipes are defined using the `defrecipe` macro. This macro takes a set of method calls beginning with either `default`, `mode`, or `option`.
+Recipes are defined using the `defrecipe` macro. This macro takes a name and a set of method calls beginning with either `default`, `mode`, or `option`.
 
 `default` configuration plugins and methods are always loaded/called:
 
 ```fennel
-(defrecipe
+(defrecipe recipe-name
   (default plugin-list config-method)) ; Plugins always loaded and config method always called
 ```
 
@@ -78,7 +78,7 @@ The `mode` method allows defining a set of mutually exclusive plugins and config
 
 ; src/recipes/csharp.fnl
 
-(defrecipe
+(defrecipe csharp
   (mode :lsp lsp-plugin-list lsp-config-method) ; Loads only if :lsp option is present/first in the recipe args
   (mode :coc coc-plugin-list coc-config-method)) ; Loads only if :coc option is present/first in the recipe args
 ```
@@ -95,7 +95,7 @@ The `option` method allows defining a set of plugins and configuration methods w
 
 ; src/recipes/csharp.fnl
 
-(defrecipe
+(defrecipe csharp
   (option :debug dap-plugin-list dap-config-method) ; Loads whenever :debugging option is present
   (option :folding fold-plugin-list fold-config-method)) ; Loads whenever :folding option is present
 ```
@@ -106,12 +106,30 @@ The `option` method allows defining a set of plugins and configuration methods w
 
 Defines an autocmd group with the given name
 
-Usage:
-
 ```fennel
 (augroup :group-name
   ; ... autocmd calls
   )
+```
+
+**autocmd**
+
+Defines an autocmd for Neovom. Currently requires 3 strings be passed to the command for `event`, `pattern` and `command` respectively
+
+```fennel
+(autocmd :CursorHold :<buffer> "lua vim.lsp.buf.document_highlight()")
+```
+
+**configure-bistro**
+
+Macro used in the main configuration to setup recipe loading for the Bistro. Accepts a list of methods and will pass the Bistro object/table into each one in order
+
+```fennel
+(configure-bistro
+  (with-recipes
+    (themes :nightfox))
+  (bistro-post-process)
+  (log-bistro))
 ```
 
 **defcommand**
@@ -130,7 +148,7 @@ Defines a command with either a string or a method
 
 **defhighlight**
 
-Definies a highlight, passing in the desired options as a table
+Defines a highlight, passing in the desired options as a table
 
 ```fennel
 (defhighlight :LspDiagnosticsUnderlineInformation {:cterm :underline
@@ -140,9 +158,41 @@ Definies a highlight, passing in the desired options as a table
 
 ```
 
+**defmap**
+
+Defines a key mapping (with `noremap` by default) in Neovim.
+
+**defrecipe**
+
+```fennel
+; Single mode input
+(defmap [i] :jk :<esc>)
+
+; Multiple modes
+(defmap [n i] :<a-q> :<c-w>q)
+
+; With explicit options
+(defmap [n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
+```
+
+Defines a recipe for the Bistro
+
+```fennel
+(defrecipe csharp
+  ; Defaults loaded always
+  (default [] configure-cs)
+
+  ; Modes, mutually-exclusive
+  (mode omnisharp [:omnisharp-plugin] configure-omnisharp)
+  (mode omnisharp-ls [:lspconfig-plugin] configure-lsp)
+  
+  ; Options, based on presence of parameters
+  (option :debug [:dap-plugin] configure-debugging))
+```
+
 **defsign**
 
-Definies a highlight, passing in the desired options as a table
+Defines a highlight, passing in the desired options as a table
 
 ```fennel
 (defsign :LspDiagnosticsSignInformation {:text :i
@@ -162,6 +212,18 @@ Defines a function in global scope usable in Neovim (NOTE: This macro name will 
 
 ; In Neovim:
 v:lua.check_back_space()
+```
+
+**with-recipes**
+
+Recieves methods passed in where each method name is the name of a recipe in `src/recipes/` and the arguments are parameters passed to each recipe within its setup. NOTE: Should be used within the `configure-bistro` macro
+
+```fennel
+(with-recipes
+  (themes :nightfox) ; Loads 'src/recipes/themes.fnl' and passes in :nightfox as parameter to the recipe
+
+  ; Langs
+  (fennel)) ; Loads 'src/recipes/fennel.fnl' with no parameters
 ```
 
 (NOTE: Not all macro methods are documented yet, but all macros can be redily viewed in `src/macros.fnl`)
