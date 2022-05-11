@@ -85,10 +85,36 @@
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   (defmap [i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
+(fn configure-cmp []
+  (let [cmp (require :cmp)
+        sources (cmp.config.sources [{:name :nvim_lsp}
+                                     {:name :vsnip}
+                                     {:name :path}]
+                                    {:name :buffer})]
+    (cmp.setup {:snippet {:expand (fn [args]
+                                    ((:vsnip#anonymous vim.fn) args.body))}
+                :sources sources})))
+
 (defrecipe complete
   (mode vcm
         [:ackyshake/VimCompletesMe
          :ncm2/float-preview.nvim]
         configure-vcm)
-  (mode coc [:neoclide/coc.nvim] configure-coc))
+
+  (mode coc [:neoclide/coc.nvim] configure-coc)
+
+  (mode coq [[:ms-jpq/coq_nvim {:branch :coq}]
+             [:ms-jpq/coq.artifacts {:branch :artifacts}]]
+            (fn []))
+
+  (mode cmp [:hrsh7th/cmp-nvim-lsp
+             :hrsh7th/cmp-buffer
+             :hrsh7th/cmp-path
+             :hrsh7th/cmp-cmdline
+             :hrsh7th/cmp-omni
+             :hrsh7th/nvim-cmp
+
+             :hrsh7th/cmp-vsnip
+             :hrsh7th/vim-vsnip]
+        (configure-cmp)))
 

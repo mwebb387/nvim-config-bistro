@@ -45,11 +45,16 @@
   self)
 
 (fn loadPlugins [self]
-   (vim.cmd "call plug#begin(stdpath('config').'/plugged/')")
-   (each [_ plugin (ipairs self.plugins)]
-      (vim.cmd (.. "Plug \'" plugin "\'")))
-   (vim.cmd "call plug#end()")
-   self)
+  (let [plug-path (.. (vim.fn.stdpath :config) :/plugged/)]
+    (vim.fn.plug#begin plug-path)
+    (each [_ plugin (ipairs self.plugins)]
+      (match (type plugin)
+        :string (vim.fn.plug# plugin)
+        :table (let [[repo args] plugin]
+                 (vim.fn.plug# repo args))
+        ))
+    (vim.fn.plug#end))
+  self)
 
 (fn refresh [self reloadPlugins reconfigureRecipes]
    ; Clear bistro cache

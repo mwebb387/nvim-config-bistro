@@ -6,7 +6,7 @@
   (with-recipes
     (default)
     (bistro)
-    ; (statusline)
+    (statusline)
     (themes :nightfox)
     (files)
     (git)
@@ -14,7 +14,7 @@
     (treesitter)
     (lsp)
     (debugging :ui)
-    (complete :coc)
+    (complete :coq)
 
     ; Langs
     ;(angular)

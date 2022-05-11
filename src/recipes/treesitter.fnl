@@ -7,16 +7,17 @@
 
 (fn configure []
   (let [ts (require :nvim-treesitter.configs)]
-    (ts.setup {:ensure_installed [:javascript
+    (ts.setup {:ensure_installed [:c_sharp
+                                  :fennel
+                                  :javascript
                                   :typescript
                                   :svelte
                                   :css
                                   :scss
-                                  :vue
-                                  :c_sharp
+                                  ; :vue ; Errors
                                   :tsx
-                                  :python
-                                  :fennel]
+                                  ; :python ; Errors
+                                  ]
                :highlight {:enable true}
                :incremental_selection {:enable true
                                        :keymaps {:init_selection :gnn

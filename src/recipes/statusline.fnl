@@ -1,4 +1,4 @@
-(import-macros {: defrecipe : augroup : autocmd : defcommand} :macros)
+(import-macros {: defrecipe : augroup : autocmd : defcommand : set!} :macros)
 
 (fn get-mode-color [mode colors]
   (match mode
@@ -205,6 +205,13 @@
   (augroup :Theme
     (autocmd :ColorScheme "*" ":StatuslineResetHighlights")))
 
+(fn configure-feline []
+  (set! :termguicolors true)
+  (set! :laststatus 3)
+  (let [feline (require :feline)]
+    (feline.setup)))
+
 
 (defrecipe statusline
-  (default [:glepnir/galaxyline.nvim] configure))
+  ; (default [:glepnir/galaxyline.nvim] configure))
+  (default [:feline-nvim/feline.nvim] configure-feline))

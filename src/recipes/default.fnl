@@ -21,6 +21,8 @@
                 :mattn/emmet-vim
                 :junegunn/vim-slash
 
+                ; :github/copilot.vim
+
                 ; LSP, Telescope and Treesitter
                 ; :ray-x/lsp_signature.nvim
                 ; :hrsh7th/nvim-compe
@@ -62,9 +64,9 @@
                 ])
 
 (fn set-options []
-  (set! :backup false)
-  (set! :undofile false)
-  (set! :swapfile false)
+  ; (set! :backup false)
+  ; (set! :undofile false)
+  ; (set! :swapfile false)
   (set! :hidden true)
   (set! :number true)
   (set! :showcmd false)

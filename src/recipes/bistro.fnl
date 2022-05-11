@@ -1,6 +1,10 @@
-(import-macros {: defrecipe : defcommand : defun } :macros)
+(import-macros {: defrecipe
+                : defcommand
+                : defmap
+                : defun}
+               :macros)
 
-(fn configure []
+(fn configure-commands []
   (defcommand :BistroBuild
     (fn []
       (: (require :bistro) :build)))
@@ -40,7 +44,25 @@
 
   (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()")
 
-  (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()"))
+  (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()")
+  
+  (defun BistroRebuildReloadAndReconfigure []
+    (vim.cmd ":BistroBuild")
+    (vim.cmd ":BistroRefresh")
+    (vim.cmd ":BistroReloadAndReconfigure"))
+  
+  (defcommand BistroReconstruct "exe v:lua.BistroRebuildReloadAndReconfigure()"))
+
+(fn configure-maps []
+  (defmap [n] :<leader>BB :BistroReconstruct<CR>)
+  (defmap [n] :<leader>Bb :BistroBuild<CR>)
+  (defmap [n] :<leader>Br :BistroRefresh<CR>)
+  (defmap [n] :<leader>Bp :BistroReloadPlugin<CR>)
+  (defmap [n] :<leader>Bc :BistroReconfigure<CR>))
+
+(fn configure []
+  (configure-commands)
+  (configure-maps))
 
 (defrecipe bistro
   (default [] configure))
