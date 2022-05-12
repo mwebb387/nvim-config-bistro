@@ -10,6 +10,7 @@
     (themes :nightfox)
     (files)
     (git)
+    (fzf)
     (telescope :dap)
     (treesitter)
     (lsp)
@@ -18,6 +19,6 @@
 
     ; Langs
     ;(angular)
-    (csharp :omnisharp)
+    (csharp :omnisharp-ls)
     (fennel)
-    (typescript :coc)))
+    (typescript :lsp)))

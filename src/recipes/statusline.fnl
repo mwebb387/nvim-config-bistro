@@ -91,12 +91,12 @@
 
 (fn status-mid [colors condition]
   [
-   ; {:ShowLspClient {:provider "GetLspClient"
-   ;                  :condition midCondition
-   ;                  :icon "  "
-   ;                  :highlight [colors.cyan colors.bg "bold"]}}
+   {:ShowLspClient {:provider "GetLspClient"
+                    :condition midCondition
+                    :icon "  "
+                    :highlight [colors.cyan colors.bg "bold"]}}
 
-   {:GitBranch {:provider (. vim.fn :fugitive#head)
+   {:GitBranch {:provider vim.fn.FugitiveHead
                 :icon "  "
                 :separator " "
                 :separator_highlight ["NONE" colors.bg]
@@ -188,6 +188,7 @@
   (reset-hi-for-status-line gls (get-bg)))
 
 (fn configure []
+  (set! :laststatus 3)
   (let [gls (. (require :galaxyline) :section)
         colors (. (require :galaxyline.theme) :default)
         condition (require :galaxyline.condition)]
@@ -213,5 +214,5 @@
 
 
 (defrecipe statusline
-  ; (default [:glepnir/galaxyline.nvim] configure))
-  (default [:feline-nvim/feline.nvim] configure-feline))
+  (default [:glepnir/galaxyline.nvim] configure))
+  ; (default [:feline-nvim/feline.nvim] configure-feline))

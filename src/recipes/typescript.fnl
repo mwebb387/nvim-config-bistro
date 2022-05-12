@@ -11,8 +11,13 @@
 
 (fn configure-lsp []
   (let [lspconfig (require :lspconfig)
+        coq (require :coq)
         on-attach (require :recipes/lsp/attach)]
-    (lspconfig.tsserver.setup {:on_attach on-attach})))
+    ; (lspconfig.tsserver.setup {:on_attach on-attach})))
+    (->
+      {:on_attach on-attach}
+      (coq.lsp_ensure_capabilities) 
+      (lspconfig.tsserver.setup))))
 
 
 (defrecipe typescript

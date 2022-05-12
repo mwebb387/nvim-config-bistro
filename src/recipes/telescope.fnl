@@ -6,6 +6,7 @@
   (defmap [n] :<c-p> "<cmd>Telescope git_files<CR>")
   (defmap [n] :<leader>sb "<cmd>Telescope buffers<CR>")
   (defmap [n] :<leader>bs "<cmd>Telescope buffers<CR>")
+  (defmap [n] :<m-b> "<cmd>Telescope buffers<CR>")
   (defmap [n] :<leader>sg "<cmd>Telescope live_grep<CR>")
   (defmap [n] :<leader>sh "<cmd>Telescope help_tags<CR>")
   (defmap [n] :<leader>so "<cmd>Telescope oldfiles<CR>")

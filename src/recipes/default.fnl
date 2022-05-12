@@ -9,8 +9,6 @@
                 ; :sheerun/vim-polyglot
 
                 ; Functionality
-                ; :junegunn/fzf
-                ; :junegunn/fzf.vim
                 :vim-scripts/utl.vim
                 :jiangmiao/auto-pairs
                 :tpope/vim-surround
@@ -47,7 +45,7 @@
                 ; look and feel
                 ; :glepnir/galaxyline.nvim ;, {'branch': 'main'}
                 ;:ryanoasis/vim-devicons
-                :stevearc/dressing.nvim
+                ; :stevearc/dressing.nvim
                 :kyazdani42/nvim-web-devicons
 
                 ; programs / extension
@@ -78,6 +76,9 @@
   (set! :shiftwidth 2)
   (set! :autoindent true)
 
+  ; Mouse
+  (set! :mouse :a)
+
   ; Omnifunc
   ; (set! :omnifunc "syntaxcomplete#complete")
 
@@ -103,7 +104,7 @@
   ; always show signcolumns
   (set! :signcolumn "yes")
 
-  (set! :completeopt "longest,menuone")
+  (set! :completeopt "menuone,preview,noinsert,noselect")
   (set! :previewheight 5))
 
 (fn set-keymaps []

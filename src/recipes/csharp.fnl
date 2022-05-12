@@ -55,12 +55,13 @@
   (let [on-attach (require :recipes/lsp/attach)
         pid (vim.fn.getpid)
         home (vim.fn.expand "~")
-        cs-handlers (require :recipes/lsp/csharpHandler)
+        ; cs-handlers (require :recipes/lsp/csharpHandler)
+        cs-handlers (require :recipes/lsp/handlers)
         omnisharp-bin (.. home :\scoop\apps\omnisharp\current\OmniSharp.exe)
         omnisharp-lsp (require :lspconfig)]
     (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
-                                    :on_attach on-attach})))
-                                    ;:handlers cs-handlers.handlers})))
+                                    :on_attach on-attach
+                                    :handlers cs-handlers})))
 
 (fn configure-csharp-ls []
   (let [on-attach (require :recipes/lsp/attach)
