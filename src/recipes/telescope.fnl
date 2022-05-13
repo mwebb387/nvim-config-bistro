@@ -12,7 +12,6 @@
   (defmap [n] :<leader>so "<cmd>Telescope oldfiles<CR>")
   (defmap [n] :<leader>sr "<cmd>Telescope registers<CR>")
   (defmap [n] :<leader>sq "<cmd>Telescope quickfix<CR>")
-  (defmap [n] :<leader>sa "<cmd>Telescope lsp_code_actions<CR>")
   (defmap [n] :<leader>sd "<cmd>Telescope diagnostics bufnr=0<CR>")
   (defmap [n] :<leader>sD "<cmd>Telescope diagnostics<CR>")
   (defmap [n] :<leader>ss "<cmd>Telescope lsp_document_symbols<CR>")
