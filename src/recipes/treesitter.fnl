@@ -46,5 +46,5 @@
 
 
 (defrecipe treesitter
-  (default [:nvim-treesitter/nvim-treesitter] configure))
+  (default [{1 :nvim-treesitter/nvim-treesitter :config configure}] (fn [])))
 

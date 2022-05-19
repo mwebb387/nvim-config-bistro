@@ -216,5 +216,5 @@
 
 
 (defrecipe statusline
-  (default [:glepnir/galaxyline.nvim] configure))
+  (default [{1 :glepnir/galaxyline.nvim :config configure}] (fn [])))
   ; (default [:feline-nvim/feline.nvim] configure-feline))

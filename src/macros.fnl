@@ -79,7 +79,8 @@
          defaults []
          default-configs []
          mode-configs []
-         option-configs []]
+         option-configs []
+         no-op (fn [])]
 
      ;; Collect each method sent to the macro
      (each [_ obj (ipairs args)]

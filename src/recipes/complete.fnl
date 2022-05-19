@@ -100,15 +100,15 @@
 
 (defrecipe complete
   (mode vcm
-        [:ackyshake/VimCompletesMe
+        [[:ackyshake/VimCompletesMe {:config configure-vcm}]
          :ncm2/float-preview.nvim]
-        configure-vcm)
+        (fn []))
 
-  (mode coc [:neoclide/coc.nvim] configure-coc)
+  (mode coc [{1 :neoclide/coc.nvim :config configure-coc}])
 
-  (mode coq [[:ms-jpq/coq_nvim {:branch :coq}]
-             [:ms-jpq/coq.artifacts {:branch :artifacts}]]
-            (configure-coq))
+  (mode coq [{1 :ms-jpq/coq_nvim :branch :coq}
+             {1 :ms-jpq/coq.artifacts :branch :artifacts}]
+            configure-coq)
 
   (mode cmp [:hrsh7th/cmp-nvim-lsp
              :hrsh7th/cmp-buffer
@@ -119,5 +119,5 @@
 
              :hrsh7th/cmp-vsnip
              :hrsh7th/vim-vsnip]
-        (configure-cmp)))
+        configure-cmp))
 

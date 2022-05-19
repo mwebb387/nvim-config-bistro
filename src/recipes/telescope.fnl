@@ -47,9 +47,12 @@
 
 (defrecipe telescope
   (default
-    [:nvim-lua/popup.nvim
-     :nvim-lua/plenary.nvim
-     :nvim-telescope/telescope.nvim]
-    configure)
-  (option dap [:nvim-telescope/telescope-dap.nvim] no-op))
+    [
+     {1 :nvim-telescope/telescope.nvim
+      :config configure
+      :requires [:nvim-lua/popup.nvim
+                 :nvim-lua/plenary.nvim]
+      }]
+    (fn []))
+  (option dap [:nvim-telescope/telescope-dap.nvim]))
 

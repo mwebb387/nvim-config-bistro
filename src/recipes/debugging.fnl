@@ -28,7 +28,8 @@
 
 
 (defrecipe debugging
-  (default [:mfussenegger/nvim-dap] (fn []
-                                      (set-keymaps)
-                                      (configure-csharp)))
-  (option ui [:rcarriga/nvim-dap-ui] configure-ui))
+  (default [{1 :mfussenegger/nvim-dap :config (fn []
+                                               (set-keymaps)
+                                               (configure-csharp))}]
+    (fn []))
+  (option ui [{1 :rcarriga/nvim-dap-ui :config configure-ui}] (fn [])))

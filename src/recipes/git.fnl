@@ -14,11 +14,10 @@
 
 
 (defrecipe git
-  (default
-    [:tpope/vim-fugitive
-     :tommcdo/vim-fubitive
-     :junegunn/gv.vim
-     :kdheepak/lazygit.nvim]
-    (fn []))
-  (option :signs [:lewis6991/gitsigns.nvim] configure-signs))
+  (default [:tpope/vim-fugitive
+            :tommcdo/vim-fubitive
+            :junegunn/gv.vim
+            :kdheepak/lazygit.nvim]
+    configure)
+  (option :signs [{1 :lewis6991/gitsigns.nvim :config configure-signs}]))
 

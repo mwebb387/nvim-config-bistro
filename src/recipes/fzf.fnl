@@ -12,4 +12,4 @@
   (default [:junegunn/fzf
             :junegunn/fzf.vim]
     configure)
-  (option :lsp [:gfanto/fzf-lsp.nvim] configure-lsp))
+  (option :lsp [{1 :gfanto/fzf-lsp.nvim :config configure-lsp}]))

@@ -3,18 +3,21 @@
 (local {: concat} (require :util))
 
 ;; Helper methods
-; (fn bootstrap []
-;   (let [install-path (.. (vim.fn.stdpath :data) :/site/pack/packer/start/packer.nvim)
-;         needs-install (-> install-path
-;                           (vim.fn.glob)
-;                           (vim.fn.empty))]
-;     (when (> needs-install 0)
-;       (vim.fn.system {:git
-;                       :clone
-;                       :--depth
-;                       :1
-;                       "https://github.com/wbthomason/packer.nvim"
-;                       install-path}))))
+(fn bootstrap []
+  (print "Bootstrapping Packer...")
+  (let [install-path (.. (vim.fn.stdpath :data) :/site/pack/packer/start/packer.nvim)
+        needs-install (-> install-path
+                          (vim.fn.glob)
+                          (vim.fn.empty))]
+    (when (> needs-install 0)
+      (vim.fn.system [:git
+                      :clone
+                      :--depth
+                      :1
+                      "https://github.com/wbthomason/packer.nvim"
+                      install-path])))
+  ; (vim.cmd "packadd packer.nvim")
+  (print "Bootstrapped!"))
 
 (fn pconfigure [config]
   "Protected call for a recipe's configure method"
@@ -26,7 +29,8 @@
   (concat self.plugins plugins))
 
 (fn addConfig [self config]
-  (table.insert self.configs config))
+  (when config
+    (table.insert self.configs config)))
 
 (fn build [self]
    (if (= self.sourceDir "")
@@ -57,32 +61,13 @@
       (load-recipe self (unpack recipe-args))))
   self)
 
-; (fn loadPlugins [self]
-;   (let [packer (require :packer)]
-;     (packer.setup (fn [use]
-;       (each [_ plugin (ipairs self.plugins)]
-;         (match (type plugin)
-;           :string (use plugin)
-;           :table (let [[repo options] plugin]
-;                    (use repo options))))))))
-
 (fn loadPlugins [self]
-  (let [plug-path (.. (vim.fn.stdpath :config) :/plugged/)]
-    (vim.fn.plug#begin plug-path)
-    (each [_ plugin (ipairs self.plugins)]
-      (match (type plugin)
-        :string (vim.fn.plug# plugin)
-        :table (let [[repo options] plugin]
-                 (vim.fn.plug# repo options))))
-    (vim.fn.plug#end))
-
-  (when (and self.syncPlugins
-             (> (-> vim.g.plugs
-                    vim.fn.values
-                    (vim.fn.filter "!isdirectory(v:val.dir)")
-                    vim.fn.len)
-                0))
-    (vim.cmd "PlugInstall --sync | q"))
+  (let [packer (require :packer)]
+    (packer.startup (fn [use]
+                      (use :wbthomason/packer.nvim)
+                      (each [_ plugin (ipairs self.plugins)]
+                        (-> plugin (vim.inspect) (print))
+                        (use plugin)))))
   self)
 
 (fn refresh [self reloadPlugins reconfigureRecipes]
@@ -111,6 +96,9 @@
     : prepareRecipes
     : refresh
     : setup})
+
+; Bootstrap Packer and install if needed
+(bootstrap)
 
 ; Auto-load recipes
 ((require :configure) bistro)
