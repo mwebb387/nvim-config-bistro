@@ -1,4 +1,4 @@
-(import-macros {: defrecipe : defcommand : defmap : defun } :macros)
+(import-macros {: defrecipe : defcommand : defmap : defun : let-g } :macros)
 
 (fn configure-coc []
   ; Method definitions
@@ -85,14 +85,17 @@
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   (defmap [i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
+(fn configure-coq []
+  (let-g :coq_settings {:auto_start :shut-up}))
+
 (fn configure-cmp []
   (let [cmp (require :cmp)
         sources (cmp.config.sources [{:name :nvim_lsp}
                                      {:name :vsnip}
                                      {:name :path}]
-                                    {:name :buffer})]
+                                    [{:name :buffer}])]
     (cmp.setup {:snippet {:expand (fn [args]
-                                    ((:vsnip#anonymous vim.fn) args.body))}
+                                    (vim.fn.vsnip#anonymous args.body))}
                 :sources sources})))
 
 (defrecipe complete
@@ -105,7 +108,7 @@
 
   (mode coq [[:ms-jpq/coq_nvim {:branch :coq}]
              [:ms-jpq/coq.artifacts {:branch :artifacts}]]
-            (fn []))
+            (configure-coq))
 
   (mode cmp [:hrsh7th/cmp-nvim-lsp
              :hrsh7th/cmp-buffer

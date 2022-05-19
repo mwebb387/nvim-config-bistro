@@ -1,13 +1,16 @@
 (import-macros {: defrecipe
                 : defcommand
                 : defmap
-                : defun}
+                : defun
+                : augroup
+                : autocmd}
                :macros)
 
 (fn configure-commands []
-  (defcommand :BistroBuild
-    (fn []
-      (: (require :bistro) :build)))
+
+  ; Test autocmd
+  (augroup PlugTest
+    (autocmd "BufUnload" :vim-plug ":lua print'Leaving Vim-Plug Buffer!'"))
 
   (defcommand :BistroEdit
     (fn []
@@ -31,6 +34,24 @@
     (let [bistro (require :bistro)]
         bistro.recipes))
 
+  (defun ListOperations [A L P]
+    [:build
+     :refresh
+     :plugins
+     :configure])
+  
+  (defcommand Bistro
+    (fn [cmd]
+      (print cmd)
+      (let [bistro (require :bistro)]
+        (match cmd
+          :build (: bistro :build)
+          :refresh (: bistro :refresh)
+          :plugins (: bistro :loadPlugins)
+          :configure (: bistro :configureRecipes))))
+    {:complete "customlist,v:lua.ListOperations"
+     :nargs 1})
+
   (defcommand BistroEditRecipe
     (fn [recipe] 
       (let [bistro (require :bistro)]
@@ -38,17 +59,11 @@
     {:complete "customlist,v:lua.ListRecipes"
      :nargs 1})
 
-  (defcommand :BistroRefresh "lua require('bistro'):refresh()")
-
-  (defcommand :BistroReloadPlugins "lua require('bistro'):loadPlugins()")
-
-  (defcommand :BistroReconfigure "lua require('bistro'):configureRecipes()")
-
   (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()")
   
   (defun BistroRebuildReloadAndReconfigure []
     (vim.cmd ":BistroBuild")
-    (vim.cmd ":BistroRefresh")
+    (vim.cmd ":Bistro refresh")
     (vim.cmd ":BistroReloadAndReconfigure"))
   
   (defcommand BistroReconstruct "exe v:lua.BistroRebuildReloadAndReconfigure()"))

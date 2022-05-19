@@ -24,19 +24,21 @@
 ;  setRandomTheme()
 ;end
 
-(local theme-plugins [:tomasiser/vim-code-dark
-               :theniceboy/nvim-deus
-               :whatyouhide/vim-gotham
-               :ntk148v/vim-horizon
-               :nightsense/cosmic_latte
-               :Nequo/vim-allomancer
-               :folke/tokyonight.nvim
-               :marko-cerovac/material.nvim
-               :nanotech/jellybeans.vim
-               :AlessandroYorba/Arcadia
-               :crater2150/vim-theme-chroma
-               :EdenEast/nightfox.nvim
-               :wojciechkepka/bogster])
+(local theme-plugins
+  [:tomasiser/vim-code-dark
+   :theniceboy/nvim-deus
+   :whatyouhide/vim-gotham
+   :ntk148v/vim-horizon
+   :nightsense/cosmic_latte
+   :Nequo/vim-allomancer
+   :folke/tokyonight.nvim
+   :marko-cerovac/material.nvim
+   :nanotech/jellybeans.vim
+   :AlessandroYorba/Arcadia
+   :crater2150/vim-theme-chroma
+   :EdenEast/nightfox.nvim
+   :wojciechkepka/bogster
+   :bluz71/vim-nightfly-guicolors])
 
 (fn configure [theme]
   ; Set style for material theme

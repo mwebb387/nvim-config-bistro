@@ -50,7 +50,6 @@
 
                 ; programs / extension
                 ; :tpope/vim-vinegar
-                ; :scrooloose/nerdtree
 
                 ; Snippets
                 ;:SirVer/ultisnips

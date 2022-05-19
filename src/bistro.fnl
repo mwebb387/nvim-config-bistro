@@ -3,6 +3,19 @@
 (local {: concat} (require :util))
 
 ;; Helper methods
+; (fn bootstrap []
+;   (let [install-path (.. (vim.fn.stdpath :data) :/site/pack/packer/start/packer.nvim)
+;         needs-install (-> install-path
+;                           (vim.fn.glob)
+;                           (vim.fn.empty))]
+;     (when (> needs-install 0)
+;       (vim.fn.system {:git
+;                       :clone
+;                       :--depth
+;                       :1
+;                       "https://github.com/wbthomason/packer.nvim"
+;                       install-path}))))
+
 (fn pconfigure [config]
   "Protected call for a recipe's configure method"
   (let [(res err) (pcall config)]
@@ -44,16 +57,32 @@
       (load-recipe self (unpack recipe-args))))
   self)
 
+; (fn loadPlugins [self]
+;   (let [packer (require :packer)]
+;     (packer.setup (fn [use]
+;       (each [_ plugin (ipairs self.plugins)]
+;         (match (type plugin)
+;           :string (use plugin)
+;           :table (let [[repo options] plugin]
+;                    (use repo options))))))))
+
 (fn loadPlugins [self]
   (let [plug-path (.. (vim.fn.stdpath :config) :/plugged/)]
     (vim.fn.plug#begin plug-path)
     (each [_ plugin (ipairs self.plugins)]
       (match (type plugin)
         :string (vim.fn.plug# plugin)
-        :table (let [[repo args] plugin]
-                 (vim.fn.plug# repo args))
-        ))
+        :table (let [[repo options] plugin]
+                 (vim.fn.plug# repo options))))
     (vim.fn.plug#end))
+
+  (when (and self.syncPlugins
+             (> (-> vim.g.plugs
+                    vim.fn.values
+                    (vim.fn.filter "!isdirectory(v:val.dir)")
+                    vim.fn.len)
+                0))
+    (vim.cmd "PlugInstall --sync | q"))
   self)
 
 (fn refresh [self reloadPlugins reconfigureRecipes]
@@ -64,9 +93,6 @@
       (tset package.loaded (.. "recipes/" recipe) nil))
    (print "Cache cleared. Please reload the Bistro")
    self)
-   ; TODO: Reload all the things...
-   ; (if reloadPlugins (self.loadPlugins))
-   ; (if reconfigureRecipes (self.configureRecipes)))
 
 (local bistro
    {:configs []
@@ -74,6 +100,8 @@
     :plugins []
     :functions []
     :sourceDir (get-inputdir)
+    :autoInstallPluginManager true
+    :syncPlugins true
     : addConfig
     : addPlugins
     : build
@@ -81,7 +109,8 @@
     : editRecipe
     : loadPlugins
     : prepareRecipes
-    : refresh})
+    : refresh
+    : setup})
 
 ; Auto-load recipes
 ((require :configure) bistro)
