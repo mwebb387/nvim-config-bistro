@@ -16,6 +16,13 @@
 ;                       "https://github.com/wbthomason/packer.nvim"
 ;                       install-path}))))
 
+(fn anyMissingPlugins []
+  (> (-> vim.g.plugs
+        (vim.fn.values)
+        (vim.fn.filter "!isdirectory(v:val.dir)")
+        (vim.fn.len))
+     0))
+
 (fn pconfigure [config]
   "Protected call for a recipe's configure method"
   (let [(res err) (pcall config)]
@@ -29,26 +36,30 @@
   (table.insert self.configs config))
 
 (fn build [self]
-   (if (= self.sourceDir "")
-      (print "Please set the Bistro source directory")
-      (let [buildScript (.. self.sourceDir "../build.fnl")
-            buildDir (.. (vim.fn.stdpath :config) "/" :lua "/")
-            cmd (.. "!" :fennel " " buildScript " " self.sourceDir " " buildDir)]
-         (vim.cmd cmd)))
-   self)
+  (if (= self.sourceDir "")
+    (print "Please set the Bistro source directory")
+    (let [buildScript (.. self.sourceDir "../build.fnl")
+          buildDir (.. (vim.fn.stdpath :config) "/" :lua "/")
+          cmd (.. "!" :fennel " " buildScript " " self.sourceDir " " buildDir)]
+      (vim.cmd cmd)))
+  self)
 
 (fn configureRecipes [self]
-   (each [_ config (ipairs self.configs)]
-      (pconfigure config))
-   self)
+  (if (anyMissingPlugins)
+    (do
+      (print "Not all plugins are installed.")
+      (print "Run :PlugInstall first, then re-run :lua require'bistro':configureRecipes()"))
+    (each [_ config (ipairs self.configs)]
+      (pconfigure config)))
+  self)
 
 (fn editRecipe [self name]
-   (if (= self.sourceDir "")
-      (print "Please set the Bistro source directory")
-      (let [recipeFile (.. self.sourceDir "/recipes/" name ".fnl")
-            cmd (.. "edit " recipeFile)]
-         (vim.cmd cmd)))
-   self)
+  (if (= self.sourceDir "")
+    (print "Please set the Bistro source directory")
+    (let [recipeFile (.. self.sourceDir "/recipes/" name ".fnl")
+          cmd (.. "edit " recipeFile)]
+      (vim.cmd cmd)))
+  self)
 
 (fn prepareRecipes [self recipes]
   (each [recipe-name recipe-args (pairs recipes)]
@@ -75,42 +86,34 @@
         :table (let [[repo options] plugin]
                  (vim.fn.plug# repo options))))
     (vim.fn.plug#end))
-
-  (when (and self.syncPlugins
-             (> (-> vim.g.plugs
-                    vim.fn.values
-                    (vim.fn.filter "!isdirectory(v:val.dir)")
-                    vim.fn.len)
-                0))
-    (vim.cmd "PlugInstall --sync | q"))
   self)
 
 (fn refresh [self reloadPlugins reconfigureRecipes]
-   ; Clear bistro cache
-   (tset package.loaded :configure nil)
-   (tset package.loaded :bistro nil)
-   (each [_ recipe (ipairs self.recipes)]
-      (tset package.loaded (.. "recipes/" recipe) nil))
-   (print "Cache cleared. Please reload the Bistro")
-   self)
+  ; Clear bistro cache
+  (tset package.loaded :configure nil)
+  (tset package.loaded :bistro nil)
+  (each [_ recipe (ipairs self.recipes)]
+    (tset package.loaded (.. "recipes/" recipe) nil))
+  (print "Cache cleared. Please reload the Bistro")
+  self)
 
 (local bistro
-   {:configs []
-    :recipes []
-    :plugins []
-    :functions []
-    :sourceDir (get-inputdir)
-    :autoInstallPluginManager true
-    :syncPlugins true
-    : addConfig
-    : addPlugins
-    : build
-    : configureRecipes
-    : editRecipe
-    : loadPlugins
-    : prepareRecipes
-    : refresh
-    : setup})
+  {:configs []
+   :recipes []
+   :plugins []
+   :functions []
+   :sourceDir (get-inputdir)
+   :autoInstallPluginManager true
+   :syncPlugins true
+   : addConfig
+   : addPlugins
+   : build
+   : configureRecipes
+   : editRecipe
+   : loadPlugins
+   : prepareRecipes
+   : refresh
+   : setup})
 
 ; Auto-load recipes
 ((require :configure) bistro)

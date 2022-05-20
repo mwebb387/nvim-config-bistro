@@ -17,8 +17,8 @@
   (default
     [:tpope/vim-fugitive
      :tommcdo/vim-fubitive
-     :junegunn/gv.vim
-     :kdheepak/lazygit.nvim]
-    (fn []))
+     [:junegunn/gv.vim {:on :GV}]
+     [:kdheepak/lazygit.nvim {:on :LazyGit}]]
+    configure)
   (option :signs [:lewis6991/gitsigns.nvim] configure-signs))
 

@@ -5,16 +5,15 @@
                 : set!
                 : let-g} :macros)
 
-(local plugins [:w0rp/ale
-                ; :sheerun/vim-polyglot
+(local plugins [; :sheerun/vim-polyglot
 
                 ; Functionality
                 :vim-scripts/utl.vim
                 :jiangmiao/auto-pairs
                 :tpope/vim-surround
-                :tpope/vim-speeddating
+                ; :tpope/vim-speeddating
                 :tpope/vim-commentary
-                :tpope/vim-unimpaired
+                ; :tpope/vim-unimpaired
                 ; :kassio/neoterm
                 :mattn/emmet-vim
                 :junegunn/vim-slash

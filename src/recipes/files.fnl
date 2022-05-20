@@ -15,5 +15,5 @@
 
 (defrecipe files
   (default [:kyazdani42/nvim-tree.lua
-            :vifm/vifm.vim]
+            [:vifm/vifm.vim {:on :Vifm}]]
     configure))

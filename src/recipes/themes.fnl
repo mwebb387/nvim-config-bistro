@@ -34,7 +34,6 @@
    :folke/tokyonight.nvim
    :marko-cerovac/material.nvim
    :nanotech/jellybeans.vim
-   :AlessandroYorba/Arcadia
    :crater2150/vim-theme-chroma
    :EdenEast/nightfox.nvim
    :wojciechkepka/bogster

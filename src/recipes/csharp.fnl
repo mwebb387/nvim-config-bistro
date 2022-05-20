@@ -70,6 +70,8 @@
 
 (defrecipe csharp
   ; (default [] configure-cs)
-  (mode omnisharp [:omnisharp/omnisharp-vim] configure-omnisharp)
+  (mode omnisharp [:w0rp/ale
+                   :omnisharp/omnisharp-vim]
+        configure-omnisharp)
   (mode omnisharp-ls [] configure-lsp)
   (mode csharp-ls [] configure-csharp-ls))
