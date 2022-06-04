@@ -1,28 +1,5 @@
 (import-macros {: defrecipe : augroup : autocmd : defcommand : set!} :macros)
 
-; (fn get-mode-color [mode colors]
-;   (match mode
-;     :n colors.red
-;     :i colors.green
-;     :v colors.blue
-;     "" colors.blue
-;     :V colors.blue
-;     :c colors.magenta
-;     :no colors.red
-;     :s colors.orange
-;     :S colors.orange
-;     "" colors.orange
-;     :ic colors.yellow
-;     :R colors.violet
-;     :Rv colors.violet
-;     :cv colors.red
-;     :ce colors.red
-;     :r colors.cyan
-;     :rm colors.cyan
-;     :r? colors.cyan
-;     :! colors.red
-;     :t colors.red))
-
 ; (local leftCaps ["" "" "" "" ""])
 ; (local rightCaps ["" "" "" "" ""])
 
@@ -34,21 +11,10 @@
 
 (fn section-end-right [] "   ")
 
-; (fn mode-color-provider [colors]
-;   (fn []
-;     (let [mode (vim.fn.mode)]
-;       ; Auto change color according the vim mode
-;       ; TODO: Lazy highlight eval...
-;       (vim.cmd (.. "hi GalaxyViMode guifg=" (get-mode-color mode colors)))
-;       (.. "[" mode "]  "))))
-
 (fn status-left [colors condition]
-  (let [fi (require :galaxyline.provider_fileinfo)]
+  (let [fi (require :galaxyline.providers.fileinfo)]
     [{:SectionCapLeft {:provider section-end-left
-                       :highlight [colors.bg] }}
-
-     ; {:ViMode {:provider (mode-color-provider colors)
-     ;           :highlight [colors.red colors.bg "bold"]}}
+                       :highlight [colors.bg]}}
 
      {:FileIcon {:provider "FileIcon"
                  :condition condition.buffer_not_empty
@@ -90,13 +56,30 @@
 ;   )
 
 (fn status-mid [colors condition]
-  [
-   {:ShowLspClient {:provider "GetLspClient"
-                    :condition midCondition
-                    :icon "  "
-                    :highlight [colors.cyan colors.bg "bold"]}}
+  [{:FileEncode {:provider "FileEncode"
+                 :condition condition.hide_in_width
+                 :separator "  "
+                 :separator_highlight ["NONE" colors.bg]
+                 :highlight [colors.green colors.bg "bold"]}}
 
-   {:GitBranch {:provider vim.fn.FugitiveHead
+   {:FileFormat {:provider "FileFormat"
+                 :condition condition.hide_in_width
+                 :separator "  "
+                 :separator_highlight ["NONE" colors.bg]
+                 :highlight [colors.green colors.bg "bold"]}}
+
+   {:LineInfo {:provider "LineColumn"
+               :separator "  "
+               :separator_highlight ["NONE" colors.bg]
+               :highlight [colors.fg colors.bg]}}
+
+   {:PerCent {:provider "LinePercent"
+              :separator "  "
+              :separator_highlight ["NONE" colors.bg]
+              :highlight [colors.fg colors.bg "bold"]}}])
+
+(fn status-right [colors condition]
+  [{:GitBranch {:provider "GitBranch"
                 :icon "  "
                 :separator " "
                 :separator_highlight ["NONE" colors.bg]
@@ -118,30 +101,12 @@
    {:DiffRemove {:provider "DiffRemove"
                  :condition condition.hide_in_width
                  :icon "  "
-                 :highlight [colors.red colors.bg]}}])
+                 :highlight [colors.red colors.bg]}}
 
-(fn status-right [colors condition]
-  [{:FileEncode {:provider "FileEncode"
-                 :condition condition.hide_in_width
-                 :separator " "
-                 :separator_highlight ["NONE" colors.bg]
-                 :highlight [colors.green colors.bg "bold"]}}
-
-   {:FileFormat {:provider "FileFormat"
-                 :condition condition.hide_in_width
-                 :separator " "
-                 :separator_highlight ["NONE" colors.bg]
-                 :highlight [colors.green colors.bg "bold"]}}
-
-   {:LineInfo {:provider "LineColumn"
-               :separator "  "
-               :separator_highlight ["NONE" colors.bg]
-               :highlight [colors.fg colors.bg]}}
-
-   {:PerCent {:provider "LinePercent"
-              :separator "  "
-              :separator_highlight ["NONE" colors.bg]
-              :highlight [colors.fg colors.bg "bold"]}}
+   {:ShowLspClient {:provider "GetLspClient"
+                    :condition midCondition
+                    :icon "  "
+                    :highlight [colors.cyan colors.bg "bold"]}}
 
    {:SectionCapRight {:provider section-end-right
                       :highlight [colors.bg]}}])
@@ -190,9 +155,10 @@
   (reset-hi-for-status-line gls (get-bg)))
 
 (fn configure []
+  (set! :termguicolors true)
   (set! :laststatus 3)
   (let [gls (. (require :galaxyline) :section)
-        colors (. (require :galaxyline.theme) :default)
+        colors (. (require :galaxyline.themes.colors) :default)
         condition (require :galaxyline.condition)]
     (set colors.bg (get-bg))
     (set gls.left (status-left colors condition))
@@ -208,13 +174,5 @@
   (augroup :Theme
     (autocmd :ColorScheme "*" ":StatuslineResetHighlights")))
 
-(fn configure-feline []
-  (set! :termguicolors true)
-  (set! :laststatus 3)
-  (let [feline (require :feline)]
-    (feline.setup)))
-
-
 (defrecipe statusline
-  (default [:glepnir/galaxyline.nvim] configure))
-  ; (default [:feline-nvim/feline.nvim] configure-feline))
+  (default [:NTBBloodbath/galaxyline.nvim] configure))

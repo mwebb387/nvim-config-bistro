@@ -62,18 +62,18 @@
   (defcommand :BistroReloadAndReconfigure "lua require('bistro'):loadPlugins():configureRecipes()")
   
   (defun BistroRebuildReloadAndReconfigure []
-    (vim.cmd ":BistroBuild")
+    (vim.cmd ":Bistro build")
     (vim.cmd ":Bistro refresh")
     (vim.cmd ":BistroReloadAndReconfigure"))
   
   (defcommand BistroReconstruct "exe v:lua.BistroRebuildReloadAndReconfigure()"))
 
 (fn configure-maps []
-  (defmap [n] :<leader>BB :BistroReconstruct<CR>)
-  (defmap [n] :<leader>Bb :BistroBuild<CR>)
-  (defmap [n] :<leader>Br :BistroRefresh<CR>)
-  (defmap [n] :<leader>Bp :BistroReloadPlugin<CR>)
-  (defmap [n] :<leader>Bc :BistroReconfigure<CR>))
+  (defmap [:n] :<leader>BB :BistroReconstruct<CR>)
+  (defmap [:n] :<leader>Bb :BistroBuild<CR>)
+  (defmap [:n] :<leader>Br :BistroRefresh<CR>)
+  (defmap [:n] :<leader>Bp :BistroReloadPlugin<CR>)
+  (defmap [:n] :<leader>Bc :BistroReconfigure<CR>))
 
 (fn configure []
   (configure-commands)

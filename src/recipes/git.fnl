@@ -2,9 +2,9 @@
 
 (fn configure []
   ; Key maps
-  (defmap [n] :<leader>G ":GV --all<CR>" {:noremap true :silent true})
-  (defmap [n] :<leader>gg ":LazyGit<CR>" {:noremap true :silent true})
-  (defmap [n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
+  (defmap [:n] :<leader>G ":GV --all<CR>" {:noremap true :silent true})
+  (defmap [:n] :<leader>gg ":LazyGit<CR>" {:noremap true :silent true})
+  (defmap [:n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
 
 
 (fn configure-signs []

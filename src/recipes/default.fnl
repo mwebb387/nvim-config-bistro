@@ -17,6 +17,8 @@
                 ; :kassio/neoterm
                 :mattn/emmet-vim
                 :junegunn/vim-slash
+                :folke/which-key.nvim
+
 
                 ; :github/copilot.vim
 
@@ -107,38 +109,38 @@
 
 (fn set-keymaps []
   ; General
-  (defmap [n] :H :^)
-  (defmap [n] :L :$)
-  (defmap [i] :jk :<esc>)
-  (defmap [n] :<c-tab> ::b#<cr>)
-  (defmap [n] :g<tab> ::b#<cr>)
+  (defmap [:n] :H :^)
+  (defmap [:n] :L :$)
+  (defmap [:i] :jk :<esc>)
+  (defmap [:n] :<c-tab> ::b#<cr>)
+  (defmap [:n] :g<tab> ::b#<cr>)
   
   ; Window management
-  (defmap [n i] :<a-h> :<c-w>h)
-  (defmap [n i] :<a-j> :<c-w>j)
-  (defmap [n i] :<a-k> :<c-w>k)
-  (defmap [n i] :<a-l> :<c-w>l)
-  (defmap [n i] :<a-H> :<c-w>H)
-  (defmap [n i] :<a-J> :<c-w>J)
-  (defmap [n i] :<a-K> :<c-w>K)
-  (defmap [n i] :<a-L> :<c-w>L)
-  (defmap [n i] :<a-q> :<c-w>q)
-  (defmap [t] :<a-h> :<c-\><c-n><c-w>h)
-  (defmap [t] :<a-j> :<c-\><c-n><c-w>j)
-  (defmap [t] :<a-k> :<c-\><c-n><c-w>k)
-  (defmap [t] :<a-l> :<c-\><c-n><c-w>l)
-  (defmap [t] :<a-q> :<c-\><c-n><c-w>q)
-  (defmap [t] :<a-n> :<c-\><c-n>)
+  (defmap [:n :i] :<a-h> :<c-w>h)
+  (defmap [:n :i] :<a-j> :<c-w>j)
+  (defmap [:n :i] :<a-k> :<c-w>k)
+  (defmap [:n :i] :<a-l> :<c-w>l)
+  (defmap [:n :i] :<a-H> :<c-w>H)
+  (defmap [:n :i] :<a-J> :<c-w>J)
+  (defmap [:n :i] :<a-K> :<c-w>K)
+  (defmap [:n :i] :<a-L> :<c-w>L)
+  (defmap [:n :i] :<a-q> :<c-w>q)
+  (defmap [:t] :<a-h> :<c-\><c-n><c-w>h)
+  (defmap [:t] :<a-j> :<c-\><c-n><c-w>j)
+  (defmap [:t] :<a-k> :<c-\><c-n><c-w>k)
+  (defmap [:t] :<a-l> :<c-\><c-n><c-w>l)
+  (defmap [:t] :<a-q> :<c-\><c-n><c-w>q)
+  (defmap [:t] :<a-n> :<c-\><c-n>)
   
   ; General Insert mode
-  (defmap [i] :<C-j> :<c-o>j)
-  (defmap [i] :<C-k> :<c-o>k)
-  (defmap [i] :<C-l> :<c-o>l)
-  (defmap [i] :<C-h> :<c-o>h))
+  (defmap [:i] :<C-j> :<c-o>j)
+  (defmap [:i] :<C-k> :<c-o>k)
+  (defmap [:i] :<C-l> :<c-o>l)
+  (defmap [:i] :<C-h> :<c-o>h))
   
   ; Other fancy things
-  ;(defmap [n] :<C-`> "20new +call\\ termopen('powershell')")
-  ;(defmap [t] :<C-`> :<c-\><c-n><c-w><c-q>))
+  ;(defmap [:n] :<C-`> "20new +call\\ termopen('powershell')")
+  ;(defmap [:t] :<C-`> :<c-\><c-n><c-w><c-q>))
 
 (fn create-commands []
   (defcommand :BrowseLua
@@ -171,7 +173,9 @@
 (fn configure []
   (set-options)
   (set-keymaps)
-  (create-commands))
+  (create-commands)
+  (let [whichkey (require :which-key)]
+    (whichkey.setup)))
 
 
 (defrecipe default

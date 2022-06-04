@@ -1,6 +1,10 @@
 (import-macros {: defrecipe : defhighlight : defsign } :macros)
 
 (fn configure []
+  ; Setup Fidget
+  (let [fidget (require :fidget)]
+    (fidget.setup))
+
   ; LSP Error Highlight/sign
   (defhighlight :LspDiagnosticsDefaultError {:guifg :Red})
   (defhighlight :LspDiagnosticsUnderlineError {:cterm :underline
@@ -38,5 +42,6 @@
                                     :texthl :LspDiagnosticsSignHint}))
 
 (defrecipe lsp
-  (default [:neovim/nvim-lspconfig] configure))
+  (default [:neovim/nvim-lspconfig
+            :j-hui/fidget.nvim] configure))
 

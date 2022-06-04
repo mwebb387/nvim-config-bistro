@@ -125,19 +125,8 @@
 
  :defcommand
  (fn [name command options]
-   (let [options- (or options {})
-         cmd-opts (format-table options- (fn [k v] (.. "-" k "=" (tostring v))))]
-     (match (type command)
-       :string (do
-                 (let [cmd (.. "command! " cmd-opts " " (tostring name) " " command)]
-                   `(vim.cmd ,cmd)))
-       :table (do
-                (let [n (tostring name)
-                      ; TODO: Command args. What about '<args>'?
-                      cmd (.. "command! " cmd-opts " " n " lua require('bistro').functions." n "(<q-args>)")]
-                  `(do 
-                     (tset (require :bistro) :functions ,n ,command)
-                     (vim.cmd ,cmd)))))))
+   (let [opts- (or options {})]
+     `(vim.api.nvim_create_user_command ,(tostring name) ,command ,opts-)))
 
  :defhighlight
  (fn [group args]
@@ -148,16 +137,8 @@
 
  :defmap
  (fn [modes lhs rhs opts]
-   (let [opts- (or opts {:noremap true})
-         out []
-         rhs- (match (type rhs)
-                :string rhs
-                :table (let [fn-id (gensym)]
-                         `(tset (require :bistro) :functions ,fn-id ,rhs)
-                         (.. "lua require('bistro').functions." fn-id "()")))]
-     (each [_ mode (ipairs modes)]
-       (table.insert out `(vim.api.nvim_set_keymap ,(tostring mode) ,lhs ,rhs- ,opts-)))
-     `,(unpack out)))
+   (let [opts- (or opts {})]
+     `(vim.keymap.set ,modes ,lhs ,rhs ,opts-)))
 
  :defsign
  (fn [name args]

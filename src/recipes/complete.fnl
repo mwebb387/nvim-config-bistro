@@ -17,43 +17,43 @@
   (defcommand :Prettier ":CocCommand prettier.formatFile")
 
   ; Mappings
-  (defmap [i] :<TAB>
+  (defmap [:i] :<TAB>
               "pumvisible() ? \"\\<C-n>\" : v:lua.check_back_space() ? \"\\<TAB>\" : coc#refresh()"
               {:noremap true :expr true :silent true})
-  (defmap [i] :<C-SPACE> "coc#refresh()" {:noremap true :expr true :silent true})
-  (defmap [i] :<CR> "pumvisible() ? coc#_select_confirm() : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})
-  (defmap [n] :gd "<Plug>(coc-definition)" {:silent true})
-  (defmap [n] :gD "<Plug>(coc-type-definition)" {:silent true})
-  (defmap [n] :gi "<Plug>(coc-implementation)" {:silent true})
-  (defmap [n] :gr "<Plug>(coc-references)" {:silent true})
+  (defmap [:i] :<C-SPACE> "coc#refresh()" {:noremap true :expr true :silent true})
+  (defmap [:i] :<CR> "pumvisible() ? coc#_select_confirm() : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})
+  (defmap [:n] :gd "<Plug>(coc-definition)" {:silent true})
+  (defmap [:n] :gD "<Plug>(coc-type-definition)" {:silent true})
+  (defmap [:n] :gi "<Plug>(coc-implementation)" {:silent true})
+  (defmap [:n] :gr "<Plug>(coc-references)" {:silent true})
 
   ; Remap for rename current word
-  (defmap [n] :<leader>lcrn "<Plug>(coc-rename)")
-  (defmap [n] :<F2> "<Plug>(coc-rename)")
+  (defmap [:n] :<leader>lcrn "<Plug>(coc-rename)")
+  (defmap [:n] :<F2> "<Plug>(coc-rename)")
 
   ; Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-  (defmap [n x] :<leader>lca "<Plug>(coc-codeaction-selected)")
-  (defmap [n] :<leader>. ":CocAction<cr>" {:noremap true :silent true})
+  (defmap [:n :x] :<leader>lca "<Plug>(coc-codeaction-selected)")
+  (defmap [:n] :<leader>. ":CocAction<cr>" {:noremap true :silent true})
 
-  (defmap [n] :K ":call v:lua.show_documentation()<CR>" {:noremap true :silent true})
+  (defmap [:n] :K ":call v:lua.show_documentation()<CR>" {:noremap true :silent true})
 
   ; Using CocList
   ; Show all diagnostics
-  (defmap [n] :<leader>lcd ":<C-u>CocList diagnostics<cr>" {:noremap true :silent true})
+  (defmap [:n] :<leader>lcd ":<C-u>CocList diagnostics<cr>" {:noremap true :silent true})
   ; Manage extensions
-  (defmap [n] :<leader>lce ":<C-u>CocList extensions<cr>" {:noremap true :silent true})
+  (defmap [:n] :<leader>lce ":<C-u>CocList extensions<cr>" {:noremap true :silent true})
   ; Show commands
-  (defmap [n] :<leader>lcc ":<C-u>CocList commands<cr>" {:noremap true :silent true})
+  (defmap [:n] :<leader>lcc ":<C-u>CocList commands<cr>" {:noremap true :silent true})
   ; Find symbol of current document
-  (defmap [n] :<leader>lco ":<C-u>CocList outline<cr>" {:noremap true :silent true})
+  (defmap [:n] :<leader>lco ":<C-u>CocList outline<cr>" {:noremap true :silent true})
   ; Search workspace symbols
-  (defmap [n] :<leader>lcs ":<C-u>CocList -I symbols<cr>" {:noremap true :silent true})
+  (defmap [:n] :<leader>lcs ":<C-u>CocList -I symbols<cr>" {:noremap true :silent true})
   ; Do default action for next item.
-  (defmap [n] :<leader>j ":<C-u>CocNext<CR>" {:noremap true :silent true})
+  (defmap [:n] :<leader>j ":<C-u>CocNext<CR>" {:noremap true :silent true})
   ; Do default action for previous item.
-  (defmap [n] :<leader>k ":<C-u>CocPrev<CR>" {:noremap true :silent true})
+  (defmap [:n] :<leader>k ":<C-u>CocPrev<CR>" {:noremap true :silent true})
   ; Resume latest coc list
-  (defmap [n] :<leader>p ":<C-u>CocListResume<CR>" {:noremap true :silent true}))
+  (defmap [:n] :<leader>p ":<C-u>CocListResume<CR>" {:noremap true :silent true}))
 
   ; TODO: Remaining mappings and autocmds
 
@@ -83,7 +83,7 @@
 
 (fn configure-vcm []
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  (defmap [i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
+  (defmap [:i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
 (fn configure-coq []
   (let-g :coq_settings {:auto_start :shut-up}))
