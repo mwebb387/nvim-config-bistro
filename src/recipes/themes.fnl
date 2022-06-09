@@ -37,11 +37,14 @@
    :crater2150/vim-theme-chroma
    :EdenEast/nightfox.nvim
    :wojciechkepka/bogster
-   :bluz71/vim-nightfly-guicolors])
+   :bluz71/vim-nightfly-guicolors
+   :akai54/2077.nvim])
 
 (fn configure [theme]
   ; Set style for material theme
   (set vim.g.material_style "deep ocean")
+  (set vim.g.material_italic_comments true)
+  (set vim.g.material_borders true)
   (set! :termguicolors true)
   (if (not theme)
     (set-random-theme)

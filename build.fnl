@@ -28,6 +28,7 @@
    (icollect [i v (ipairs (list-files in-dir true))]
                          (when (and
                                   (not (string.find v :macros))
+                                  (not (string.find v :test))
                                   (or (empty? filter-files)
                                       (includes-part filter-files v))
                                   (string.find v ".fnl"))

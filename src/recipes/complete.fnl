@@ -85,8 +85,8 @@
   ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   (defmap [:i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
 
-(fn configure-coq []
-  (let-g :coq_settings {:auto_start :shut-up}))
+(fn configure-coq [])
+  ;(let-g :coq_settings {:auto_start :shut-up}))
 
 (fn configure-cmp []
   (let [cmp (require :cmp)

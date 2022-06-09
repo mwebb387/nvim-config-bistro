@@ -42,20 +42,21 @@
   
   (defcommand Bistro
     (fn [cmd]
-      (print cmd)
-      (let [bistro (require :bistro)]
-        (match cmd
-          :build (: bistro :build)
-          :refresh (: bistro :refresh)
-          :plugins (: bistro :loadPlugins)
-          :configure (: bistro :configureRecipes))))
+      (let [bistro (require :bistro)
+            {: args} cmd]
+            (match args
+              :build (bistro:build)
+              :refresh (bistro:refresh)
+              :plugins (bistro:loadPlugins)
+              :configure (bistro:configureRecipes))))
     {:complete "customlist,v:lua.ListOperations"
      :nargs 1})
 
   (defcommand BistroEditRecipe
-    (fn [recipe] 
-      (let [bistro (require :bistro)]
-        (bistro:editRecipe (tostring recipe))))
+    (fn [cmd] 
+      (let [bistro (require :bistro)
+            {: args} cmd]
+        (bistro:editRecipe args)))
     {:complete "customlist,v:lua.ListRecipes"
      :nargs 1})
 

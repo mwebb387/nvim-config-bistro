@@ -5,6 +5,8 @@
                 : set!
                 : let-g} :macros)
 
+(local {: filter : first : any} (require :util))
+
 (local plugins [; :sheerun/vim-polyglot
 
                 ; Functionality
@@ -104,7 +106,7 @@
   ; always show signcolumns
   (set! :signcolumn "yes")
 
-  (set! :completeopt "menuone,preview,noinsert,noselect")
+  (set! :completeopt "menuone")
   (set! :previewheight 5))
 
 (fn set-keymaps []
@@ -130,15 +132,20 @@
   (defmap [:t] :<a-k> :<c-\><c-n><c-w>k)
   (defmap [:t] :<a-l> :<c-\><c-n><c-w>l)
   (defmap [:t] :<a-q> :<c-\><c-n><c-w>q)
-  (defmap [:t] :<a-n> :<c-\><c-n>)
+  ; (defmap [:t] :<a-n> :<c-\><c-n>)
   
   ; General Insert mode
   (defmap [:i] :<C-j> :<c-o>j)
   (defmap [:i] :<C-k> :<c-o>k)
   (defmap [:i] :<C-l> :<c-o>l)
-  (defmap [:i] :<C-h> :<c-o>h))
-  
+  (defmap [:i] :<C-h> :<c-o>h)
+
+  ; 
+
   ; Other fancy things
+  (defmap [:n] "<M-`>" ":NextTerminal<CR>")
+  (defmap [:t] "<M-`>" :<c-\><c-n><c-w><c-q>))
+  
   ;(defmap [:n] :<C-`> "20new +call\\ termopen('powershell')")
   ;(defmap [:t] :<C-`> :<c-\><c-n><c-w><c-q>))
 
@@ -161,6 +168,19 @@
     (fn []
       (vim.cmd :enew)
       (vim.fn.termopen :powershell)))
+
+  (defcommand :NextTerminal
+    (fn []
+      (vim.cmd :20new)
+      (let [term-bufs (-> (vim.api.nvim_list_bufs)
+                          (filter (fn [v]
+                                    (string.find
+                                      (vim.api.nvim_buf_get_name v)
+                                      "term://"))))
+            terms (> (length term-bufs) 0)]
+        (if terms
+          (vim.api.nvim_win_set_buf 0 (. term-bufs 1))
+          (vim.fn.termopen :powershell)))))
 
   (defcommand :PrettierCheck
     (fn []

@@ -35,7 +35,8 @@
                                              :<c-h> actions.move_to_top
                                              :<c-j> actions.move_selection_next
                                              :<c-k> actions.move_selection_previous
-                                             :<c-l> actions.move_to_bottom}}
+                                             :<c-l> actions.move_to_bottom
+                                             :<c-z> actions.delete_buffer}}
                                 :prompt_prefix " "
                                 :selection_caret " "}})))
 
