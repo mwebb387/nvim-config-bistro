@@ -33,7 +33,7 @@
   (concat self.plugins plugins))
 
 (fn addConfig [self config]
-  (table.insert self.configs config))
+  (table.insert self.configFns config))
 
 (fn build [self]
   (if (= self.sourceDir "")
@@ -49,7 +49,7 @@
     (do
       (print "Not all plugins are installed.")
       (print "Run :PlugInstall first, then re-run :lua require'bistro':configureRecipes()"))
-    (each [_ config (ipairs self.configs)]
+    (each [_ config (ipairs self.configFns)]
       (pconfigure config)))
   self)
 
@@ -98,10 +98,11 @@
   self)
 
 (local bistro
-  {:configs []
-   :recipes []
-   :plugins []
-   :functions []
+  {:configFns [] ;; For old style config methods
+   :configs [] ;; For new style configs
+   :recipes [] ;; Recipe names
+   :plugins [] ;; Plugin paths and options
+   :functions [] ;; TODO: Remove now that nvim has lua for commands, maps, etc.
    :sourceDir (get-inputdir)
    :autoInstallPluginManager true
    :syncPlugins true
