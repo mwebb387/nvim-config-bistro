@@ -33,35 +33,49 @@
   (icollect [_ x (ipairs lst)]
             (mapfn x)))
 
-;; TODO: finish...
-; (fn map-option [opt-lst]
-;   (let [[opt val mod] opt-lst]
-;     (if )))
+(fn merge-table [tbl1 tbl2]
+  (each [k v (pairs tbl2)]
+    (tset tbl1 k v)))
 
+;; Recipe specific helpers
+(fn merge-recipes [recipe1 other-recipes]
+  (each [_ v (ipairs other-recipes)]
+    ; Merge globals
+    (merge-table recipe1.globals (or v.globals {}))
+    ; Merge options
+    (merge-table recipe1.options (or v.options {}))
+    ; Merge keymaps
+    (append recipe1.keymaps (or v.keymaps {}))
+    ; Merge commands
+    (merge-table recipe1.commands (or v.commands {}))
+    ; Merge plugins
+    (append recipe1.plugins (or v.plugins {})))
+  recipe1)
 
-;; Recipe table should be:
-; {:options []
-;  :keymaps []
-;  :commands []
-;  :plugins []}
+;; Default recipe config
+(fn default-config []
+  {:globals {} 
+   :options {}
+   :keymaps []
+   :commands {}
+   :plugins []})
 
 
 ;; Macro definitions
-
-(fn defrecipe [name recipe]
-  )
-
-; (fn defrecipe [name]
-;   (when (not _G.recipes)
-;     (tset _G :recipes {})
-;     (set _G.recipe-name name))
-;   (tset _G :recipes name []))
+(fn defrecipe [name]
+  (when (not _G.recipes)
+    (tset _G :recipes {})
+    (set _G.recipe-name name))
+  (tset _G :recipes name []))
 
 (fn in-recipe [name]
   (set _G.recipe-name name))
 
-
 ; TODO: Error checking for recipe-name...
+(fn defconfig [config]
+  (let [recipe (. _G :recipes _G.recipe-name)]
+    (table.insert recipe config)))
+
 (fn defn [name plugins ...]
   (let [body [...]
         typ (match body
@@ -96,16 +110,13 @@
 
 ; TODO: Error checking for recipe names
 (fn load-recipes [...]
-  (let [plugs []
-        loaders []]
+  (let [config (default-config)]
     (each [i mod (ipairs [...])]
       (let [[recipe-name & args] mod
-            name (tostring recipe-name)
-            load-method-name (.. :load_ name)
-            methods []]
+            name (tostring recipe-name)]
         (require (.. :recipes/ name))
         (local recipe (. _G :recipes name))
-
+    
         ; Gather recipe plugins and methods
         (let [default (filter-by-types recipe [:default])
               [mode] (-> recipe
@@ -116,29 +127,21 @@
                           (filter-by-names args))
               all (-> default
                       (concat [mode])
-                      (concat options))]
-          (each [i v (ipairs all)]
-            (append plugs v.plugins)
-            (append methods v.methods)))
-        (let [loader `(fn ,load-method-name [...]
-                        (do
-                          ,(unpack methods)))]
-          (table.insert loaders loader))))
+                      (concat options))
+              merged (merge-recipes (default-config) all)]
 
-    ; TODO: Load all regular macros...
+          (doto merged
+            (tset :name name)
+            (tset :type nil))
+          (merge-recipes config [merged]))))
 
-    ; (vim.fn.plug#begin plug-path)
-    ; (each [_ plugin (ipairs self.plugins)]
-    ;   (match (type plugin)
-    ;     :string (vim.fn.plug# plugin)
-    ;     :table (let [[repo options] plugin]
-    ;              (vim.fn.plug# repo options))))
-    ; (vim.fn.plug#end)
-
-    `(do ,(unpack loaders))
-    ))
+    `(fn [bistro#]
+       (tset bistro# :config ,config))
+  )
+)
 
 {: defrecipe
+ : defconfig
  : defn
  : defmode
  : defoption

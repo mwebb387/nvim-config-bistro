@@ -1,0 +1,4 @@
+(import-macros {: load-recipes} :recipe-macros)
+
+(load-recipes
+ (test))

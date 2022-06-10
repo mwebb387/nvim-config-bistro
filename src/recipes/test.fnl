@@ -1,105 +1,110 @@
-{:type :default 
- :name :default
+(import-macros {: defrecipe : defconfig} :recipe-macros)
 
- :options [hidden
-           number
-           noshowcmd
-           noshowmode
+(defrecipe :test)
 
-           ; Tab related settings
-           expandtab
-           autoindent
-           [tabstop 2]
-           [shiftwidth 2]
+(defconfig
+  {:type :default 
+   :name :default
 
-           ; Mouse
-           [mouse :a]
+   :options {:hidden true
+             :number true
+             :showcmd false
+             :showmode false
 
-           ; Path additions
-           [path "C:/Users/mwebb/AppData/Local/nvim/lua" :append]
+             ; Tab related settings
+             :expandtab true
+             :autoindent true
+             :tabstop 2
+             :shiftwidth 2
 
-           ; Splits
-           splitbelow
-           splitright
+             ; Mouse
+             :mouse :a
 
-           ; Searching
-           ignorecase
-           [wildignore "obj/**,bin/**,node_modules/**"]
-           [grepprg "rg --vimgrep --no-heading --smart-case"]
-           [grepformat "%f:%l:%c:%m,%f:%l:%m"]
+             ; Path additions
+             :path ["C:/Users/mwebb/AppData/Local/nvim/lua" :append]
 
-           ; Better display for messages
-           [cmdheight 2]
+             ; Splits
+             :splitbelow true
+             :splitright true
 
-           [updatetime 300]
+             ; Searching
+             :ignorecase true
+             :wildignore "obj/**,bin/**,node_modules/**"
+             :grepprg "rg --vimgrep --no-heading --smart-case"
+             :grepformat "%f:%l:%c:%m,%f:%l:%m"
 
-           ; Always show signcolumns
-           [signcolumn "yes"]
+             ; Better display for messages
+             :cmdheight 2
 
-           [completeopt "menuone,preview,noinsert,noselect"]
-           [previewheight 5]]
+             :updatetime 300
 
- :keymaps [[[n] :H :^]
-           [[n] :L :$ ]
-           [[i] :jk :<esc> ]
-           [[n] :<c-tab> ::b#<cr> ]
-           [[n] :g<tab> ::b#<cr> ]
+             ; Always show signcolumns
+             :signcolumn "yes"
 
-           ; Window management
-           [[n i] :<a-h> :<c-w>h ]
-           [[n i] :<a-j> :<c-w>j ]
-           [[n i] :<a-k> :<c-w>k ]
-           [[n i] :<a-l> :<c-w>l ]
-           [[n i] :<a-H> :<c-w>H ]
-           [[n i] :<a-J> :<c-w>J ]
-           [[n i] :<a-K> :<c-w>K ]
-           [[n i] :<a-L> :<c-w>L ]
-           [[n i] :<a-q> :<c-w>q ]
-           [[t] :<a-h> :<c-\><c-n><c-w>h ]
-           [[t] :<a-j> :<c-\><c-n><c-w>j ]
-           [[t] :<a-k> :<c-\><c-n><c-w>k ]
-           [[t] :<a-l> :<c-\><c-n><c-w>l ]
-           [[t] :<a-q> :<c-\><c-n><c-w>q ]
-           [[t] :<a-n> :<c-\><c-n> ]
+             :completeopt "menuone,preview,noinsert,noselect"
+             :previewheight 5}
 
-           ; General Insert mode
-           [[i] :<C-j> :<c-o>j ]
-           [[i] :<C-k> :<c-o>k ]
-           [[i] :<C-l> :<c-o>l ]
-           [[i] :<C-h> :<c-o>h ]]
+   :keymaps [[[:n] :H :^]
+             [[:n] :L :$ ]
+             [[:i] :jk :<esc> ]
+             [[:n] :<c-tab> ::b#<cr> ]
+             [[:n] :g<tab> ::b#<cr> ]
 
- :commands [[:BrowseLua
-             (fn []
-               (let [root (vim.fn.stdpath :config)
-                     lua-root (.. root "/lua")
-                     cmd (.. "Explore " lua-root)]
-                 (vim.cmd cmd))) ]
+             ; Window management
+             [[:n :i] :<a-h> :<c-w>h ]
+             [[:n :i] :<a-j> :<c-w>j ]
+             [[:n :i] :<a-k> :<c-w>k ]
+             [[:n :i] :<a-l> :<c-w>l ]
+             [[:n :i] :<a-H> :<c-w>H ]
+             [[:n :i] :<a-J> :<c-w>J ]
+             [[:n :i] :<a-K> :<c-w>K ]
+             [[:n :i] :<a-L> :<c-w>L ]
+             [[:n :i] :<a-q> :<c-w>q ]
+             [[:t] :<a-h> :<c-\><c-n><c-w>h ]
+             [[:t] :<a-j> :<c-\><c-n><c-w>j ]
+             [[:t] :<a-k> :<c-\><c-n><c-w>k ]
+             [[:t] :<a-l> :<c-\><c-n><c-w>l ]
+             [[:t] :<a-q> :<c-\><c-n><c-w>q ]
+             [[:t] :<a-n> :<c-\><c-n> ]
 
-            [:EditConfig
-             (fn []
-               (let [root (vim.fn.stdpath :config)
-                     file (.. root "/init.vim")
-                     cmd (.."edit " file)]
-                 (vim.cmd cmd))) ]
+             ; General Insert mode
+             [[:i] :<C-j> :<c-o>j ]
+             [[:i] :<C-k> :<c-o>k ]
+             [[:i] :<C-l> :<c-o>l ]
+             [[:i] :<C-h> :<c-o>h ]]
 
-            [:Powershell
-             (fn []
-               (vim.cmd :enew)
-               (vim.fn.termopen :powershell)) ]
+   :commands {:BrowseLua
+              (fn []
+                (let [root (vim.fn.stdpath :config)
+                      lua-root (.. root "/lua")
+                      cmd (.. "Explore " lua-root)]
+                  (vim.cmd cmd)))
 
-            [:PrettierCheck
-             (fn []
-               (vim.cmd "!npx prettier --check %")) ]
+              :EditConfig
+              (fn []
+                (let [root (vim.fn.stdpath :config)
+                      file (.. root "/init.vim")
+                      cmd (.."edit " file)]
+                  (vim.cmd cmd)))
 
-            [:PrettierWrite
-             (fn []
-               (vim.cmd "!npx prettier --check --write %"))]]
+              :Powershell
+              (fn []
+                (vim.cmd :enew)
+                (vim.fn.termopen :powershell))
 
- :plugins [:vim-scripts/utl.vim
-           :jiangmiao/auto-pairs
-           :tpope/vim-surround
-           :tpope/vim-commentary
-           :mattn/emmet-vim
-           :junegunn/vim-slash
-           :folke/which-key.nvim
-           :kyazdani42/nvim-web-devicons]}
+              :PrettierCheck
+              (fn []
+                (vim.cmd "!npx prettier --check %"))
+
+              :PrettierWrite
+              (fn []
+                (vim.cmd "!npx prettier --check --write %"))}
+
+   :plugins [:vim-scripts/utl.vim
+             :jiangmiao/auto-pairs
+             :tpope/vim-surround
+             :tpope/vim-commentary
+             :mattn/emmet-vim
+             :junegunn/vim-slash
+             :folke/which-key.nvim
+             :kyazdani42/nvim-web-devicons]})
