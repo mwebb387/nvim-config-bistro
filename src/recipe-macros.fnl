@@ -64,49 +64,18 @@
 ;; Macro definitions
 (fn defrecipe [name]
   (when (not _G.recipes)
-    (tset _G :recipes {})
-    (set _G.recipe-name name))
+    (tset _G :recipes {}))
+  (set _G.recipe-name name)
   (tset _G :recipes name []))
 
 (fn in-recipe [name]
   (set _G.recipe-name name))
 
 ; TODO: Error checking for recipe-name...
-(fn defconfig [config]
-  (let [recipe (. _G :recipes _G.recipe-name)]
-    (table.insert recipe config)))
-
-(fn defn [name plugins ...]
-  (let [body [...]
-        typ (match body
-              [:mode & rest] :mode
-              [:option & rest] :option
-              _ :default)]
-    (let [recipe (. _G :recipes _G.recipe-name)]
-      (table.insert recipe {:type typ
-                            :name name
-                            :plugins plugins
-                            :methods body}))))
-
-(fn defmode [name plugins ...]
-  (let [body [...]]
-    (let [recipe (. _G :recipes _G.recipe-name)]
-      (table.insert recipe {:type :mode
-                            :name name
-                            :plugins plugins ;}))))
-                            :methods body}))))
-
-(fn defoption [name plugins ...]
-  (let [body [...]]
-    (let [recipe (. _G :recipes _G.recipe-name)]
-      (table.insert recipe {:type :option
-                            :name name
-                            :plugins plugins ;}))))
-                            :methods body}))))
-
-(fn load-and-print-recipe [name]
-  (require (.. :recipes/ name))
-  (print (view _G.recipes)))
+; TODO: change to 'with-options' or similar within defconfig call below
+; (fn defconfig [config]
+;   (let [recipe (. _G :recipes _G.recipe-name)]
+;     (table.insert recipe config)))
 
 ; TODO: Error checking for recipe names
 (fn load-recipes [...]
@@ -140,11 +109,68 @@
   )
 )
 
+;; Recipe creation helper macros
+(fn as-mode! [config name]
+  (tset config :type :mode)
+  (tset config :name name))
+
+(fn command! [config name command options]
+  (if options
+    (tset config.commands (tostring name) [command options])
+    (tset config.commands (tostring name) command)))
+
+(fn log [config]
+  (print (view config)))
+
+(fn map! [config modes lhs rhs opts]
+  (let [opts- (or opts {})]
+    (table.insert config.keymaps [modes lhs rhs opts-])))
+
+(fn set! [config option value options]
+  (if options
+    (tset config.options (tostring option) [value options])
+    (tset config.options (tostring option) value)))
+
+(fn use! [config plugins]
+  (append config.plugins plugins))
+
+(local recipe-helpers {: as-mode!
+                       : command!
+                       : log
+                       : map!
+                       : set!
+                       : use!})
+
+(fn defconfig [...]
+  (let [body [...]
+        ;; TODO: See if 'defconfig' can be used here/below
+        recipe (. _G :recipes _G.recipe-name)
+        config (default-config)]
+    (tset config :type :default)
+
+    (each [_ [m & rest] (ipairs body)]
+      (let [method (. recipe-helpers (tostring m))]
+        ; (print (.. "Calling method " (tostring m) " with args " (view rest)))
+        (method config (unpack rest)))
+      )
+    
+    (table.insert recipe config)
+    ; (print (.. "Config - " (view config)))
+    ; (print (.. "Recipe - " (view recipe)))
+
+    ))
+
 {: defrecipe
  : defconfig
- : defn
- : defmode
- : defoption
+ ; : defmode
+ ; : defoption
  : in-recipe
  : load-and-print-recipe
- : load-recipes}
+ : load-recipes
+ 
+ : as-mode!
+ : command!
+ : map!
+ : log
+ : set!
+ : use!}
