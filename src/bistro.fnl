@@ -77,10 +77,10 @@
 ;           :table (let [[repo options] plugin]
 ;                    (use repo options))))))))
 
-(fn loadPlugins [self]
+(fn loadPlugins [self plugins]
   (let [plug-path (.. (vim.fn.stdpath :config) :/plugged/)]
     (vim.fn.plug#begin plug-path)
-    (each [_ plugin (ipairs self.plugins)]
+    (each [_ plugin (ipairs (or plugins self.plugins))]
       (match (type plugin)
         :string (vim.fn.plug# plugin)
         :table (let [[repo options] plugin]
@@ -96,6 +96,35 @@
     (tset package.loaded (.. "recipes/" recipe) nil))
   (print "Cache cleared. Please reload the Bistro")
   self)
+
+
+
+
+; Methods for new style config loading
+(fn setupRecipes [self]
+  (if (anyMissingPlugins)
+    (do
+      (print "Not all plugins are installed.")
+      (print "Run :PlugInstall first, then re-run :lua require'bistro':configureRecipes()"))
+    (do
+      ; Set options
+      (each [key value (pairs self.config.options)]
+        (tset vim :opt key value))
+      
+      ; Create keymaps
+      (each [_ [maps lhs rhs opts] (ipairs self.config.keymaps)]
+        (vim.keymap.set maps lhs rhs opts))
+      
+      ; Create Commands
+      (each [key value (pairs self.config.commands)]
+        (vim.api.nvim_create_user_command key value {}))
+      ))
+  self)
+
+(fn setup [self]
+  ; Load plugins
+  (self:loadPlugins self.config.plugins)
+  (self:setupRecipes))
 
 (local bistro
   {:configFns [] ;; For old style config methods
@@ -114,9 +143,10 @@
    : loadPlugins
    : prepareRecipes
    : refresh
-   : setup})
+   : setup
+   : setupRecipes})
 
 ; Auto-load recipes
-((require :configure) bistro)
+((require :configure2) bistro)
 
 bistro
