@@ -9,7 +9,7 @@
  (test-git :signs)
  (test-fzf :lsp)
  (test-telescope :dap)
- ; treesitter
+ (test-treesitter)
  ; lsp
  ; debugging
  ; complete
