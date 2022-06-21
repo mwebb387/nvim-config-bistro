@@ -8,7 +8,7 @@
  (test-files)
  (test-git :signs)
  (test-fzf :lsp)
- ; telescope
+ (test-telescope :dap)
  ; treesitter
  ; lsp
  ; debugging
