@@ -4,6 +4,7 @@
                 : command!
                 : map!
                 : set!
+                : setup!
                 : use!} :recipe-macros)
 
 (defrecipe :test-git)
@@ -23,9 +24,5 @@
 
 (defconfig
   (as-mode! :signs)
-
-  (map! [:n]
-        :<leader>gs
-        (fn []
-          ((. (require :gitsigns) :setup)))
-        {:noremap true :silent true}))
+  (setup!
+    (fn [] ((. (require :gitsigns) setup)))))

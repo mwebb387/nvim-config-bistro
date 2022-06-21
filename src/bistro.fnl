@@ -116,8 +116,12 @@
         (vim.keymap.set maps lhs rhs opts))
       
       ; Create Commands
-      (each [key value (pairs self.config.commands)]
-        (vim.api.nvim_create_user_command key value {}))
+      (each [key [cmd opts] (pairs self.config.commands)]
+        (vim.api.nvim_create_user_command key cmd opts))
+      
+      ; Run setup methods
+      (each [_ setupFn (ipairs self.config.setup)]
+        (setupFn))
       ))
   self)
 
@@ -147,6 +151,7 @@
    : setupRecipes})
 
 ; Auto-load recipes
-((require :configure2) bistro)
+((require :configure) bistro)
+; ((require :configure2) bistro)
 
 bistro

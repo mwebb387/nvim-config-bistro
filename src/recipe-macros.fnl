@@ -49,7 +49,9 @@
     ; Merge commands
     (merge-table recipe1.commands (or v.commands {}))
     ; Merge plugins
-    (append recipe1.plugins (or v.plugins {})))
+    (append recipe1.plugins (or v.plugins {}))
+    ; Merge setup methods
+    (append recipe1.setup (or v.setup {})))
   recipe1)
 
 ;; Default recipe config
@@ -58,7 +60,8 @@
    :options {}
    :keymaps []
    :commands {}
-   :plugins []})
+   :plugins []
+   :setup []})
 
 
 ;; Macro definitions
@@ -114,10 +117,12 @@
   (tset config :type :mode)
   (tset config :name name))
 
+(fn as-option! [config name]
+  (tset config :type :option)
+  (tset config :name name))
+
 (fn command! [config name command options]
-  (if options
-    (tset config.commands (tostring name) [command options])
-    (tset config.commands (tostring name) command)))
+  (tset config.commands (tostring name) [command (or options {})]))
 
 (fn log [config]
   (print (view config)))
@@ -131,14 +136,19 @@
     (tset config.options (tostring option) [value options])
     (tset config.options (tostring option) value)))
 
+(fn setup! [config setupFn]
+  (table.insert config.setup setupFn))
+
 (fn use! [config plugins]
   (append config.plugins plugins))
 
 (local recipe-helpers {: as-mode!
+                       : as-option!
                        : command!
                        : log
                        : map!
                        : set!
+                       : setup!
                        : use!})
 
 (fn defconfig [...]
@@ -169,8 +179,10 @@
  : load-recipes
  
  : as-mode!
+ : as-option!
  : command!
  : map!
  : log
  : set!
+ : setup!
  : use!}
