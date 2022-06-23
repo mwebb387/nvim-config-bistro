@@ -12,7 +12,7 @@
  (test-treesitter)
  ; lsp
  (test-debugging :ui :csharp :typescript)
- ; complete
+ (test-complete :vcm)
 
  ; angular
  ; csharp
