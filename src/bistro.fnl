@@ -107,6 +107,10 @@
       (print "Not all plugins are installed.")
       (print "Run :PlugInstall first, then re-run :lua require'bistro':configureRecipes()"))
     (do
+      ; Set globals
+      (each [key value (pairs self.config.globals)]
+        (tset vim :g key value))
+
       ; Set options
       (each [key value (pairs self.config.options)]
         (tset vim :opt key value))

@@ -55,6 +55,7 @@
   recipe1)
 
 ;; Default recipe config
+;; TODO: Auto-commands
 (fn default-config []
   {:globals {} 
    :options {}
@@ -136,6 +137,11 @@
     (tset config.options (tostring option) [value options])
     (tset config.options (tostring option) value)))
 
+(fn set-g! [config option value options]
+  (if options
+    (tset config.globals (tostring option) [value options])
+    (tset config.globals (tostring option) value)))
+
 (fn setup! [config setupFn]
   (table.insert config.setup setupFn))
 
@@ -148,6 +154,7 @@
                        : log
                        : map!
                        : set!
+                       : set-g!
                        : setup!
                        : use!})
 
