@@ -11,7 +11,7 @@
  (test-telescope :dap)
  (test-treesitter)
  ; lsp
- ; debugging
+ (test-debugging :ui :csharp :typescript)
  ; complete
 
  ; angular
