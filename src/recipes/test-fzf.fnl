@@ -5,8 +5,8 @@
 
 (defconfig
   ; === Globals ===
-
-  ;; TODO: Finish and add globals...
+  (set-g! fzf_preview_window [])
+  (set-g! fzf_commits_log_options  "--all --decorate --oneline --color=always")
 
 
   ; === Plugins ===
