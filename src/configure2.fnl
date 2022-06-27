@@ -16,6 +16,6 @@
 
  ; angular
  (test-csharp :omnisharp-ls)
- ; fennel
- ; typescript
+ (test-fennel)
+ (test-typescript :lsp)
  )

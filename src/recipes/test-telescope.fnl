@@ -19,14 +19,12 @@
   (map! [:n] :<leader>sD "<cmd>Telescope diagnostics<CR>")
   (map! [:n] :<leader>ss "<cmd>Telescope lsp_document_symbols<CR>")
 
-  ; TODO: Silent...
   (map! [:n] :<leader>gb "<cmd>Telescope git_branches<CR>")
   (map! [:n] :<leader>gc "<cmd>Telescope git_commits<CR>")
   (map! [:n] :<leader>gf "<cmd>Telescope git_files<CR>")
   (map! [:n] :<leader>gs "<cmd>Telescope git_status<CR>")
   (map! [:n] :<leader>gS "<cmd>Telescope git_stash<CR>")
 
-  ; TODO: Silent?
   (map! [:t] :<a-b> "<c-\\><c-n> <cmd>Telescope buffers<CR>")
   (map! [:t] :<a-f> "<c-\\><c-n> <cmd>Telescope find_files<CR>")
   (map! [:t] :<a-/> "<c-\\><c-n> <cmd>Telescope live_grep<CR>")

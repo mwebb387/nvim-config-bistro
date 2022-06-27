@@ -4,7 +4,6 @@
                :macros)
 
 (fn configure []
-  ; TODO: Silent
   (let [tree (require :nvim-tree)]
     (tree.setup {:disable_netrw false}))
   (defmap [:n] :<leader>e ":NvimTreeToggle<CR>")
