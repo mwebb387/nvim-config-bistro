@@ -10,12 +10,12 @@
  (test-fzf :lsp)
  (test-telescope :dap)
  (test-treesitter)
- ; lsp
+ (test-lsp)
  (test-debugging :ui :csharp :typescript)
  (test-complete :vcm)
 
  ; angular
- ; csharp
+ (test-csharp :omnisharp-ls)
  ; fennel
  ; typescript
  )
