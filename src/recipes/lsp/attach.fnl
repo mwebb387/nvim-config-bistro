@@ -27,7 +27,8 @@
       (buf-keymap :n :<leader>ld "<cmd>lua vim.diagnostic.open_float()<CR>" opts)
       (buf-keymap :n "[d" "<cmd>lua vim.diagnostic.goto_prev()<CR>" opts)
       (buf-keymap :n "]d" "<cmd>lua vim.diagnostic.goto_next()<CR>" opts)
-      (buf-keymap :n :<leader>lq "<cmd>lua vim.diagnostic.setloclist()<CR>" opts)
+      (buf-keymap :n :<leader>ll "<cmd>lua vim.diagnostic.set_loclist()<CR>" opts)
+      (buf-keymap :n :<leader>lq "<cmd>lua vim.diagnostic.set_qflist()<CR>" opts)
 
       ;Set some keybinds conditional on server capabilities
       (when client.resolved_capabilities.goto_definition

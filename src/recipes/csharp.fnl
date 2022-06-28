@@ -73,5 +73,6 @@
   (mode omnisharp [:w0rp/ale
                    :omnisharp/omnisharp-vim]
         configure-omnisharp)
-  (mode omnisharp-ls [:Hoffs/omnisharp-extended-lsp.nvim] configure-lsp)
+  (mode omnisharp-ls [:jlcrochet/vim-razor
+                      :Hoffs/omnisharp-extended-lsp.nvim] configure-lsp)
   (mode csharp-ls [] configure-csharp-ls))

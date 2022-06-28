@@ -1,8 +1,6 @@
 (import-macros {: defrecipe
                 : defconfig} :recipe-macros)
 
-(import-macros {: defun} :macros)
-
 (defrecipe :test-bistro)
 
 ;; TODO: Finish...
@@ -17,14 +15,8 @@
                   :refresh (bistro:refresh)
                   :plugins (bistro:loadPlugins)
                   :configure (bistro:configureRecipes))))
-            ; TODO: Update to cmd lua function...
-            {:complete "customlist,v:lua.ListOperations"
-             :nargs 1})
-
-  (setup!
-    (fn []
-      (defun ListOperations [A L P]
-        [:build
-         :refresh
-         :plugins
-         :configure]))))
+            {:complete (fn [A L P] [:build
+                                    :refresh
+                                    :plugins
+                                    :configure])
+             :nargs 1}))

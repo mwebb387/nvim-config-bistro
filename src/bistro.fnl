@@ -132,7 +132,8 @@
 (fn setup [self]
   ; Load plugins
   (self:loadPlugins self.config.plugins)
-  (self:setupRecipes))
+  (self:setupRecipes)
+  self)
 
 (local bistro
   {:configFns [] ;; For old style config methods

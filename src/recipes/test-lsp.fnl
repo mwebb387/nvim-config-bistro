@@ -1,9 +1,6 @@
 (import-macros {: defrecipe
                 : defconfig} :recipe-macros)
 
-(import-macros {: defhighlight
-                : defsign} :macros)
-
 (defrecipe :test-lsp)
 
 (defconfig

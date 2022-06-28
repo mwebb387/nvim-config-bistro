@@ -1,8 +1,6 @@
 (import-macros {: defrecipe
                 : defconfig} :recipe-macros)
 
-(import-macros {: defun} :macros)
-
 (defrecipe :test-complete)
 
 (defconfig
@@ -70,14 +68,14 @@
   ; Additional Setup
   (setup! (fn []
             ; Method definitions
-            (defun check_back_space []
+            (global check_back_space (fn []
               (let [col (vim.fn.col ".")]
-                (or col (string.find (. (vim.fn.getline ".") (- col 1)) "%s"))))
+                (or col (string.find (. (vim.fn.getline ".") (- col 1)) "%s")))))
 
-            (defun show_documentation []
+            (global show_documentation (fn []
               (if (>= (vim.fn.index [:vim :help] vim.o.filetype) 0)
                 (vim.cmd (.. "h " (vim.fn.expand "<cword>")))
-                (vim.cmd "call CocAction('doHover')")))))
+                (vim.cmd "call CocAction('doHover')"))))))
 
   ; TODO: Remaining mappings and autocmds
 

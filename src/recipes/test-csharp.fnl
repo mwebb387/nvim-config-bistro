@@ -48,7 +48,8 @@
 (defconfig
   (as-mode! :omnisharp-ls)
 
-  (use! [:Hoffs/omnisharp-extended-lsp.nvim])
+  (use! [:jlcrochet/vim-razor
+         :Hoffs/omnisharp-extended-lsp.nvim])
 
   (setup! (fn []
             (let [{: on-attach} (require :lsp)

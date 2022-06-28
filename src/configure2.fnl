@@ -1,4 +1,9 @@
 (import-macros {: load-recipes} :recipe-macros)
+(import-macros {: augroup
+                : autocmd
+                : defhighlight
+                : defsign
+                : defun} :macros)
 
 (load-recipes
  (test)

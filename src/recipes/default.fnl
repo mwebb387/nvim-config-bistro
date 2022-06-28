@@ -93,7 +93,7 @@
 
   ; Searching
   (set! :ignorecase true)
-  (set! :wildignore "obj/**,bin/**,node_modules/**")
+  (set! :wildignore "obj/**,bin/**,node_modules/**,CMS/**")
   (set! :grepprg "rg --vimgrep --no-heading --smart-case")
   (set! :grepformat "%f:%l:%c:%m,%f:%l:%m")
 
