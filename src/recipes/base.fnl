@@ -5,8 +5,6 @@
                 : command!
                 : use!} :recipe-macros)
 
-(defrecipe :test)
-
 (defconfig
   ; === Settings ===
   (set! hidden true)

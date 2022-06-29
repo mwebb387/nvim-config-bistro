@@ -1,5 +1,5 @@
-(import-macros {: defrecipe} :macros)
+(import-macros {: defrecipe
+                : defconfig} :recipe-macros)
 
-(defrecipe fennel
-  (default [[:bakpakin/fennel.vim {:for :fennel}]] (fn [])))
-
+(defconfig
+  (use! [[:bakpakin/fennel.vim {:for :fennel}]]))

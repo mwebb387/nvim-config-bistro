@@ -1,50 +1,29 @@
-(import-macros {: defrecipe} :macros)
+(import-macros {: defrecipe
+                : defconfig} :recipe-macros)
 
-    ; TODO: Make text objects optional...
-   ; :nvim-treesitter/nvim-treesitter-textobjects])
+(defconfig
+  ; === Plugins ===
+  (use! [:nvim-treesitter/nvim-treesitter])
 
-; ensure_installed = one of "all", "maintained" (parsers with maintainers), or a list of languages
-
-(fn configure []
-  (let [ts (require :nvim-treesitter.configs)]
-    (ts.setup {:ensure_installed [:c_sharp
-                                  :fennel
-                                  :javascript
-                                  :typescript
-                                  :svelte
-                                  :css
-                                  :scss
-                                  ; :vue ; Errors
-                                  :tsx
-                                  ; :python ; Errors
-                                  ]
-               :highlight {:enable true}
-               :incremental_selection {:enable true
-                                       :keymaps {:init_selection :gnn
-                                                 :node_incremental :grn
-                                                 :scope_incremental :grc
-                                                 :node_decremental :grm}}
-               :indent {:enable true}})))
-
-               ; :textobjects {:select {:enable true
-               ;                        :lookahead true ; Automatically jump forward to textobj, similar to targets.vim
-               ;                        ; You can use the capture groups defined in textobjects.scm
-               ;                        :keymaps {:af "@function.outer"
-               ;                                  :if "@function.inner"
-               ;                                  :ac "@class.outer"
-               ;                                  :ic "@class.inner"}}
-               ;               :move {:enable true
-               ;                      :set_jumps true
-               ;                      :goto_next_start {"]m" "@function.outer"
-               ;                                        "]]" "@class.outer"}
-               ;                      :goto_next_end {"]M" "@function.outer"
-               ;                                      "][" "@class.outer"}
-               ;                      :goto_previous_start {"[m" "@function.outer"
-               ;                                            "[[" "@class.outer"}
-               ;                      :goto_previous_end {"[M" "@function.outer"
-               ;                                          "[]" "@class.outer"}}}})))
-
-
-(defrecipe treesitter
-  (default [:nvim-treesitter/nvim-treesitter] configure))
-
+  ; === Setup ===
+  (setup!
+    (fn configure []
+      (let [ts (require :nvim-treesitter.configs)]
+        (ts.setup {:ensure_installed [:c_sharp
+                                      :fennel
+                                      :javascript
+                                      :typescript
+                                      :svelte
+                                      :css
+                                      :scss
+                                      ; :vue ; Errors
+                                      :tsx
+                                      ; :python ; Errors
+                                      ]
+                   :highlight {:enable true}
+                   :incremental_selection {:enable true
+                                           :keymaps {:init_selection :gnn
+                                                     :node_incremental :grn
+                                                     :scope_incremental :grc
+                                                     :node_decremental :grm}}
+                   :indent {:enable true}})))))

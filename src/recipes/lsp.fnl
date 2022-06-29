@@ -1,8 +1,6 @@
 (import-macros {: defrecipe
                 : defconfig} :recipe-macros)
 
-(defrecipe :test-lsp)
-
 (defconfig
   (use! [:neovim/nvim-lspconfig
          :j-hui/fidget.nvim])

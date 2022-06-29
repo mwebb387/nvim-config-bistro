@@ -1,59 +1,79 @@
-(import-macros {: defrecipe : defcommand : defmap : defun : let-g } :macros)
+(import-macros {: defrecipe
+                : defconfig} :recipe-macros)
 
-(fn configure-coc []
-  ; Method definitions
-  (defun check_back_space []
-    (let [col (vim.fn.col ".")]
-      (or col (string.find (. (vim.fn.getline ".") (- col 1)) "%s"))))
+(defconfig
+  (as-mode! :vcm)
 
-  (defun show_documentation []
-    (if (>= (vim.fn.index [:vim :help] vim.o.filetype) 0)
-      (vim.cmd (.. "h " (vim.fn.expand "<cword>")))
-      (vim.cmd "call CocAction('doHover')")))
+  (use! [:ackyshake/VimCompletesMe
+         :ncm2/float-preview.nvim])
+
+  (map! [:i]
+        :<CR>
+        "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\""
+        {:noremap true :expr true}))
+
+(defconfig
+  (as-mode! :coc)
 
   ; Commands
   ; Use `:Format` to format current buffer
-  (defcommand :Format ":call CocAction('format')")
-  (defcommand :Prettier ":CocCommand prettier.formatFile")
+  (command! :Format ":call CocAction('format')")
+  (command! :Prettier ":CocCommand prettier.formatFile")
 
   ; Mappings
-  (defmap [:i] :<TAB>
-              "pumvisible() ? \"\\<C-n>\" : v:lua.check_back_space() ? \"\\<TAB>\" : coc#refresh()"
-              {:noremap true :expr true :silent true})
-  (defmap [:i] :<C-SPACE> "coc#refresh()" {:noremap true :expr true :silent true})
-  (defmap [:i] :<CR> "pumvisible() ? coc#_select_confirm() : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})
-  (defmap [:n] :gd "<Plug>(coc-definition)" {:silent true})
-  (defmap [:n] :gD "<Plug>(coc-type-definition)" {:silent true})
-  (defmap [:n] :gi "<Plug>(coc-implementation)" {:silent true})
-  (defmap [:n] :gr "<Plug>(coc-references)" {:silent true})
+  (map! [:i]
+        :<TAB>
+        "pumvisible() ? \"\\<C-n>\" : v:lua.check_back_space() ? \"\\<TAB>\" : coc#refresh()"
+        {:noremap true :expr true :silent true})
+  (map! [:i] :<C-SPACE> "coc#refresh()" {:noremap true :expr true :silent true})
+  (map! [:i] :<CR> "pumvisible() ? coc#_select_confirm() : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})
+  (map! [:n] :gd "<Plug>(coc-definition)" {:silent true})
+  (map! [:n] :gD "<Plug>(coc-type-definition)" {:silent true})
+  (map! [:n] :gi "<Plug>(coc-implementation)" {:silent true})
+  (map! [:n] :gr "<Plug>(coc-references)" {:silent true})
 
   ; Remap for rename current word
-  (defmap [:n] :<leader>lcrn "<Plug>(coc-rename)")
-  (defmap [:n] :<F2> "<Plug>(coc-rename)")
+  (map! [:n] :<leader>lcrn "<Plug>(coc-rename)")
+  (map! [:n] :<F2> "<Plug>(coc-rename)")
 
   ; Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-  (defmap [:n :x] :<leader>lca "<Plug>(coc-codeaction-selected)")
-  (defmap [:n] :<leader>. ":CocAction<cr>" {:noremap true :silent true})
+  (map! [:n :x] :<leader>lca "<Plug>(coc-codeaction-selected)")
+  (map! [:n] :<leader>. ":CocAction<cr>" {:noremap true :silent true})
 
-  (defmap [:n] :K ":call v:lua.show_documentation()<CR>" {:noremap true :silent true})
+  (map! [:n] :K ":call v:lua.show_documentation()<CR>" {:noremap true :silent true})
 
   ; Using CocList
   ; Show all diagnostics
-  (defmap [:n] :<leader>lcd ":<C-u>CocList diagnostics<cr>" {:noremap true :silent true})
+  (map! [:n] :<leader>lcd ":<C-u>CocList diagnostics<cr>" {:noremap true :silent true})
   ; Manage extensions
-  (defmap [:n] :<leader>lce ":<C-u>CocList extensions<cr>" {:noremap true :silent true})
+  (map! [:n] :<leader>lce ":<C-u>CocList extensions<cr>" {:noremap true :silent true})
   ; Show commands
-  (defmap [:n] :<leader>lcc ":<C-u>CocList commands<cr>" {:noremap true :silent true})
+  (map! [:n] :<leader>lcc ":<C-u>CocList commands<cr>" {:noremap true :silent true})
   ; Find symbol of current document
-  (defmap [:n] :<leader>lco ":<C-u>CocList outline<cr>" {:noremap true :silent true})
+  (map! [:n] :<leader>lco ":<C-u>CocList outline<cr>" {:noremap true :silent true})
   ; Search workspace symbols
-  (defmap [:n] :<leader>lcs ":<C-u>CocList -I symbols<cr>" {:noremap true :silent true})
+  (map! [:n] :<leader>lcs ":<C-u>CocList -I symbols<cr>" {:noremap true :silent true})
   ; Do default action for next item.
-  (defmap [:n] :<leader>j ":<C-u>CocNext<CR>" {:noremap true :silent true})
+  (map! [:n] :<leader>j ":<C-u>CocNext<CR>" {:noremap true :silent true})
   ; Do default action for previous item.
-  (defmap [:n] :<leader>k ":<C-u>CocPrev<CR>" {:noremap true :silent true})
+  (map! [:n] :<leader>k ":<C-u>CocPrev<CR>" {:noremap true :silent true})
   ; Resume latest coc list
-  (defmap [:n] :<leader>p ":<C-u>CocListResume<CR>" {:noremap true :silent true}))
+  (map! [:n] :<leader>p ":<C-u>CocListResume<CR>" {:noremap true :silent true})
+  
+  ; Plugins
+  (use! [:neoclide/coc.nvim])
+  
+  ; Additional Setup
+  (setup! (fn []
+            ; Method definitions
+            (global check_back_space (fn []
+              (let [col (vim.fn.col ".")]
+                (or col (string.find (. (vim.fn.getline ".") (- col 1)) "%s")))))
+
+            (global show_documentation (fn []
+              (if (>= (vim.fn.index [:vim :help] vim.o.filetype) 0)
+                (vim.cmd (.. "h " (vim.fn.expand "<cword>")))
+                (vim.cmd "call CocAction('doHover')"))))))
 
   ; TODO: Remaining mappings and autocmds
 
@@ -80,44 +100,43 @@
   ; Add status line support, for integration with other plugin, checkout `:h coc-status`
   ;set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
   ;
+  )
 
-(fn configure-vcm []
-  ; inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  (defmap [:i] :<CR> "pumvisible() ? \"\\<C-y>\" : \"\\<C-g>u\\<CR>\"" {:noremap true :expr true})); TODO: Better mapping for expressions...
+(defconfig
+  (as-mode! :coq)
+  
+  (use! [[:ms-jpq/coq_nvim {:branch :coq}]
+             [:ms-jpq/coq.artifacts {:branch :artifacts}]])
+  
+  (setup! (fn []
+            (let [cmp (require :cmp)
+                  sources (cmp.config.sources [{:name :nvim_lsp}
+                                               {:name :vsnip}
+                                               {:name :path}]
+                                              [{:name :buffer}])]
+              (cmp.setup {:snippet {:expand (fn [args]
+                                              (vim.fn.vsnip#anonymous args.body))}
+                          :sources sources})))))
 
-(fn configure-coq [])
-  ;(let-g :coq_settings {:auto_start :shut-up}))
+(defconfig
+  (as-mode! :cmp)
 
-(fn configure-cmp []
-  (let [cmp (require :cmp)
-        sources (cmp.config.sources [{:name :nvim_lsp}
-                                     {:name :vsnip}
-                                     {:name :path}]
-                                    [{:name :buffer}])]
-    (cmp.setup {:snippet {:expand (fn [args]
-                                    (vim.fn.vsnip#anonymous args.body))}
-                :sources sources})))
+  (use! [:hrsh7th/cmp-nvim-lsp
+         :hrsh7th/cmp-buffer
+         :hrsh7th/cmp-path
+         :hrsh7th/cmp-cmdline
+         :hrsh7th/cmp-omni
+         :hrsh7th/nvim-cmp
 
-(defrecipe complete
-  (mode vcm
-        [:ackyshake/VimCompletesMe
-         :ncm2/float-preview.nvim]
-        configure-vcm)
+         :hrsh7th/cmp-vsnip
+         :hrsh7th/vim-vsnip])
 
-  (mode coc [:neoclide/coc.nvim] configure-coc)
-
-  (mode coq [[:ms-jpq/coq_nvim {:branch :coq}]
-             [:ms-jpq/coq.artifacts {:branch :artifacts}]]
-            (configure-coq))
-
-  (mode cmp [:hrsh7th/cmp-nvim-lsp
-             :hrsh7th/cmp-buffer
-             :hrsh7th/cmp-path
-             :hrsh7th/cmp-cmdline
-             :hrsh7th/cmp-omni
-             :hrsh7th/nvim-cmp
-
-             :hrsh7th/cmp-vsnip
-             :hrsh7th/vim-vsnip]
-        (configure-cmp)))
-
+  (setup! (fn configure-cmp []
+            (let [cmp (require :cmp)
+                  sources (cmp.config.sources [{:name :nvim_lsp}
+                                               {:name :vsnip}
+                                               {:name :path}]
+                                              [{:name :buffer}])]
+              (cmp.setup {:snippet {:expand (fn [args]
+                                              (vim.fn.vsnip#anonymous args.body))}
+                          :sources sources})))))

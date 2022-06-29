@@ -156,7 +156,7 @@
    : setupRecipes})
 
 ; Auto-load recipes
-((require :configure) bistro)
-; ((require :configure2) bistro)
+; ((require :configure) bistro)
+((require :configure2) bistro)
 
 bistro

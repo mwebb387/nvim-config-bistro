@@ -9,7 +9,7 @@
    (let [ls (if recurse "dir /A-D /B /S " "dir /A-D /B ")]
       (with-open [fin (io.popen (.. ls dir))]
          (icollect [line (fin:lines)]
-            line))))
+            (if recurse line (.. dir line))))))
 
 ; Check if a list is empty
 (fn empty? [lst]
@@ -25,7 +25,7 @@
 
 (fn get-input-files [in-dir filter-files]
    "Get all bistro files/recipes excluding the macros.fnl file"
-   (icollect [i v (ipairs (list-files in-dir true))]
+   (icollect [i v (ipairs (list-files in-dir false))]
                          (when (and
                                   (not (string.find v :macros))
                                   (not (string.find v :test))
@@ -59,7 +59,7 @@
 
 (fn build [input-dir output-dir files]
    "Build the config bistro library with all recipes"
-   (let [in-files (get-input-files input-dir files)
+   (let [in-files (get-input-files input-dir (or files []))
          fennel (require :fennel)]
       (set fennel.path (.. input-dir "?.fnl;" fennel.path))
       (each [_ file (ipairs in-files)]

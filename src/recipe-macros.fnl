@@ -87,6 +87,14 @@
     (each [i mod (ipairs [...])]
       (let [[recipe-name & args] mod
             name (tostring recipe-name)]
+
+        ; Setup empty recipe
+        (when (not _G.recipes)
+          (tset _G :recipes {}))
+        (set _G.recipe-name name)
+        (tset _G :recipes name [])
+
+        ; Run the recipe file/configration setup
         (require (.. :recipes/ name))
         (local recipe (. _G :recipes name))
     

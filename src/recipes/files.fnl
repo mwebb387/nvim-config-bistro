@@ -1,18 +1,18 @@
 (import-macros {: defrecipe
-                : defmap
-                : let-g}
-               :macros)
+                : defconfig} :recipe-macros)
 
-(fn configure []
-  (let [tree (require :nvim-tree)]
-    (tree.setup {:disable_netrw false}))
-  (defmap [:n] :<leader>e ":NvimTreeToggle<CR>")
-  ;(defmap [:n] :- ":NvimTreeFindFile<CR>")
-  (defmap [:n] :- ":Vifm<CR>")
-  (defmap [:n] :<leader>v ":Vifm<CR>"))
+(defconfig
+  ; === Maps ===
+  (map! [:n] :<leader>e ":NvimTreeToggle<CR>")
+  ;(map! [:n] :- ":NvimTreeFindFile<CR>")
+  (map! [:n] :- ":Vifm<CR>")
+  (map! [:n] :<leader>v ":Vifm<CR>")
 
 
-(defrecipe files
-  (default [:kyazdani42/nvim-tree.lua
-            [:vifm/vifm.vim {:on :Vifm}]]
-    configure))
+  ; === Plugins ===
+  (use! [:kyazdani42/nvim-tree.lua
+         [:vifm/vifm.vim {:on :Vifm}]])
+
+  ; === Setup ===
+  (setup!
+    (fn [] ((. (require :nvim-tree) :setup) {:disable_netrw false}))))

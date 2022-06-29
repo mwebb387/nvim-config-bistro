@@ -6,21 +6,21 @@
                 : defun} :macros)
 
 (load-recipes
- (test)
- (test-bistro)
+ (base)
+ (bistro)
  ; statusline
- ; themes
- (test-files)
- (test-git :signs)
- (test-fzf :lsp)
- (test-telescope :dap)
- (test-treesitter)
- (test-lsp)
- (test-debugging :ui :csharp :typescript)
- (test-complete :vcm)
+ (themes) ; TODO: variable option/mode handler
+ (files)
+ (git :signs)
+ (fzf :lsp)
+ (telescope)
+ (treesitter)
+ (lsp)
+ (debugging :ui :csharp :typescript)
+ (complete :vcm)
 
  ; angular
- (test-csharp :omnisharp-ls)
- (test-fennel)
- (test-typescript :lsp)
+ (csharp :omnisharp-ls)
+ (fennel)
+ (typescript :lsp)
  )
