@@ -1,40 +1,26 @@
-(import-macros {: configure-bistro
-                : with-recipes
-                : append!
-                : defcommand
-                : defmap
-                : set!
-                : let-g}
-               :macros)
+(import-macros {: load-recipes} :recipe-macros)
+(import-macros {: augroup
+                : autocmd
+                : defhighlight
+                : defsign
+                : defun} :macros)
 
-; (include :recipes.test)
+(load-recipes
+ (base)
+ (bistro)
+ ; statusline
+ (themes) ; TODO: variable option/mode handler
+ (files)
+ (git :signs)
+ (fzf :lsp)
+ (telescope)
+ (treesitter)
+ (lsp)
+ (debugging :ui :csharp :typescript)
+ (complete :vcm)
 
-; (import-macros {: load-recipes
-;                : load-and-print-recipe} :recipe-macros)
-
-; (load-and-print-recipe :test)
-; (load-recipes
-;   (test :test-mode2 :test-option2))
-; (load-recipes
-;  (test))
-
-(configure-bistro
-  (with-recipes
-    (default)
-    (bistro)
-    ; (statusline)
-    (themes :material)
-    (files)
-    (git :signs)
-    (fzf :lsp)
-    (telescope :dap)
-    (treesitter)
-    (lsp)
-    (debugging :ui)
-    ; (complete :coq)
-
-    ; Langs
-    ;(angular)
-    (csharp :omnisharp-ls)
-    (fennel)
-    (typescript :lsp)))
+ ; angular
+ (csharp :omnisharp-ls)
+ (fennel)
+ (typescript :lsp)
+ )
