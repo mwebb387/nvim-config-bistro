@@ -44,6 +44,7 @@
       (vim.cmd cmd)))
   self)
 
+; DEPRECATED
 (fn configureRecipes [self]
   (if (anyMissingPlugins)
     (do
@@ -69,6 +70,7 @@
       (vim.cmd cmd)))
   self)
 
+; DEPRECATED
 (fn prepareRecipes [self recipes]
   (each [recipe-name recipe-args (pairs recipes)]
     (table.insert self.recipes recipe-name)
