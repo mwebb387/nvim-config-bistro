@@ -75,12 +75,6 @@
 (fn in-recipe [name]
   (set _G.recipe-name name))
 
-; TODO: Error checking for recipe-name...
-; TODO: change to 'with-options' or similar within defconfig call below
-; (fn defconfig [config]
-;   (let [recipe (. _G :recipes _G.recipe-name)]
-;     (table.insert recipe config)))
-
 ; TODO: Error checking for recipe names
 (fn load-recipes [...]
   (let [config (default-config)]
@@ -117,9 +111,7 @@
           (merge-recipes config [merged]))))
 
     `(fn [bistro#]
-       (tset bistro# :config ,config))
-  )
-)
+       (tset bistro# :config ,config))))
 
 ;; Recipe creation helper macros
 (fn as-mode! [config name]
@@ -185,19 +177,7 @@
 
     ))
 
-{: defrecipe
- : defconfig
- ; : defmode
- ; : defoption
+{: defconfig
+ : defrecipe
  : in-recipe
- : load-and-print-recipe
- : load-recipes
- 
- : as-mode!
- : as-option!
- : command!
- : map!
- : log
- : set!
- : setup!
- : use!}
+ : load-recipes}
