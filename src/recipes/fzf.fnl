@@ -1,5 +1,4 @@
-(import-macros {: defrecipe
-                : defconfig} :recipe-macros)
+(import-macros {: defconfig} :recipe-macros)
 
 (defconfig
   ; === Globals ===

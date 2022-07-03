@@ -53,6 +53,14 @@
       (pconfigure config)))
   self)
 
+(fn editConfig [self]
+  (if (= self.sourceDir "")
+    (print "Please set the Bistro source directory")
+    (let [configFile (.. self.sourceDir "/configure.fnl")
+          cmd (.. "edit " configFile)]
+      (vim.cmd cmd)))
+  self)
+
 (fn editRecipe [self name]
   (if (= self.sourceDir "")
     (print "Please set the Bistro source directory")
@@ -91,10 +99,11 @@
 (fn refresh [self reloadPlugins reconfigureRecipes]
   ; Clear bistro cache
   (tset package.loaded :configure nil)
-  (tset package.loaded :bistro nil)
-  (each [_ recipe (ipairs self.recipes)]
-    (tset package.loaded (.. "recipes/" recipe) nil))
-  (print "Cache cleared. Please reload the Bistro")
+  ; (tset package.loaded :bistro nil)
+  ; (each [_ recipe (ipairs self.recipes)]
+  ;   (tset package.loaded (.. "recipes/" recipe) nil))
+  ; (print "Cache cleared. Please reload the Bistro")
+  (print "Cache cleared. Please re-run 'bistro:setup()'")
   self)
 
 
