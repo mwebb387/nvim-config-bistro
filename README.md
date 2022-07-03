@@ -30,25 +30,28 @@ I also did not want to rely on another plugin to allow me to write and update my
 To fully load the Bistro, with its recipes, plugins and configurations, add this `lua` code to the Neovim initialization:
 
 ```lua
-require'bistro'
-  :loadPlugins()
-  :configureRecipes()
+require'bistro':setup()
 ```
 
 ### Main Bistro Configuration
 
-The main Bistro configuration is written inside `src/configure.fnl`. It consists of Bisto and Recipe initialization macros followed by a list of method calls. These method calls are designed to look as if you are calling each recipe as a method with any desired options passed to it. For example, if there exists recipe files at `src/recipes/recipe-a` and `src/recipes/recipe-b`, the configuration might looks like the following:
+The main Bistro configuration is written inside `src/configure.fnl`. It consists of a Bisto initialization macro followed by a list of method calls. These method calls are designed to look as if you are calling each recipe as a method with any desired options passed to it. For example, if there exists recipe files at `src/recipes/recipe-a` and `src/recipes/recipe-b`, the configuration might looks like the following:
 
 ```fennel
-; Make sure to import the configuration macros
-(import-macros {: configure-bistro
-                : with-recipes }
-               :macros)
+; Make sure to import the configuration macro
+(import-macros {: load-recipes} :recipe-macros)
 
-(configure-bistro
-  (with-recipes
-    (recipe-a)
-    (recipe-b :recipe-option)))
+; Make sure to import any macros used in your recipe files
+; This requirement will be removed in future versions
+(import-macros {: augroup
+                : autocmd
+                : defhighlight
+                : defsign
+                : defun} :macros)
+
+(load-recipes
+  (recipe-a)
+  (recipe-b :recipe-option))
 ```
 
 ### Recipe Definition
@@ -57,50 +60,143 @@ Each recipe is defined in its own file within the `src/recipes/` folder. They al
 - `src/recipes/lsp.fnl`
 - `src/recipes/lsp/init.fnl`
 
-Recipes are defined using the `defrecipe` macro. This macro takes a name and a set of method calls beginning with either `default`, `mode`, or `option`.
+Recipe configurations are defined using the `defconfig` macro. This macro takes a set of method calls that specify options, keymaps, commands, etc. that are part of a user's main configuration.
 
-`default` configuration plugins and methods are always loaded/called:
+The full set of methods commands are the following:
 
-```fennel
-(defrecipe recipe-name
-  (default plugin-list config-method)) ; Plugins always loaded and config method always called
-```
+#### as-mode!
 
-The `mode` method allows defining a set of mutually exclusive plugins and configuration methods based on the parameters passed to the recipe
+The `as-mode!` method sets the current config as a mutually exclusive configuration based on the parameters passed to the recipe
 
 ```fennel
 ; Main configuration
-(configure-bistro
-  (with-recipes
-    (csharp :lsp)))
+(load-recipes
+  (csharp :lsp))
 
 ; ...
 
 ; src/recipes/csharp.fnl
 
-(defrecipe csharp
-  (mode :lsp lsp-plugin-list lsp-config-method) ; Loads only if :lsp option is present/first in the recipe args
-  (mode :coc coc-plugin-list coc-config-method)) ; Loads only if :coc option is present/first in the recipe args
+(defconfig
+  (as-mode! :lsp lsp-config-method) ; Loads only if :lsp option is present and first in the recipe args
+  (use! lsp-plugin-list)
+  (setup! (fn [] (setup-instructions-here))))
+
+(defconfig
+  (as-mode! :coc coc-config-method) ; Loads only if :coc option is present and first in the recipe args
+  (use! coc-plugin-list)
+  (setup! (fn [] (coc-setup-here))))
 ```
 
-The `option` method allows defining a set of plugins and configuration methods whenever parameters passed to the recipe
+#### as-mode!
+
+The `as-option!` method allows defining a set of plugins and configuration methods whenever parameters passed to the recipe
 
 ```fennel
 ; Main configuration
-(configure-bistro
-  (with-recipes
-    (csharp :debug :folding)))
+(load-recipes
+  (csharp :debug :folding))
 
 ; ...
 
 ; src/recipes/csharp.fnl
 
-(defrecipe csharp
-  (option :debug dap-plugin-list dap-config-method) ; Loads whenever :debugging option is present
-  (option :folding fold-plugin-list fold-config-method)) ; Loads whenever :folding option is present
+(defconfig
+  (as-option! :debug)
+  (use! dap-plugin-list)
+  (setup! (fn [] (dap-config-method)))) ; Loads whenever :debugging option is present
+
+
+(defconfig
+  (as-option! :folding)
+  (use! fold-plugin-list)
+  (setup! (fn [] (fold-config-method)))) ; Loads whenever :folding option is present
 ```
+
+#### command!
+
+The `command!` method allows defining a user command
+
+
+```fennel
+(defconfig
+  (command! UserExplore ":edit .")
+
+  (command! UserCommandName
+    (fn [] (user-command-fn))
+    {
+    ; Options...
+    }))
+```
+
+#### log
+The `log` method is for debugging purposes and will output the contents of the configuration at build time
+
+```fennel
+(defconfig
+  (log))
+```
+
+#### map!
+The `map!` method is for creating keymaps
+
+```fennel
+(defconfig
+  (map! [:n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
+```
+
+#### set!
+The `set!` method is for setting regular options
+
+```fennel
+(defconfig
+  (set! hidden true))
+```
+
+#### set-g!
+The `set-g!` method is for setting global options
+
+```fennel
+(defconfig
+  (set-g! material_style "deep ocean"))
+```
+
+#### setup!
+The `setup!` method is for defining a method that will be executed as part of the bistro configuration routine
+
+```fennel
+(defconfig
+  (setup!
+    (fn configure_telescope []
+      (let [telescope (require :telescope)]
+        (telescope.setup {})))))
+```
+
+#### use!
+The `use!` method is for defining a set of plugins to install as part of the configuration
+
+```fennel
+(defconfig
+  (use! [:nvim-lua/popup.nvim
+         :nvim-lua/plenary.nvim
+         :nvim-telescope/telescope.nvim]))
+```
+
+A single plugin can also be defined as a list in the form `[plug-name plug-options]` where `plug-options` are the same options passed to *vim-plug*
+
+```fennel
+(defconfig
+  (use! [:tpope/vim-fugitive
+         [:junegunn/gv.vim {:on :GV}]
+         [:kdheepak/lazygit.nvim {:on :LazyGit}]]))
+```
+
 
 ## Macro methods
+
+These metods are general methods that can be used in the function defined with `(setup! (fn [] ...))` in a ocnfiguration.
+
+For now, any macros used in a `(setup! (fn []...))` MUST be imported in `configure.fnl`so they can be resolved at compile time.
 
 **augroup**
 
@@ -120,7 +216,7 @@ Defines an autocmd for Neovom. Currently requires 3 strings be passed to the com
 (autocmd :CursorHold :<buffer> "lua vim.lsp.buf.document_highlight()")
 ```
 
-**configure-bistro**
+**configure-bistro** _DEPRECATED_
 
 Macro used in the main configuration to setup recipe loading for the Bistro. Accepts a list of methods and will pass the Bistro object/table into each one in order
 
@@ -162,8 +258,6 @@ Defines a highlight, passing in the desired options as a table
 
 Defines a key mapping (with `noremap` by default) in Neovim.
 
-**defrecipe**
-
 ```fennel
 ; Single mode input
 (defmap [i] :jk :<esc>)
@@ -174,6 +268,8 @@ Defines a key mapping (with `noremap` by default) in Neovim.
 ; With explicit options
 (defmap [n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
 ```
+
+**defrecipe** _DEPRECATED_
 
 Defines a recipe for the Bistro
 
@@ -214,7 +310,7 @@ Defines a function in global scope usable in Neovim (NOTE: This macro name will 
 v:lua.check_back_space()
 ```
 
-**with-recipes**
+**with-recipes** _DEPRECATED_
 
 Recieves methods passed in where each method name is the name of a recipe in `src/recipes/` and the arguments are parameters passed to each recipe within its setup. NOTE: Should be used within the `configure-bistro` macro
 
@@ -232,7 +328,7 @@ Recieves methods passed in where each method name is the name of a recipe in `sr
 
 - [ ] Logo
 - [x] Readme
-- [ ] Documentation and comments
+- [x] Documentation and comments
 - [ ] More/updated macros for function, syntax, etc.
 - [ ] More recipes with more options for configuring
 - [x] Cleaner recipe definition using a macro

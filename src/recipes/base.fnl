@@ -40,6 +40,12 @@
   (set! completeopt "menuone,preview,noinsert,noselect")
   (set! previewheight 5)
 
+  ; Default Omnifunc
+  (set! omnifunc :syntaxcomplete#Complete)
+
+  ;Emmet settings (move to other recipe later...)
+  (set-g! user_emmet_leader_key :<A-y>)
+  (set-g! user_emmet_complete_tag 1)
 
   ; === Maps ===
   (map! [:n] :H :^)
@@ -66,6 +72,18 @@
   (map! [:t] :<a-q> :<c-\><c-n><c-w>q)
   (map! [:t] :<a-w> :<c-\><c-n><c-w>w)
   (map! [:t] :<a-n> :<c-\><c-n>)
+
+  ; Next/Previous maps
+  (map! [:n] "]b" ":bnext")
+  (map! [:n] "[b" ":bprevious")
+  (map! [:n] "]t" ":tabnext")
+  (map! [:n] "[t" ":tabprevious")
+  (map! [:n] "]w" :<c-w>w)
+  (map! [:n] "[w" :<c-w>W)
+  (map! [:n] "]q" ":cnext")
+  (map! [:n] "[q" ":cprevious")
+  (map! [:n] "]l" ":lnext")
+  (map! [:n] "[l" ":lprevious")
 
   ; General Insert mode
   (map! [:i] :<C-j> :<c-o>j)
