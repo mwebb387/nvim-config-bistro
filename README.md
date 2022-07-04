@@ -88,7 +88,7 @@ The `as-mode!` method sets the current config as a mutually exclusive configurat
   (setup! (fn [] (coc-setup-here))))
 ```
 
-#### as-mode!
+#### as-option!
 
 The `as-option!` method allows defining a set of plugins and configuration methods whenever parameters passed to the recipe
 
@@ -216,7 +216,7 @@ Defines an autocmd for Neovom. Currently requires 3 strings be passed to the com
 (autocmd :CursorHold :<buffer> "lua vim.lsp.buf.document_highlight()")
 ```
 
-**configure-bistro** _DEPRECATED_
+**configure-bistro** (_DEPRECATED_)
 
 Macro used in the main configuration to setup recipe loading for the Bistro. Accepts a list of methods and will pass the Bistro object/table into each one in order
 
@@ -269,7 +269,7 @@ Defines a key mapping (with `noremap` by default) in Neovim.
 (defmap [n] :<leader>gp ":Git pull<CR>" {:noremap true :silent true}))
 ```
 
-**defrecipe** _DEPRECATED_
+**defrecipe** (_DEPRECATED_)
 
 Defines a recipe for the Bistro
 
@@ -310,7 +310,7 @@ Defines a function in global scope usable in Neovim (NOTE: This macro name will 
 v:lua.check_back_space()
 ```
 
-**with-recipes** _DEPRECATED_
+**with-recipes** (_DEPRECATED_)
 
 Recieves methods passed in where each method name is the name of a recipe in `src/recipes/` and the arguments are parameters passed to each recipe within its setup. NOTE: Should be used within the `configure-bistro` macro
 
