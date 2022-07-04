@@ -101,11 +101,11 @@
 (fn refresh [self reloadPlugins reconfigureRecipes]
   ; Clear bistro cache
   (tset package.loaded :configure nil)
-  ; (tset package.loaded :bistro nil)
+  (tset package.loaded :bistro nil)
   ; (each [_ recipe (ipairs self.recipes)]
   ;   (tset package.loaded (.. "recipes/" recipe) nil))
   ; (print "Cache cleared. Please reload the Bistro")
-  (print "Cache cleared. Please re-run 'bistro:setup()'")
+  (print "Cache cleared. Please re-require and run 'bistro:setup()'")
   self)
 
 

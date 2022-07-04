@@ -2,18 +2,26 @@
 
 (defconfig
   ; === Maps ===
-  (map! [:n] :<leader>e ":NvimTreeToggle<CR>")
-  ;(map! [:n] :- ":NvimTreeFindFile<CR>")
-  ; (map! [:n] :- ":Vifm<CR>")
-  (map! [:n] :- ":Explore<CR>")
+  (map! [:n] :- ":Explore<CR>"))
 
+(defconfig
+  (as-mode! :nvimtree)
+
+  (map! [:n] :<leader>e ":NvimTreeToggle<CR>")
 
   ; === Plugins ===
   (use! [:kyazdani42/nvim-tree.lua ])
 
-  ; === Setup ===
   (setup!
     (fn [] ((. (require :nvim-tree) :setup) {:disable_netrw false}))))
+
+(defconfig
+  (as-mode! :dirvish)
+
+  (map! [:n] :<leader>d ":Dirvish<CR>")
+  (map! [:n] :- ":Dirvish %<CR>")
+
+  (use! [:justinmk/vim-dirvish]))
 
 (defconfig
   (as-mode! :vifm)

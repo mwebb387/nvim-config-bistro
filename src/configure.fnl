@@ -10,7 +10,7 @@
  (bistro)
  ; statusline
  (themes) ; TODO: variable option/mode handler
- (files)
+ (files :dirvish)
  (git :signs)
  (fzf :lsp)
  (telescope)

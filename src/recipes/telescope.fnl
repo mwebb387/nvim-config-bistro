@@ -6,7 +6,6 @@
   (map! [:n] :<c-p> "<cmd>Telescope git_files<CR>")
   (map! [:n] :<leader>sb "<cmd>Telescope buffers<CR>")
   (map! [:n] :<leader>bs "<cmd>Telescope buffers<CR>")
-  (map! [:n] :<m-b> "<cmd>Telescope buffers<CR>")
   (map! [:n] :<leader>sg "<cmd>Telescope live_grep<CR>")
   (map! [:n] :<leader>sh "<cmd>Telescope help_tags<CR>")
   (map! [:n] :<leader>so "<cmd>Telescope oldfiles<CR>")
@@ -22,7 +21,7 @@
   (map! [:n] :<leader>gs "<cmd>Telescope git_status<CR>")
   (map! [:n] :<leader>gS "<cmd>Telescope git_stash<CR>")
 
-  (map! [:t] :<a-b> "<c-\\><c-n> <cmd>Telescope buffers<CR>")
+  ; (map! [:t] :<a-b> "<c-\\><c-n> <cmd>Telescope buffers<CR>")
   (map! [:t] :<a-f> "<c-\\><c-n> <cmd>Telescope find_files<CR>")
   (map! [:t] :<a-/> "<c-\\><c-n> <cmd>Telescope live_grep<CR>")
 

@@ -21,7 +21,7 @@
                   :configure (bistro:setupRecipes)
                   :reconfigure (do
                                  (bistro:refresh)
-                                 (bistro:setup)))))
+                                 (: (require :bistro) :setup)))))
 
             {:complete (fn [A L P] [:build
                                     :edit

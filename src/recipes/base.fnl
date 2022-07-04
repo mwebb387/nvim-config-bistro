@@ -25,7 +25,7 @@
 
   ; Searching
   (set! ignorecase true)
-  (set! wildignore "obj/**,bin/**,node_modules/**")
+  (set! wildignore "obj/**,bin/**,node_modules/**,CMS/**")
   (set! grepprg "rg --vimgrep --no-heading --smart-case")
   (set! grepformat "%f:%l:%c:%m,%f:%l:%m")
 
@@ -37,7 +37,7 @@
   ; Always show signcolumns
   (set! signcolumn "yes")
 
-  (set! completeopt "menuone,preview,noinsert,noselect")
+  (set! completeopt "menuone,noinsert,noselect")
   (set! previewheight 5)
 
   ; Default Omnifunc
@@ -45,7 +45,7 @@
 
   ;Emmet settings (move to other recipe later...)
   (set-g! user_emmet_leader_key :<A-y>)
-  (set-g! user_emmet_complete_tag 1)
+  ; (set-g! user_emmet_complete_tag 1)
 
   ; === Maps ===
   (map! [:n] :H :^)
@@ -65,6 +65,8 @@
   (map! [:n :i] :<a-L> :<c-w>L)
   (map! [:n :i] :<a-q> :<c-w>q)
   (map! [:n :i] :<a-w> :<c-w>w)
+  (map! [:n :i] :<a-d> :<c-w>w<c-d><c-w>w)
+  (map! [:n :i] :<a-u> :<c-w>w<c-u><c-w>w)
   (map! [:t] :<a-h> :<c-\><c-n><c-w>h)
   (map! [:t] :<a-j> :<c-\><c-n><c-w>j)
   (map! [:t] :<a-k> :<c-\><c-n><c-w>k)
@@ -74,16 +76,28 @@
   (map! [:t] :<a-n> :<c-\><c-n>)
 
   ; Next/Previous maps
-  (map! [:n] "]b" ":bnext")
-  (map! [:n] "[b" ":bprevious")
-  (map! [:n] "]t" ":tabnext")
-  (map! [:n] "[t" ":tabprevious")
+  (map! [:n] "]b" ":bnext<CR>")
+  (map! [:n] "[b" ":bprevious<CR>")
+  (map! [:n] "]t" ":tabnext<CR>")
+  (map! [:n] "[t" ":tabprevious<CR>")
+  (map! [:n] "]q" ":cnext<CR>")
+  (map! [:n] "[q" ":cprevious<CR>")
+  (map! [:n] "]l" ":lnext<CR>")
+  (map! [:n] "[l" ":lprevious<CR>")
   (map! [:n] "]w" :<c-w>w)
   (map! [:n] "[w" :<c-w>W)
-  (map! [:n] "]q" ":cnext")
-  (map! [:n] "[q" ":cprevious")
-  (map! [:n] "]l" ":lnext")
-  (map! [:n] "[l" ":lprevious")
+
+  ; Toggles
+  (map! [:n] :<a-s> (fn []
+                      (set vim.o.spell (not vim.o.spell))
+                      (if vim.o.spell
+                        (print "Spell ON")
+                        (print "Spell OFF"))))
+
+  (map! [:n] :<a-r> (fn [] (set vim.o.relativenumber (not vim.o.relativenumber))))
+
+  ; Buffers
+  (map! [:n] :<a-b> ":buffer ")
 
   ; General Insert mode
   (map! [:i] :<C-j> :<c-o>j)
@@ -147,5 +161,8 @@
          :mattn/emmet-vim
          :junegunn/vim-slash
          :folke/which-key.nvim
-         :kyazdani42/nvim-web-devicons]))
+         :kyazdani42/nvim-web-devicons])
+  
+  (setup! (fn [] (let [wk (require :which-key)]
+                   (wk.setup)))))
 
