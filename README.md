@@ -23,6 +23,20 @@ I also did not want to rely on another plugin to allow me to write and update my
 - Fennel
 - VimPlug
 
+## Installation
+
+Make sure to have `fennel` in your system path and run the following command in the terminal...
+
+```
+fennel <bistro repo>/build.fnl <bistro repo>/src/ <nvim lua folder>
+```
+
+...where `<bistro repo>` is the path to the local copy of this repo and `<nvim lua folder>` is the path to the lua folder in Neovim.
+
+This will accomplish two things:
+1. Compile the configuration and fennel source in the `/src` folder. NOTE: This will not write and compile files in the `/src/recipes` folder
+2. Write the `/src` folder location into the compiled source so that the Bistro can re-build itself within Neovim
+
 ## Tour of the Bistro
 
 ### Loading the Bistro recipes, plugins and configurations in Neovim
