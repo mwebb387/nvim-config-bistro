@@ -194,7 +194,7 @@ A single plugin can also be defined as a list in the form `[plug-name plug-optio
 
 ## Macro methods
 
-These metods are general methods that can be used in the function defined with `(setup! (fn [] ...))` in a ocnfiguration.
+These metods are general methods that can be used in the function defined with `(setup! (fn [] ...))` in a configuration.
 
 For now, any macros used in a `(setup! (fn []...))` MUST be imported in `configure.fnl`so they can be resolved at compile time.
 

@@ -31,10 +31,18 @@ catch {
 }
 
 # Prep neovim config folders
-Write-Host "Creating config folders"
-Get-ChildItem ./src/ -recurse -directory | ForEach-Object {
-  $Dir = "~/AppData/nvim/lua/$_"
+# Write-Host "Creating config folders"
+# Get-ChildItem ./src/ -recurse -directory | ForEach-Object {
+#   $Dir = "~/AppData/nvim/lua/$_"
+#   if (-not (Test-Path $Dir)) {
+#     New-Item $Dir -ItemType Directory -Force -WhatIf
+#   }
+# }
+
+# Prep neovim config folders
+Write-Host "Creating lua folder"
+  $Dir = "~/AppData/nvim/lua/"
   if (-not (Test-Path $Dir)) {
-    New-Item $Dir -ItemType Directory -Force -WhatIf
+    New-Item $Dir -ItemType Directory -Force
   }
 }
