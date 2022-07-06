@@ -2,18 +2,17 @@
 
 (defconfig
   ; === Maps ===
-  (map! [:n] :<leader>sf "<cmd>Telescope find_files<CR>")
+  (map! [:n] :<leader>ff "<cmd>Telescope find_files<CR>")
   (map! [:n] :<c-p> "<cmd>Telescope git_files<CR>")
-  (map! [:n] :<leader>sb "<cmd>Telescope buffers<CR>")
-  (map! [:n] :<leader>bs "<cmd>Telescope buffers<CR>")
-  (map! [:n] :<leader>sg "<cmd>Telescope live_grep<CR>")
-  (map! [:n] :<leader>sh "<cmd>Telescope help_tags<CR>")
-  (map! [:n] :<leader>so "<cmd>Telescope oldfiles<CR>")
-  (map! [:n] :<leader>sr "<cmd>Telescope registers<CR>")
-  (map! [:n] :<leader>sq "<cmd>Telescope quickfix<CR>")
-  (map! [:n] :<leader>sd "<cmd>Telescope diagnostics bufnr=0<CR>")
-  (map! [:n] :<leader>sD "<cmd>Telescope diagnostics<CR>")
-  (map! [:n] :<leader>ss "<cmd>Telescope lsp_document_symbols<CR>")
+  (map! [:n] :<leader>fb "<cmd>Telescope buffers<CR>")
+  (map! [:n] :<leader>fg "<cmd>Telescope live_grep<CR>")
+  (map! [:n] :<leader>fh "<cmd>Telescope help_tags<CR>")
+  (map! [:n] :<leader>fo "<cmd>Telescope oldfiles<CR>")
+  (map! [:n] :<leader>fr "<cmd>Telescope registers<CR>")
+  (map! [:n] :<leader>fq "<cmd>Telescope quickfix<CR>")
+  (map! [:n] :<leader>fd "<cmd>Telescope diagnostics bufnr=0<CR>")
+  (map! [:n] :<leader>fD "<cmd>Telescope diagnostics<CR>")
+  (map! [:n] :<leader>fs "<cmd>Telescope lsp_document_symbols<CR>")
 
   (map! [:n] :<leader>gb "<cmd>Telescope git_branches<CR>")
   (map! [:n] :<leader>gc "<cmd>Telescope git_commits<CR>")

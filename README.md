@@ -1,25 +1,25 @@
-# NeoVim Configuration Bistro
+# Neovim Configuration Bistro
 
-This is the repo for my current NeoVim configuration.
+This is the repo for my current Neovim configuration.
 
 ## Details
 
 - Written in [Fennel](https://fennel-lang.org/)
 - Extensive use of macros for a more lispy configuration
 - Divided into _Recipes_ for groups of functionality
-- Separate and buildable outside of NeoVim
+- Separate and buildable outside of Neovim
 
 ## Motivation
 
-I really enjoy NeoVim and I really enjoy lisp(s).
+I really enjoy Neovim and I really enjoy lisp(s).
 
-I also liked how Doom Emacs was configured with general groups of functionality that allow extra options to be specifed to enhance or change how that functionality works. This is my attempt at something somewhat similar.
+I also liked how Doom Emacs was configured with general groups of functionality that allow extra options to be specified to enhance or change how that functionality works. This is my attempt at something somewhat similar.
 
-I also did not want to rely on another plugin to allow me to write and update my configuration, so it is written in pure Fennel and exists entirely outside of NeoVim itself.
+I also did not want to rely on another plugin to allow me to write and update my configuration, so it is written in pure Fennel and exists entirely outside of Neovim itself.
 
 ## Dependencies
 
-- NeoVim (0.5+)
+- Neovim (0.5+)
 - Fennel
 - VimPlug
 
@@ -49,7 +49,7 @@ require'bistro':setup()
 
 ### Main Bistro Configuration
 
-The main Bistro configuration is written inside `src/configure.fnl`. It consists of a Bisto initialization macro followed by a list of method calls. These method calls are designed to look as if you are calling each recipe as a method with any desired options passed to it. For example, if there exists recipe files at `src/recipes/recipe-a` and `src/recipes/recipe-b`, the configuration might looks like the following:
+The main Bistro configuration is written inside `src/configure.fnl`. It consists of a Bistro initialization macro followed by a list of method calls. These method calls are designed to look as if you are calling each recipe as a method with any desired options passed to it. For example, if there exists recipe files at `src/recipes/recipe-a` and `src/recipes/recipe-b`, the configuration might looks like the following:
 
 ```fennel
 ; Make sure to import the configuration macro
@@ -80,7 +80,7 @@ The full set of methods commands are the following:
 
 #### as-mode!
 
-The `as-mode!` method sets the current config as a mutually exclusive configuration based on the parameters passed to the recipe
+The `as-mode!` method sets the current configuration as a mutually exclusive configuration based on the parameters passed to the recipe
 
 ```fennel
 ; Main configuration
@@ -208,7 +208,7 @@ A single plugin can also be defined as a list in the form `[plug-name plug-optio
 
 ## Macro methods
 
-These metods are general methods that can be used in the function defined with `(setup! (fn [] ...))` in a configuration.
+These methods are general methods that can be used in the function defined with `(setup! (fn [] ...))` in a configuration.
 
 For now, any macros used in a `(setup! (fn []...))` MUST be imported in `configure.fnl`so they can be resolved at compile time.
 
@@ -224,7 +224,7 @@ Defines an autocmd group with the given name
 
 **autocmd**
 
-Defines an autocmd for Neovom. Currently requires 3 strings be passed to the command for `event`, `pattern` and `command` respectively
+Defines an autocmd for Neovim. Currently requires 3 strings be passed to the command for `event`, `pattern` and `command` respectively
 
 ```fennel
 (autocmd :CursorHold :<buffer> "lua vim.lsp.buf.document_highlight()")
@@ -326,7 +326,7 @@ v:lua.check_back_space()
 
 **with-recipes** (_DEPRECATED_)
 
-Recieves methods passed in where each method name is the name of a recipe in `src/recipes/` and the arguments are parameters passed to each recipe within its setup. NOTE: Should be used within the `configure-bistro` macro
+Receives methods passed in where each method name is the name of a recipe in `src/recipes/` and the arguments are parameters passed to each recipe within its setup. NOTE: Should be used within the `configure-bistro` macro
 
 ```fennel
 (with-recipes
@@ -336,7 +336,7 @@ Recieves methods passed in where each method name is the name of a recipe in `sr
   (fennel)) ; Loads 'src/recipes/fennel.fnl' with no parameters
 ```
 
-(NOTE: Not all macro methods are documented yet, but all macros can be redily viewed in `src/macros.fnl`)
+(NOTE: Not all macro methods are documented yet, but all macros can be readily viewed in `src/macros.fnl`)
 
 ## TODO
 

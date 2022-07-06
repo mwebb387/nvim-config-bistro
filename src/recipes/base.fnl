@@ -88,16 +88,18 @@
   (map! [:n] "[w" :<c-w>W)
 
   ; Toggles
-  (map! [:n] :<a-s> (fn []
+  (map! [:n] :<leader>s (fn []
                       (set vim.o.spell (not vim.o.spell))
                       (if vim.o.spell
                         (print "Spell ON")
                         (print "Spell OFF"))))
 
-  (map! [:n] :<a-r> (fn [] (set vim.o.relativenumber (not vim.o.relativenumber))))
+  (map! [:n] :<leader>r (fn [] (set vim.o.relativenumber (not vim.o.relativenumber))))
 
-  ; Buffers
-  (map! [:n] :<a-b> ":buffer ")
+  ; Buffers and file finding
+  (map! [:n] :<leader>b ":buffer ")
+  (map! [:n] :<leader>p ":edit **/*")
+  (map! [:n] :<leader>/ ":grep ")
 
   ; General Insert mode
   (map! [:i] :<C-j> :<c-o>j)
