@@ -2,7 +2,7 @@
 
 (defconfig
   ; === Maps ===
-  (map! [:n] :- ":Explore<CR>"))
+  (map! [:n] :<leader>e ":Explore<CR>"))
 
 (defconfig
   (as-mode! :nvimtree)
