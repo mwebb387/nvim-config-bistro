@@ -32,9 +32,6 @@
 (fn addPlugins [self plugins]
   (concat self.plugins plugins))
 
-(fn addConfig [self config]
-  (table.insert self.configFns config))
-
 (fn build [self]
   (if (= self.sourceDir "")
     (print "Please set the Bistro source directory")
@@ -42,16 +39,6 @@
           buildDir (.. (vim.fn.stdpath :config) "/" :lua "/")
           cmd (.. "!" :fennel " " buildScript " " self.sourceDir " " buildDir)]
       (vim.cmd cmd)))
-  self)
-
-; DEPRECATED
-(fn configureRecipes [self]
-  (if (anyMissingPlugins)
-    (do
-      (print "Not all plugins are installed.")
-      (print "Run :PlugInstall first, then re-run :lua require'bistro':configureRecipes()"))
-    (each [_ config (ipairs self.configFns)]
-      (pconfigure config)))
   self)
 
 (fn editConfig [self]
@@ -68,14 +55,6 @@
     (let [recipeFile (.. self.sourceDir "/recipes/" name ".fnl")
           cmd (.. "edit " recipeFile)]
       (vim.cmd cmd)))
-  self)
-
-; DEPRECATED
-(fn prepareRecipes [self recipes]
-  (each [recipe-name recipe-args (pairs recipes)]
-    (table.insert self.recipes recipe-name)
-    (let [load-recipe (require (.. "recipes/" recipe-name))]
-      (load-recipe self (unpack recipe-args))))
   self)
 
 ; (fn loadPlugins [self]
@@ -98,13 +77,10 @@
     (vim.fn.plug#end))
   self)
 
-(fn refresh [self reloadPlugins reconfigureRecipes]
+(fn refresh [self]
   ; Clear bistro cache
   (tset package.loaded :configure nil)
   (tset package.loaded :bistro nil)
-  ; (each [_ recipe (ipairs self.recipes)]
-  ;   (tset package.loaded (.. "recipes/" recipe) nil))
-  ; (print "Cache cleared. Please reload the Bistro")
   (print "Cache cleared. Please re-require and run 'bistro:setup()'")
   self)
 
@@ -116,7 +92,7 @@
   (if (anyMissingPlugins)
     (do
       (print "Not all plugins are installed.")
-      (print "Run :PlugInstall first, then re-run :lua require'bistro':configureRecipes()"))
+      (print "Run :PlugInstall first, then re-run :lua require'bistro':setupRecipes()"))
     (do
       ; Set globals
       (each [key value (pairs self.config.globals)]
@@ -147,21 +123,15 @@
   self)
 
 (local bistro
-  {:configFns [] ;; For old style config methods
-   :configs [] ;; For new style configs
-   :recipes [] ;; Recipe names
+  {:configs [] ;; For new style configs
    :plugins [] ;; Plugin paths and options
-   :functions [] ;; TODO: Remove now that nvim has lua for commands, maps, etc.
    :sourceDir (get-inputdir)
    :autoInstallPluginManager true
    :syncPlugins true
-   : addConfig
    : addPlugins
    : build
-   : configureRecipes
    : editRecipe
    : loadPlugins
-   : prepareRecipes
    : refresh
    : setup
    : setupRecipes})

@@ -17,3 +17,14 @@
       (let [lspconfig (require :lspconfig)
             {: on-attach} (require :lsp)]
         (lspconfig.tsserver.setup {:on_attach on-attach})))))
+
+(defconfig
+  (as-option! :deno)
+
+  (setup!
+    (fn configure-deno []
+      (let [lspconfig (require :lspconfig)
+            {: on-attach} (require :lsp)]
+        (lspconfig.denols.setup {:on_attach on-attach
+                                 :root_dir (lspconfig.util.root_pattern [:deno.json :deno.jsonp])
+                                 :autostart false})))))

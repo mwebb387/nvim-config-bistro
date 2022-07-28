@@ -98,7 +98,7 @@
 
   ; Buffers and file finding
   (map! [:n] :<leader>b ":buffer ")
-  (map! [:n] :<leader>p ":edit **/*")
+  (map! [:n] :<leader>p ":Fd ")
   (map! [:n] :<leader>/ ":grep ")
 
   ; General Insert mode
@@ -153,6 +153,30 @@
   (command! PrettierWrite
             (fn []
               (vim.cmd "!npx prettier --check --write %")))
+
+  (command! FdList
+            (fn [input]
+              (let [{: args} input
+                    {: map} (require :util)
+                    cmd (.. "fd " args)]
+                (-> cmd
+                    (vim.fn.systemlist)
+                    (map (fn [path] {:filename path
+                                     :lnum 0}))
+                    (vim.fn.setqflist))
+                (vim.cmd :copen)))
+            {:nargs 1})
+
+  (command! Fd
+            (fn [input]
+              (let [{: args} input
+                    {: map} (require :util)
+                    cmd (.. "edit " args)]
+                (vim.cmd cmd)))
+            {:complete (fn [A L P]
+                         (let [cmd (.. "fd " A)]
+                           (vim.fn.systemlist cmd)))
+             :nargs 1})
 
 
   ; === Plugins ===

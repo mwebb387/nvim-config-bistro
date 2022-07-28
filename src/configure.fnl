@@ -10,9 +10,9 @@
  (bistro)
  ; statusline
  (themes) ; TODO: variable option/mode handler
- (files :dirvish)
+ (files :vifm)
  (git :signs)
- (fzf :lsp)
+ (fzf :vim :lsp)
  (telescope)
  (treesitter)
  (lsp)
@@ -22,5 +22,5 @@
  ; angular
  (csharp :omnisharp-ls)
  (fennel)
- (typescript :lsp)
+ (typescript :lsp :deno)
  )
