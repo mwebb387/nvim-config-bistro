@@ -12,6 +12,11 @@
         {:noremap true :expr true}))
 
 (defconfig
+  (as-mode! :mu)
+
+  (use! [:lifepillar/vim-mucomplete]))
+
+(defconfig
   (as-mode! :coc)
 
   ; Commands

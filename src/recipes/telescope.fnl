@@ -46,3 +46,4 @@
 (defconfig
   (as-option! :dap)
   (use! [:nvim-telescope/telescope-dap.nvim]))
+

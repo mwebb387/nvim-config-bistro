@@ -159,7 +159,7 @@
 
  :set!
  (fn [name value]
-   `(tset vim.opt ,name ,value))
+   `(tset vim.opt ,(tostring name) ,value))
 
  :set-test!
  (fn [name value]

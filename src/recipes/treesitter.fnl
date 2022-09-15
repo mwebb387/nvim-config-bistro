@@ -26,3 +26,11 @@
                                                      :scope_incremental :grc
                                                      :node_decremental :grm}}
                    :indent {:enable true}})))))
+
+(defconfig
+  (as-option! :folding)
+
+  ; Testing TS folding
+  (set! foldmethod :expr)
+  (set! foldnestmax 3)
+  (set! foldexpr "nvim_treesitter#foldexpr()"))

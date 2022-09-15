@@ -1,6 +1,12 @@
 (import-macros {: defconfig} :recipe-macros)
 
 (defconfig
+  (setup!
+    (fn []
+      (augroup :chsarp-settings
+               (autocmd :filetype "cs,cshtml" "compiler msbuild")))))
+
+(defconfig
   (as-mode! :omnisharp)
 
   (set-g! OmniSharp_server_stdio 1)
@@ -12,6 +18,8 @@
                                     :sigPrev :<C-p>
                                     :pageDown [:<C-f> :<PageDown>]
                                     :pageUp [:<C-b> :<PageUp>] })
+
+  (use! [:omnisharp/omnisharp-vim])
 
   (setup!
     (fn []
@@ -58,8 +66,11 @@
                                (. (require :omnisharp_extended) handler)}
                   ; cs-handlers (require :recipes/lsp/handlers)
                   omnisharp-bin (.. home :\scoop\apps\omnisharp\current\OmniSharp.exe)
-                  omnisharp-lsp (require :lspconfig)]
-              (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
+                  omnisharp-lsp (require :lspconfig)
+                  ; omnisharp-cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
+                  omnisharp-cmd [omnisharp-bin]]
+              (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin]
+                                              :enable_roslyn_analyzers true
                                               :on_attach on-attach
                                               :handlers cs-handlers})))))
 

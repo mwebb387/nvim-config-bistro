@@ -3,21 +3,23 @@
                 : autocmd
                 : defhighlight
                 : defsign
-                : defun} :macros)
+                : defun
+                : set!} :macros)
 
 (load-recipes
  (base)
  (bistro)
- ; statusline
+ (statusline)
  (themes) ; TODO: variable option/mode handler
+ (terminal)
  (files :vifm)
- (git :signs)
- (fzf :vim :lsp)
+ (git :signs :neogit :diffview)
+ ; (fzf)
  (telescope)
  (treesitter)
  (lsp)
  (debugging :ui :csharp :typescript)
- (complete :vcm)
+ (complete :mu)
 
  ; angular
  (csharp :omnisharp-ls)

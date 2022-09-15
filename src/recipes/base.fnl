@@ -107,9 +107,7 @@
   (map! [:i] :<C-l> :<c-o>l)
   (map! [:i] :<C-h> :<c-o>h)
 
-  ; Other fancy things
-  (map! [:n] "<M-`>" ":NextTerminal<CR>")
-  (map! [:t] "<M-`>" :<c-\><c-n><c-w><c-q>)
+  
 
 
   ; === Commands ===
@@ -126,25 +124,6 @@
                     file (.. root "/init.vim")
                     cmd (.."edit " file)]
                 (vim.cmd cmd))))
-
-  (command! NextTerminal
-            (fn []
-              (vim.cmd :20new)
-              (let [{: filter} (require :util)
-                    term-bufs (-> (vim.api.nvim_list_bufs)
-                                  (filter (fn [v]
-                                            (string.find
-                                              (vim.api.nvim_buf_get_name v)
-                                              "term://"))))
-                    terms (> (length term-bufs) 0)]
-                (if terms
-                  (vim.api.nvim_win_set_buf 0 (. term-bufs 1))
-                  (vim.fn.termopen :powershell)))))
-
-  (command! Powershell
-            (fn []
-              (vim.cmd :enew)
-              (vim.fn.termopen :powershell)))
 
   (command! PrettierCheck
             (fn []
@@ -178,17 +157,43 @@
                            (vim.fn.systemlist cmd)))
              :nargs 1})
 
+  (command! Mk 
+            (fn [input]
+              (let [{: args} input
+                    cmd (.. "cexpr system('"
+                            vim.o.makeprg
+                            " "
+                            args
+                            "')")]
+                (vim.cmd cmd)
+                (vim.cmd "cwindow")))
+            {:nargs "?"})
+
+  (command! Rg
+            (fn [input]
+              (let [{: args} input
+                    cmd (.. "cexpr system('"
+                            vim.o.grepprg
+                            " "
+                            args
+                            "')")]
+                (vim.cmd cmd)
+                (vim.cmd "cwindow")))
+            {:nargs 1})
+
 
   ; === Plugins ===
   (use! [:vim-scripts/utl.vim
          :jiangmiao/auto-pairs
-         :tpope/vim-surround
+         :kylechui/nvim-surround
          :tpope/vim-commentary
          :mattn/emmet-vim
          :junegunn/vim-slash
          :folke/which-key.nvim
+         :stevearc/dressing.nvim
          :kyazdani42/nvim-web-devicons])
   
-  (setup! (fn [] (let [wk (require :which-key)]
-                   (wk.setup)))))
-
+  (setup! (fn [] (let [wk (require :which-key)
+                       surround (require :nvim-surround)]
+                   (wk.setup)
+                   (surround.setup)))))
