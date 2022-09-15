@@ -19,7 +19,8 @@
                                     :pageDown [:<C-f> :<PageDown>]
                                     :pageUp [:<C-b> :<PageUp>] })
 
-  (use! [:omnisharp/omnisharp-vim])
+  (use! [:w0rp/ale
+         :omnisharp/omnisharp-vim])
 
   (setup!
     (fn []

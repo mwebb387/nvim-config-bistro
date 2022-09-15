@@ -1,13 +1,18 @@
 (fn sanitize-paths [paths]
   (icollect [i path (ipairs paths)]
     (-> path
-      (string.gsub "/" "\\")
-      (string.gsub "\\\\" "\\"))))
+      (string.gsub "\\" "/")
+      (string.gsub "\\\\" "/"))))
+
+(fn unsanitize-path [path]
+  (-> path
+    (string.gsub "/" "\\")
+    (string.gsub "\\\\" "\\")))
 
 (fn list-files [dir recurse]
    "List files using file system file listing (potentially unsecure)"
    (let [ls (if recurse "dir /A-D /B /S " "dir /A-D /B ")]
-      (with-open [fin (io.popen (.. ls dir))]
+      (with-open [fin (io.popen (.. ls (unsanitize-path dir)))]
          (icollect [line (fin:lines)]
             (if recurse line (.. dir line))))))
 
@@ -25,8 +30,9 @@
 
 (fn get-input-files [in-dir filter-files]
    "Get all bistro files/recipes excluding the macros.fnl file"
-   (icollect [i v (ipairs (list-files in-dir false))]
+   (icollect [i v (ipairs (sanitize-paths (list-files in-dir false)))]
                          (when (and
+                                  (not (string.find v :build))
                                   (not (string.find v :macros))
                                   (not (string.find v :test))
                                   (or (empty? filter-files)
@@ -35,10 +41,12 @@
                             v)))
 
 (fn format-output-filename [file in-dir out-dir]
-   "Format filepath for writing compiled output"
-   (-> file
-      (string.gsub in-dir out-dir)
-      (string.gsub ".fnl" ".lua")))
+  "Format filepath for writing compiled output"
+  (let [fmt (string.gsub in-dir :%- :%%-)]
+    (-> file
+        (string.gsub fmt out-dir)
+        (string.gsub ".fnl" ".lua"))
+    ))
 
 
 (fn compile-file [file in-dir out-dir fennel]
@@ -61,7 +69,6 @@
    "Build the config bistro library with all recipes"
    (let [in-files (get-input-files input-dir (or files []))
          fennel (require :fennel)]
-      (set fennel.path (.. input-dir "?.fnl;" fennel.path))
       (each [_ file (ipairs in-files)]
          (try-compile file input-dir output-dir fennel))))
 

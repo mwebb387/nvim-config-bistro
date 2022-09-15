@@ -22,7 +22,7 @@
  (complete :mu)
 
  ; angular
- (csharp :omnisharp-ls)
+ (csharp :omnisharp)
  (fennel)
  (typescript :lsp :deno)
  )

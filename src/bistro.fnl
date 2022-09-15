@@ -35,8 +35,8 @@
 (fn build [self]
   (if (= self.sourceDir "")
     (print "Please set the Bistro source directory")
-    (let [buildScript (.. self.sourceDir "../build.fnl")
-          buildDir (.. (vim.fn.stdpath :config) "/" :lua "/")
+    (let [buildScript (.. self.sourceDir "build.fnl")
+          buildDir (.. (vim.fn.stdpath :config) "/lua/")
           cmd (.. "!" :fennel " " buildScript " " self.sourceDir " " buildDir)]
       (vim.cmd cmd)))
   self)
