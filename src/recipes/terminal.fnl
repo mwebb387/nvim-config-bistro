@@ -31,6 +31,21 @@
               (vim.cmd :enew)
               (vim.fn.termopen :powershell)))
 
+  (command! DotnetWatchDev
+            (fn []
+              (vim.cmd :enew)
+              (vim.fn.termopen "powershell Dotnet-Watch-Dev")))
+
+  (command! NpmRun
+            (fn []
+              (vim.cmd :enew)
+              (vim.fn.termopen "powershell Npm-Run")))
+
+  (command! NpmStart
+            (fn []
+              (vim.cmd :enew)
+              (vim.fn.termopen "powershell Npm-Start")))
+
   (use! [:numToStr/FTerm.nvim])
   
   (setup! (fn [] (let [fterm (require :FTerm)]

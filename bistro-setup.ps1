@@ -1,48 +1,64 @@
-$FennelLocalPath = "~/AppData/Local/Fennel"
-$FennelLocalExe = "~/AppData/Local/Fennel/fennel.exe"
-$FennelWebPath = "https://fennel-lang.org/downloads/fennel-0.10.0-windows32.exe"
-$FennelPgpPath = "https://fennel-lang.org/downloads/fennel-0.10.0-windows32.exe.asc"
-$NvimConfigPath = "~/AppData/Local/nvim/lua"
-$NvimPlugPath = "~/AppData/Local/nvim/autoload/plug.vim"
+$NvimConfigPath = "$env:LOCALAPPDATA\nvim\lua"
+$NvimPlugPath = "$env:LOCALAPPDATA\nvim\autoload\plug.vim"
+
+# Check for Scoop
+try {
+  Get-Command scoop
+  Write-Host "Scoop is installed"
+}
+catch {
+  Write-Host "Please install and configure Scoop before running this setup"
+  Exit
+}
+
+# Setup Neovim
+try {
+  Write-Host "Checking for Neovim..."
+  Get-Command nvim
+  Write-Host "Neovim is installed"
+}
+catch {
+  Write-Host "Installing Neovim"
+  scoop install neovim
+}
+
 
 # Setup VimPlug
 if (-not (Test-Path $NvimPlugPath)) {
+  Write-Host "Setting up plug for Neovim"
   Invoke-WebRequest -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
       New-Item $NvimPlugPath -Force
+} else {
+  Write-Host "Plug is already installed"
 }
 
 # Setup Fennel
 try {
+  Write-Host "Checking for Fennel..."
   Get-Command fennel
+  Write-Host "Fennel is installed"
 }
 catch {
-  # Download Fennel
-  try {
-    Invoke-WebRequest $FennelWebPath | New-Item $FennelLocalExe -Force
-    #TODO: Verify signature...
-    Write-Host "Fennel successfully downloaded"
-
-    [Environment]::SetEnvironmentVariable("Path", $Env:Path + $FennelLocalPath, "Process")
-    Write-Host "Fennel added to the path"
-  }
-  catch {
-    Write-Error "Fennel setup incomplete"
-  }
+  Write-Host "Installing Fennel"
+  scoop install lua
+  scoop install luarocks
+  luarocks install fennel
 }
-
-# Prep neovim config folders
-# Write-Host "Creating config folders"
-# Get-ChildItem ./src/ -recurse -directory | ForEach-Object {
-#   $Dir = "~/AppData/nvim/lua/$_"
-#   if (-not (Test-Path $Dir)) {
-#     New-Item $Dir -ItemType Directory -Force -WhatIf
-#   }
-# }
 
 # Prep neovim config folders
 Write-Host "Creating lua folder"
-  $Dir = "~/AppData/nvim/lua/"
-  if (-not (Test-Path $Dir)) {
-    New-Item $Dir -ItemType Directory -Force
-  }
+if (-not (Test-Path $NvimConfigPath)) {
+  New-Item $NvimConfigPath -ItemType Directory -Force
+} else {
+  Write-Host "Lua folder already exists"
 }
+
+# Adding current directory to the path for easy building
+Write-Host "Adding Bistro directory to User Path"
+$path = [Environment]::GetEnvironmentVariable("Path", "User")
+if (-not $path.Contains($PSScriptRoot)) {
+  [Environment]::SetEnvironmentVariable("Path", $path + ";" + $PSScriptRoot, "User")
+} else {
+  Write-Host "Path already contains Bistro directory"
+}
+

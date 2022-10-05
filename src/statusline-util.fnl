@@ -30,7 +30,11 @@
 (fn separator [] :%=)
 (fn truncate [] :%<)
 
-(fn highlight_group [hl grp] (.. (highlight hl) "%(" grp "%)"))
+(fn highlight_group [hl ...]
+  (let [grp (accumulate [result ""
+                         _ v (ipairs [...])]
+                        (.. result v))]
+    (.. (highlight hl) "%(" grp "%)")))
 
 {: highlight
  : buffer_number

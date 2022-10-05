@@ -9,11 +9,11 @@
 (load-recipes
  (base)
  (bistro)
- (statusline)
+ (statusline :winbar)
  (themes) ; TODO: variable option/mode handler
  (terminal)
  (files :vifm)
- (git :signs :neogit :diffview)
+ (git :signs :diffview)
  ; (fzf)
  (telescope)
  (treesitter)
@@ -22,7 +22,7 @@
  (complete :mu)
 
  ; angular
- (csharp :omnisharp)
+ (csharp :omnisharp-ls)
  (fennel)
  (typescript :lsp :deno)
  )

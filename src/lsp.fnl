@@ -31,18 +31,18 @@
       (buf-keymap :n :<leader>lq "<cmd>lua vim.diagnostic.setqflist()<CR>" opts)
 
       ;Set some keybinds conditional on server capabilities
-      (when client.resolved_capabilities.goto_definition
+      (when client.server_capabilities.goto_definition
         (buf-option :tagfunc "v:lua.vim.lsp.tagfunc"))
 
-      (when client.resolved_capabilities.document_formatting
+      (when client.server_capabilities.document_formatting
         (buf-keymap :n :<leader>lf "<cmd>lua vim.lsp.buf.formatting()<CR>" opts)
         (buf-option :formatexpr "v:lua.vim.lsp.formatexpr()"))
 
-      (when client.resolved_capabilities.document_range_formatting
+      (when client.server_capabilities.document_range_formatting
         (buf-keymap :v :<leader>lf "<cmd>lua vim.lsp.buf.range_formatting()<CR>" opts)))
 
     ; Set autocommands conditional on server_capabilities
-    (when client.resolved_capabilities.document_highlight
+    (when client.server_capabilities.document_highlight
         (defhighlight :LspReferenceRead {:cterm :bold
                                          :ctermbg :red
                                          :guibg :LightYellow})

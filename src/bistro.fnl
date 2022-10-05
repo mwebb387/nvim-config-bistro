@@ -32,13 +32,18 @@
 (fn addPlugins [self plugins]
   (concat self.plugins plugins))
 
+; (fn build [self]
+;   (if (= self.sourceDir "")
+;     (print "Please set the Bistro source directory")
+;     (let [buildScript (.. self.sourceDir "build.fnl")
+;           buildDir (.. (vim.fn.stdpath :config) "/lua/")
+;           cmd (.. "!" :fennel " " buildScript " " self.sourceDir " " buildDir)]
+;       (vim.cmd cmd)))
+;   self)
+
 (fn build [self]
-  (if (= self.sourceDir "")
-    (print "Please set the Bistro source directory")
-    (let [buildScript (.. self.sourceDir "build.fnl")
-          buildDir (.. (vim.fn.stdpath :config) "/lua/")
-          cmd (.. "!" :fennel " " buildScript " " self.sourceDir " " buildDir)]
-      (vim.cmd cmd)))
+  (let [cmd (.. "!" :powershell " " :bistro-build.ps1)]
+    (vim.cmd cmd))
   self)
 
 (fn editConfig [self]
@@ -125,7 +130,7 @@
 (local bistro
   {:configs [] ;; For new style configs
    :plugins [] ;; Plugin paths and options
-   :sourceDir (get-inputdir)
+   :sourceDir ""
    :autoInstallPluginManager true
    :syncPlugins true
    : addPlugins

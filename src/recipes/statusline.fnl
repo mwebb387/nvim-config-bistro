@@ -36,3 +36,15 @@
                              "%-14.(" (sl.current_line) ":" (sl.current_column) "%)"
                              "%-4.(" (sl.visible_percent) "%)"
                              "  "))))))
+
+(defconfig
+  (as-option! :winbar)
+
+  (setup!
+    (fn []
+      (let [sl (require :statusline-util)]
+        (set! winbar (.. (sl.highlight_group :User2
+                                             (sl.filename_relative)
+                                             " ["
+                                             (sl.buffer_number)
+                                             "] ")))))))

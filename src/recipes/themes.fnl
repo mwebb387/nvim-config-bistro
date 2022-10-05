@@ -5,4 +5,4 @@
 
   (use! [:RRethy/nvim-base16])
 
-  (setup! (fn [] (vim.cmd (.. "colorscheme " :base16-dracula)))))
+  (setup! (fn [] (vim.cmd (.. "colorscheme " :base16-catppuccin)))))
