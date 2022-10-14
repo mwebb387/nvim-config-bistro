@@ -29,3 +29,12 @@
   (map! [:n] :<leader>v ":Vifm<CR>")
 
   (use! [[:vifm/vifm.vim {:on :Vifm}]]))
+
+(defconfig
+  (as-option! :images)
+  
+  (use! [:samodostal/image.nvim])
+  
+  (setup!
+    (fn [] ((. (require :image) :setup)))))
+

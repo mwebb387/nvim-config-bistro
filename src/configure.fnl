@@ -12,7 +12,7 @@
  (statusline :winbar)
  (themes) ; TODO: variable option/mode handler
  (terminal)
- (files :vifm)
+ (files :vifm :images)
  (git :signs :diffview)
  ; (fzf)
  (telescope)

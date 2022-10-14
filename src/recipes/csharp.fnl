@@ -65,12 +65,9 @@
                   cs-handlers {:textDocument/publishDiagnostics
                                (vim.lsp.with vim.lsp.diagnostic.on_publish_diagnostics { :virtual_text false })
                                :textDocument/definition
-                               (. (require :omnisharp_extended) handler)}
-                  ; cs-handlers (require :recipes/lsp/handlers)
-                  ; omnisharp-bin (.. home :\scoop\apps\omnisharp\current\OmniSharp.exe)
+                               (. (require :omnisharp_extended) :handler)}
                   omnisharp-bin :omnisharp.exe
                   omnisharp-lsp (require :lspconfig)
-                  ; omnisharp-cmd [omnisharp-bin "--languageserver" "--hostPID" (tostring pid)]
                   omnisharp-cmd [omnisharp-bin]]
               (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin]
                                               :enable_roslyn_analyzers true
