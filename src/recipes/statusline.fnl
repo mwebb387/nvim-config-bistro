@@ -15,8 +15,10 @@
 
           (if (and clients
                    (> (length clients) 0))
-              (.. " " (. clients 1 :name))
-              "")))
+            (accumulate [disp " "
+                         k c (pairs clients)]
+                        (.. disp c.name))
+            "")))
 
       (let [sl (require :statusline-util)]
         (set! statusline (.. (sl.highlight :String) (sl.truncate) "  " (sl.filename_tail) " "

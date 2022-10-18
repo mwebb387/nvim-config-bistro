@@ -21,8 +21,9 @@
  (debugging :ui :csharp :typescript)
  (complete :mu)
 
- ; angular
+ ; (angular)
  (csharp :omnisharp-ls)
  (fennel)
  (typescript :lsp :deno)
+ ; (null-ls)
  )
