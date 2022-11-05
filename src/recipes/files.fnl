@@ -16,6 +16,16 @@
     (fn [] ((. (require :nvim-tree) :setup) {:disable_netrw false}))))
 
 (defconfig
+  (as-mode! :dirbuf)
+
+  (map! [:n] :<leader>d ":Dirbuf<CR>")
+
+  (use! [:elihunter173/dirbuf.nvim])
+
+  (setup!
+    (fn [] ((. (require :dirbuf) :setup)))))
+
+(defconfig
   (as-mode! :dirvish)
 
   (map! [:n] :<leader>d ":Dirvish<CR>")

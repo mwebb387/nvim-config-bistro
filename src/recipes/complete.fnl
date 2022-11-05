@@ -129,18 +129,25 @@
          :hrsh7th/cmp-buffer
          :hrsh7th/cmp-path
          :hrsh7th/cmp-cmdline
-         :hrsh7th/cmp-omni
+         ; :hrsh7th/cmp-omni
          :hrsh7th/nvim-cmp
 
          :hrsh7th/cmp-vsnip
-         :hrsh7th/vim-vsnip])
+         :hrsh7th/vim-vsnip
+         :rafamadriz/friendly-snippets])
 
   (setup! (fn configure-cmp []
             (let [cmp (require :cmp)
+                  mapping (cmp.mapping.preset.insert {:<C-u> (cmp.mapping.scroll_docs -4)
+                                                      :<C-d> (cmp.mapping.scroll_docs 4)
+                                                      :<A-o> (cmp.mapping.complete)
+                                                      :<C-e> (cmp.mapping.abort)
+                                                      :<CR> (cmp.mapping.confirm {:select true})})
                   sources (cmp.config.sources [{:name :nvim_lsp}
                                                {:name :vsnip}
                                                {:name :path}]
                                               [{:name :buffer}])]
               (cmp.setup {:snippet {:expand (fn [args]
                                               (vim.fn.vsnip#anonymous args.body))}
-                          :sources sources})))))
+                          : mapping
+                          : sources})))))

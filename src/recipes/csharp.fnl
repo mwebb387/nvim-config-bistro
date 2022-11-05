@@ -68,8 +68,10 @@
                                (. (require :omnisharp_extended) :handler)}
                   omnisharp-bin :omnisharp.exe
                   omnisharp-lsp (require :lspconfig)
+                  cmp (require :cmp_nvim_lsp)
                   omnisharp-cmd [omnisharp-bin]]
               (omnisharp-lsp.omnisharp.setup {:cmd [omnisharp-bin]
+                                              :capabilities (cmp.default_capabilities)
                                               :enable_roslyn_analyzers true
                                               :on_attach on-attach
                                               :handlers cs-handlers})))))

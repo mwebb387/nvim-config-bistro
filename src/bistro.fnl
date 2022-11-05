@@ -117,7 +117,7 @@
       
       ; Run setup methods
       (each [_ setupFn (ipairs self.config.setup)]
-        (setupFn))
+        (pconfigure setupFn))
       ))
   self)
 

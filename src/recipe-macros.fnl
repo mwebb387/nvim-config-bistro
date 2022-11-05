@@ -46,6 +46,8 @@
     (merge-table recipe1.options (or v.options {}))
     ; Merge keymaps
     (append recipe1.keymaps (or v.keymaps {}))
+    ; Merge auto-commands
+    (append recipe1.autocmds (or v.autocmds {}))
     ; Merge commands
     (merge-table recipe1.commands (or v.commands {}))
     ; Merge plugins
@@ -60,6 +62,7 @@
   {:globals {} 
    :options {}
    :keymaps []
+   :autocmds {} 
    :commands {}
    :plugins []
    :setup []})

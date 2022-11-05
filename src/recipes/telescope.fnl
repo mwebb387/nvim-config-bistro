@@ -3,7 +3,7 @@
 (defconfig
   ; === Maps ===
   (map! [:n] :<leader>ff "<cmd>Telescope find_files<CR>")
-  (map! [:n] :<c-p> "<cmd>Telescope git_files<CR>")
+  ; (map! [:n] :<c-p> "<cmd>Telescope git_files<CR>")
   (map! [:n] :<leader>fb "<cmd>Telescope buffers<CR>")
   (map! [:n] :<leader>fg "<cmd>Telescope live_grep<CR>")
   (map! [:n] :<leader>fh "<cmd>Telescope help_tags<CR>")
@@ -26,9 +26,7 @@
 
 
   ; === Plugins ===
-  (use! [:nvim-lua/popup.nvim
-         :nvim-lua/plenary.nvim
-         :nvim-telescope/telescope.nvim])
+  (use! [:nvim-telescope/telescope.nvim])
   
   (setup!
     (fn configure_telescope []

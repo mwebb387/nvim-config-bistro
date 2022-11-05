@@ -2,14 +2,13 @@
                 : defconfig} :recipe-macros)
 
 (defconfig
-  (use! [:neovim/nvim-lspconfig
-         :j-hui/fidget.nvim])
+  (use! [:neovim/nvim-lspconfig])
 
   (setup!
     (fn []
-      ; Setup Fidget
-      (let [fidget (require :fidget)]
-        (fidget.setup))
+      ; ; Setup Fidget
+      ; (let [fidget (require :fidget)]
+      ;   (fidget.setup))
 
       ; LSP Error Highlight/sign
       (defhighlight :DiagnosticsError {:guifg :Red})
@@ -46,3 +45,10 @@
                                               :guisp :LightGrey})
       (defsign :DiagnosticSignHint {:text :ﴕ
                                     :texthl :DiagnosticSignHint}))))
+
+(defconfig
+  (as-option! :aerial)
+
+  (use! [:stevearc/aerial.nvim])
+  
+  (setup! (fn [] ((. (require :aerial) :setup)))))
