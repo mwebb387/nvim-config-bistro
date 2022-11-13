@@ -14,7 +14,7 @@
 
   (map! [:n] :<F3> ":lua require'dapui'.toggle()<CR>")
 
-  (use! [:rcarriga/nvim-dap-ui])
+  (use! [[:rcarriga/nvim-dap-ui {:on :DapLoad}]])
 
   (setup! (fn []
             ((. (require :dapui) :setup)))))

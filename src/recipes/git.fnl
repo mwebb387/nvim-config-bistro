@@ -37,4 +37,4 @@
 (defconfig
   (as-option! :diffview)
 
-  (use! [:sindrets/diffview.nvim]))
+  (use! [[:sindrets/diffview.nvim {:on :DiffviewOpen}]]))

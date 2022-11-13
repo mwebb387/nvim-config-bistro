@@ -18,7 +18,7 @@
  ; (telescope)
  (treesitter)
  (lsp :aerial)
- (debugging :ui :csharp :typescript)
+ ; (debugging :ui :csharp :typescript)
  (complete :cmp)
 
  ; (angular)
