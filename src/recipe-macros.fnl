@@ -125,6 +125,15 @@
   (tset config :type :option)
   (tset config :name name))
 
+(fn autocmd! [config event pattern command options]
+  ;; TODO: autocmd groups?
+  (let [opts- (or options {})]
+    (match (type command)
+      :string (tset opts- :command command)
+      :table (tset opts- :callback command))
+    (tset opts- :pattern pattern)
+    (table.insert config.autocmds [event opts-])))
+
 (fn command! [config name command options]
   (tset config.commands (tostring name) [command (or options {})]))
 
@@ -153,6 +162,7 @@
 
 (local recipe-helpers {: as-mode!
                        : as-option!
+                       : autocmd!
                        : command!
                        : log
                        : map!

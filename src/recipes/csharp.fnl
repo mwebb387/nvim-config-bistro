@@ -1,10 +1,8 @@
 (import-macros {: defconfig} :recipe-macros)
 
 (defconfig
-  (setup!
-    (fn []
-      (augroup :chsarp-settings
-               (autocmd :filetype "cs,cshtml" "compiler msbuild")))))
+  (autocmd! :FileType [:cs :razor] "compiler msbuild")
+  (autocmd! :FileType :cs "setlocal shiftwidth=4 softtabstop=4 expandtab"))
 
 (defconfig
   (as-mode! :omnisharp)

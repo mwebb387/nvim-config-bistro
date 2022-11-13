@@ -26,7 +26,7 @@
   ; Searching
   (set! ignorecase true)
   (set! wildignore "obj/**,bin/**,node_modules/**,CMS/**")
-  (set! grepprg "rg --vimgrep --no-heading --smart-case")
+  (set! grepprg "rg --vimgrep --no-heading --smart-case --")
   (set! grepformat "%f:%l:%c:%m,%f:%l:%m")
 
   ; Better display for messages
@@ -55,24 +55,6 @@
   (map! [:n] :g<tab> ::b#<cr>)
 
   ; Window management
-  (map! [:n :i] :<a-h> :<c-w>h)
-  (map! [:n :i] :<a-j> :<c-w>j)
-  (map! [:n :i] :<a-k> :<c-w>k)
-  (map! [:n :i] :<a-l> :<c-w>l)
-  (map! [:n :i] :<a-H> :<c-w>H)
-  (map! [:n :i] :<a-J> :<c-w>J)
-  (map! [:n :i] :<a-K> :<c-w>K)
-  (map! [:n :i] :<a-L> :<c-w>L)
-  (map! [:n :i] :<a-q> :<c-w>q)
-  (map! [:n :i] :<a-w> :<c-w>w)
-  (map! [:n :i] :<a-d> :<c-w>w<c-d><c-w>w)
-  (map! [:n :i] :<a-u> :<c-w>w<c-u><c-w>w)
-  (map! [:t] :<a-h> :<c-\><c-n><c-w>h)
-  (map! [:t] :<a-j> :<c-\><c-n><c-w>j)
-  (map! [:t] :<a-k> :<c-\><c-n><c-w>k)
-  (map! [:t] :<a-l> :<c-\><c-n><c-w>l)
-  (map! [:t] :<a-q> :<c-\><c-n><c-w>q)
-  (map! [:t] :<a-w> :<c-\><c-n><c-w>w)
   (map! [:t] :<a-n> :<c-\><c-n>)
 
   ; Next/Previous maps
@@ -109,9 +91,6 @@
   (map! [:i] :<C-k> :<c-o>k)
   (map! [:i] :<C-l> :<c-o>l)
   (map! [:i] :<C-h> :<c-o>h)
-
-  ; Omnifunc
-  (map! [:i] "<c-@>" :<c-x><c-o>)
 
   ; Template mappings
   (map! [:n] :<a-t>l ":TemplateLoad ")

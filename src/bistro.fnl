@@ -110,6 +110,13 @@
       ; Create keymaps
       (each [_ [maps lhs rhs opts] (ipairs self.config.keymaps)]
         (vim.keymap.set maps lhs rhs opts))
+
+      ; Create autocommands
+      ;; TODO: better autocmd groups?
+      (let [grp (vim.api.nvim_create_augroup :BistroCmds {:clear true})]
+        (each [_ [event opts] (ipairs self.config.autocmds)]
+          (tset opts :group grp)
+          (vim.api.nvim_create_autocmd event opts)))
       
       ; Create Commands
       (each [key [cmd opts] (pairs self.config.commands)]

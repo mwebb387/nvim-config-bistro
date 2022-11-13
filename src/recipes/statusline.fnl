@@ -23,6 +23,7 @@
       (let [sl (require :statusline-util)]
         (set! statusline (.. (sl.highlight :String) (sl.truncate) "  " (sl.filename_tail) " "
                              (sl.highlight_group :Constant
+                                                 "[buf " (sl.buffer_number) "] "
                                                  (sl.filetype)
                                                  (sl.flag_preview)
                                                  (sl.flag_quickfix)
@@ -44,9 +45,14 @@
 
   (setup!
     (fn []
-      (let [sl (require :statusline-util)]
+      (defun FileIcon []
+        (let [icons (require :nvim-web-devicons)]
+          (or (icons.get_icon (vim.fn.expand "%:t") (vim.fn.expand "%:e"))
+              "")))
+
+      (let [sl (require :statusline-util) ]
         (set! winbar (.. (sl.highlight_group :User2
-                                             (sl.filename_relative)
-                                             " ["
-                                             (sl.buffer_number)
-                                             "] ")))))))
+                                             " "
+                                             (sl.eval_lua :FileIcon)
+                                             " "
+                                             (sl.filename_relative))))))))
