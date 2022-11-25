@@ -142,6 +142,8 @@
                                                       :<C-d> (cmp.mapping.scroll_docs 4)
                                                       :<A-o> (cmp.mapping.complete)
                                                       :<C-e> (cmp.mapping.abort)
+                                                      :<TAB> (cmp.mapping.select_next_item)
+                                                      :<S-TAB> (cmp.mapping.select_prev_item)
                                                       :<CR> (cmp.mapping.confirm {:select true})})
                   sources (cmp.config.sources [{:name :nvim_lsp}
                                                {:name :vsnip}

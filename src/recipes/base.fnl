@@ -238,22 +238,29 @@
   (use! [:vim-scripts/utl.vim
          :nvim-lua/popup.nvim
          :nvim-lua/plenary.nvim
-         :jiangmiao/auto-pairs
+         :windwp/nvim-autopairs
          :mbbill/undotree
          :kylechui/nvim-surround
-         :tpope/vim-commentary
+         :numToStr/Comment.nvim
          :mattn/emmet-vim
          :junegunn/vim-slash
          :folke/which-key.nvim
          :stevearc/dressing.nvim
          :kyazdani42/nvim-web-devicons
          :kevinhwang91/nvim-bqf
-         :phaazon/hop.nvim]) ; Testing - Move to separate file once tested
+         ; :phaazon/hop.nvim
+         :ggandor/leap.nvim]) ; Testing - Move to separate file once tested
   
   (setup! (fn [] (let [wk (require :which-key)
-                       hop (require :hop)
+                       ap (require :nvim-autopairs)
+                       cmt (require :Comment)
+                       ; hop (require :hop)
+                       leap (require :leap)
                        surround (require :nvim-surround)]
                    (wk.setup)
-                   (hop.setup)
+                   (ap.setup)
+                   (cmt.setup)
+                   ; (hop.setup)
+                   (leap.add_default_mappings)
                    (surround.setup)))))
 

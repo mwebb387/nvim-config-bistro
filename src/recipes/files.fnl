@@ -5,6 +5,12 @@
   (map! [:n] :<leader>e ":Explore<CR>"))
 
 (defconfig
+  (as-mode! :netrw)
+  (use! [:prichrd/netrw.nvim])
+  (setup!
+    (fn [] ((. (require :netrw) :setup)))))
+
+(defconfig
   (as-mode! :nvimtree)
 
   (map! [:n] :<leader>e ":NvimTreeToggle<CR>")

@@ -9,10 +9,10 @@
 (load-recipes
  (base)
  (bistro)
- (statusline :winbar)
  (themes) ; TODO: variable option/mode handler
+ (statusline :winbar)
  (terminal)
- (files :images)
+ (files :netrw :images)
  (git :signs :diffview)
  (fzf)
  ; (telescope)

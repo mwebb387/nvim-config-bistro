@@ -1,8 +1,8 @@
 (import-macros {: defconfig} :recipe-macros)
 
-(defconfig
-  (autocmd! :FileType [:cs :razor] "compiler msbuild")
-  (autocmd! :FileType :cs "setlocal shiftwidth=4 softtabstop=4 expandtab"))
+; (defconfig
+;   (autocmd! :FileType [:cs :razor] "compiler msbuild")
+;   (autocmd! :FileType :cs "setlocal shiftwidth=4 softtabstop=4 expandtab"))
 
 (defconfig
   (as-mode! :omnisharp)
