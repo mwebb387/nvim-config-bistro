@@ -23,6 +23,7 @@
             "")))
       (defun SLSetColors []
         (let [sl (require :statusline-util)]
+          (sl.def_hi_rev :Number)
           (sl.def_hi_rev :Keyword)
           (sl.def_hi_rev :Type)
           (sl.def_hi_fg_bg :Type :Keyword_Reverse)))
@@ -31,6 +32,7 @@
         (autocmd :ColorScheme :* "call v:lua.SLSetColors()"))
 
       (let [sl (require :statusline-util)]
+        (sl.def_hi_rev :Number)
         (sl.def_hi_rev :Keyword)
         (sl.def_hi_rev :Type)
         (sl.def_hi_fg_bg :Type :Keyword_Reverse)
@@ -57,9 +59,9 @@
                                                  " | "
                                                  (sl.visible_percent))
                              (sl.separator)
-                             (sl.highlight_group :Keyword "")
+                             (sl.highlight_group :Keyword " ")
                              (sl.highlight_group :Keyword_Reverse (sl.eval_lua :SLGitBranch))
-                             (sl.highlight_group :Type_Keyword_Reverse "")
+                             (sl.highlight_group :Type_Keyword_Reverse " ")
                              (sl.highlight_group :Type_Reverse (sl.eval_lua :SLLSPServer))
                              ; (sl.separator)
                              ;"%#Type#%-14.(%l,%c%)"
@@ -79,8 +81,17 @@
               "")))
 
       (let [sl (require :statusline-util) ]
-        (set! winbar (.. (sl.highlight_group :User2
-                                             " "
-                                             (sl.eval_lua :FileIcon)
-                                             " "
-                                             (sl.filename_relative))))))))
+        (set! winbar (..
+                       ; (sl.highlight_group :Number " ")
+                       ; (sl.highlight_group :Number " ")
+                       ; (sl.highlight_group :Number "")
+                       (sl.highlight_group :Number_Reverse
+                                           " "
+                                           (sl.filename_relative)
+                                           " ")
+                       (sl.highlight_group :Number " ")
+                       ; (sl.highlight_group :Number " ")
+                       ; (sl.highlight_group :Number "")
+                       " "
+                       (sl.eval_lua :FileIcon)
+                       " "))))))

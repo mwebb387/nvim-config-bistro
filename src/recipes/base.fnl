@@ -233,6 +233,7 @@
 
 
 
+  (autocmd! [:BufNewFile :BufRead] :*.yue "set syntax=moon")
 
   ; === Plugins ===
   (use! [:vim-scripts/utl.vim
@@ -249,6 +250,7 @@
          :kyazdani42/nvim-web-devicons
          :kevinhwang91/nvim-bqf
          ; :phaazon/hop.nvim
+         :leafo/moonscript-vim ; Testing - Move to separate file once tested
          :ggandor/leap.nvim]) ; Testing - Move to separate file once tested
   
   (setup! (fn [] (let [wk (require :which-key)

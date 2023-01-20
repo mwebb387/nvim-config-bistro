@@ -1,14 +1,27 @@
 (import-macros {: defconfig} :recipe-macros)
 
 (defconfig
-  ; === Maps ===
-  (map! [:n] :<leader>e ":Explore<CR>"))
-
-(defconfig
   (as-mode! :netrw)
+
+  (set-g! :netrw_banner 0) 
+
+  (map! [:n] :<leader>e ":Explore<CR>")
+
   (use! [:prichrd/netrw.nvim])
+
   (setup!
     (fn [] ((. (require :netrw) :setup)))))
+
+(defconfig
+  (as-mode! :oil)
+
+  (map! [:n] :<leader>e ":lua require('oil').open()<CR>")
+  (map! [:n] :- ":lua require('oil').open()<CR>")
+
+  (use! [:stevearc/oil.nvim])
+
+  (setup!
+    (fn [] ((. (require :oil) :setup)))))
 
 (defconfig
   (as-mode! :nvimtree)

@@ -44,7 +44,7 @@
 (fn def_hi_rev [hi]
   (let [hi-rev (.. hi :_Reverse)
         fg (get_hi_attr hi :fg)
-        ; bg (get-hi-attr :NonText :fg)
+        ; bg (get_hi_attr :NonText :fg)]
         bg :black]
     (vim.api.nvim_set_hl 0
                          hi-rev

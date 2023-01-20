@@ -5,11 +5,14 @@
   (set-g! fzf_bat_options "bat --color always --style changes --theme Coldark-Dark -m *.fnl:Lisp {}")
 
   (map! [:n] :<c-p>
-        (fn [] (let [fzfOpts {:sink :e
-                              :options [:--preview
-                                        vim.g.fzf_bat_options
-                                        :--bind
-                                        "ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up"]}]
+        (fn [] (let [test (require :fzf-opts)
+                     fzfOpts {:sink :e
+                              :options (test.create_opts)}]
+                     ;;          :options [:--preview
+                     ;;                    vim.g.fzf_bat_options
+                     ;;                    :--bind
+                     ;;                    "ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up"]}]
+                  ;; (vim.pretty_print fzfOpts.options)
                   (vim.fn.fzf#run (vim.fn.fzf#wrap fzfOpts)))))
 
   ; === Plugins ===

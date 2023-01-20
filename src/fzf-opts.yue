@@ -1,0 +1,46 @@
+previewOpts =
+  bat:
+    color: "always"
+    style: "changes"
+    theme: "ColdDark-Dark"
+    ["map-syntax"]: "*fnl:Lisp"
+  type: {}
+
+bindOpts =
+  ["ctrl-d"]: "preview-half-page-down"
+  ["ctrl-u"]: "preview-half-page-up"
+
+-- (define *fzf-opts* {:preview ""
+--                     :bind ""})
+
+fzfPlugOpts =
+  sink: "e"
+  options: ""
+
+
+bindOptsToString = (opts) ->
+  ["#{key}:#{val}" for key, val in pairs opts]
+  |> table.concat ","
+
+previewOptsToString = (opts) ->
+  ["--#{key} #{val}" for key, val in pairs opts]
+  |> table.concat " "
+
+createFzfOpts = -> {
+  "--preview",
+  "bat #{previewOptsToString previewOpts.bat} {}",
+  "--bind",
+  bindOptsToString bindOpts
+}
+
+print table.concat createFzfOpts!, " "
+
+-- (print! (table/concat (create-fzf-opts) " "))
+-- (print! (preview-opts->string (.> *preview-opts* :bat)))
+--
+-- (defun bootstrap (vim) (set! *vim* vim))
+--
+-- (.<! *vim* :opt :laststatus 3)
+--
+
+{create_opts: createFzfOpts}

@@ -4,6 +4,7 @@
   (set! :termguicolors true)
 
   (use! [:RRethy/nvim-base16
-         :EdenEast/nightfox.nvim])
+         :EdenEast/nightfox.nvim
+         :talha-akram/noctis.nvim])
 
-  (setup! (fn [] (vim.cmd (.. "colorscheme " :base16-catppuccin)))))
+  (setup! (fn [] (vim.cmd (.. "colorscheme " :nightfox)))))

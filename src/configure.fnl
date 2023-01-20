@@ -6,13 +6,16 @@
                 : defun
                 : set!} :macros)
 
+; (include :statusline-util)
+
 (load-recipes
  (base)
  (bistro)
  (themes) ; TODO: variable option/mode handler
  (statusline :winbar)
+ (dashboard)
  (terminal)
- (files :netrw :images)
+ (files :oil :images)
  (git :signs :diffview)
  (fzf)
  ; (telescope)
@@ -21,9 +24,12 @@
  ; (debugging :ui :csharp :typescript)
  (complete :cmp)
 
+ (neorg)
+
  ; (angular)
  (csharp :omnisharp-ls)
  (fennel)
+ (lua-lang :lsp)
  (typescript :lsp :deno)
  ; (null-ls)
  )

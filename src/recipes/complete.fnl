@@ -147,7 +147,8 @@
                                                       :<CR> (cmp.mapping.confirm {:select true})})
                   sources (cmp.config.sources [{:name :nvim_lsp}
                                                {:name :vsnip}
-                                               {:name :path}]
+                                               {:name :path}
+                                               {:name :neorg}]
                                               [{:name :buffer}])]
               (cmp.setup {:snippet {:expand (fn [args]
                                               (vim.fn.vsnip#anonymous args.body))}
