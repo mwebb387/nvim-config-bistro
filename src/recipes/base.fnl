@@ -53,6 +53,8 @@
   (map! [:i] :jk :<esc>)
   (map! [:n] :<c-tab> ::b#<cr>)
   (map! [:n] :g<tab> ::b#<cr>)
+  (map! [:n] :<c-d> :<c-d>zz)
+  (map! [:n] :<c-u> :<c-u>zz)
 
   ; Window management
   (map! [:t] :<a-n> :<c-\><c-n>)
@@ -82,8 +84,8 @@
   (map! [:n] :<leader>b ":buffer ")
   (map! [:n] :<leader>p ":Fd ")
   (map! [:n] :<leader>q ":copen<CR>")
-  (map! [:n] :<c-p> ":FdList ")
-  (map! [:n] :<c-h> ":HopChar1MW<CR>")
+  ; (map! [:n] :<c-p> ":FdList ")
+  ; (map! [:n] :<c-h> ":HopChar1MW<CR>")
   (map! [:n] :<leader>/ ":Rg ")
 
   ; General Insert mode
