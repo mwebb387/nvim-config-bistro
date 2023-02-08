@@ -13,7 +13,7 @@
  (bistro)
  (themes) ; TODO: variable option/mode handler
  (statusline :winbar)
- (dashboard)
+ ; (dashboard)
  (terminal)
  (files :netrw :images)
  (git :signs :diffview)
@@ -29,7 +29,7 @@
  ; (angular)
  (csharp :omnisharp-ls)
  (fennel)
- (fsharp)
+ (fsharp :lsp)
  (lua-lang :lsp)
  (typescript :lsp :deno)
  ; (null-ls)

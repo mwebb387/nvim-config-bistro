@@ -84,9 +84,15 @@
   (map! [:n] :<leader>b ":buffer ")
   (map! [:n] :<leader>p ":Fd ")
   (map! [:n] :<leader>q ":copen<CR>")
+  (map! [:n] :<leader>Q ":cclose<CR>")
   ; (map! [:n] :<c-p> ":FdList ")
   ; (map! [:n] :<c-h> ":HopChar1MW<CR>")
   (map! [:n] :<leader>/ ":Rg ")
+
+  ; Windows and splits
+  (map! [:n] :| "<c-w>v")
+  (map! [:n] :- "<c-w>s")
+  (map! [:n] :<leader>bd ":bp<bar>sp<bar>bn<bar>bd<CR>")
 
   ; General Insert mode
   (map! [:i] :<C-j> :<c-o>j)
@@ -150,6 +156,13 @@
   (command! PrettierWrite
             (fn []
               (vim.cmd "!npx prettier --check --write %")))
+
+  (command! Rename
+            (fn [input]
+              (let [{: args} input
+                    cmd (.. "try | saveas " input " | call delete(expand('#')) | bd # | endtry")]
+                (vim.cmd cmd)))
+            {:nargs 1})
 
   (command! FdList
             (fn [input]
